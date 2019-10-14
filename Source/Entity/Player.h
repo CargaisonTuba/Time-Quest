@@ -1,5 +1,6 @@
 #pragma once
 #include "Entity.h"
+#include "../Scene/Map.h"
 
 class Player : public Entity
 {
@@ -9,4 +10,5 @@ public:
 
 	sf::Vector2f getPosition() const;
 	void update();
+	bool fire(Map &map);
 };
