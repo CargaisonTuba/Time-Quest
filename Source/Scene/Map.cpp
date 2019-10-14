@@ -6,7 +6,7 @@ Map::Map() {
 	std::vector<int> level;	//contient tous les ID des tiles
 
 	//On remplit ce tableau avec les valeurs du fichier map.txt, sortit tout droit de l'éditeur
-	std::ifstream mapFile("Source/map.txt");
+	std::ifstream mapFile("Time-Quest/Source/map.txt");
 	if(!mapFile)
 		std::cerr << "[Erreur] : impossible d'ouvrir map.txt\n";
 	else {
@@ -18,7 +18,7 @@ Map::Map() {
 	sf::Vector2u tileSize(30, 30);
 	unsigned int width = sqrt(level.size()), height = width;	//Le niveau est découpé en 1 carré.
 
-	const std::string path = "Source/assets/tilesheet.png";
+	const std::string path = "Time-Quest/Source/assets/tilesheet.png";
 
 	//on charge les textures
 	if (!_tileset.loadFromFile(path))
