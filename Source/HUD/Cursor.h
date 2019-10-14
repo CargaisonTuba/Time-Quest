@@ -7,7 +7,7 @@ public:
 	~Cursor();
 
 	sf::Vector2i position;
-	sf::Vector2i getPosition();
+	sf::Vector2f getPosition();
 	void update();
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 

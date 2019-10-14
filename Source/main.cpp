@@ -38,10 +38,12 @@ int main()
 
 		if(!pause)
 			map.update(player);
+		std::cout << curseur.getPosition().x << " " << curseur.getPosition().y << " \n";
 		curseur.update();
-		window.draw(curseur);
+		
 		window.draw(map);
 		window.draw(player);
+		window.draw(curseur);
 
 		//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante
 		window.display();

@@ -7,25 +7,25 @@ Cursor::Cursor(std::string texturePath)
 	{
 		std::cout << "Erreur text curseur\n";
 	}
+	_cursorSprite.setTexture(_cursorText);
+	_cursorSprite.setScale(sf::Vector2f(5.f, 5.f));
 }
 
 Cursor::~Cursor() {
 
 }
 
-sf::Vector2i Cursor::getPosition()
+sf::Vector2f Cursor::getPosition()
 {
-	return position;
+	return _cursorSprite.getPosition();
 }
 
 void Cursor::update() 
 {
-	position = sf::Mouse::getPosition();
+	_cursorSprite.setPosition(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
 }
 
 void Cursor::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	sf::Sprite _cursorSprite;
-	_cursorSprite.setTexture(_cursorText);
 	target.draw(_cursorSprite);
 }
