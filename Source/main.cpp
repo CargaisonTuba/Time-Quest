@@ -2,15 +2,18 @@
 
 #include "Scene/Map.h"
 #include "Entity/Player.h"
+#include "HUD/Cursor.h"
 
 int main()
 {
 	//Nouvelle fenêtre
 	sf::RenderWindow window(sf::VideoMode(1080, 720), "Time Quest");
+	window.setMouseCursorVisible(false);
 
 	//On instancie une nouvelle map, coeur du jeu.
 	Map map;
 	Player player("Time-Quest/Source/assets/soldatFrancais40.png", 100, sf::Vector2f(0, 0));
+	Cursor curseur("Time-Quest/Source/assets/curseur_tir.png");
 
 	bool pause = false;
 
@@ -35,7 +38,8 @@ int main()
 
 		if(!pause)
 			map.update(player);
-
+		curseur.update();
+		window.draw(curseur);
 		window.draw(map);
 		window.draw(player);
 
