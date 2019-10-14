@@ -28,7 +28,7 @@ int main()
 		//On efface la frame précédente
 		window.clear();
 
-		//le code commence ici
+		//le code commence là
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
 			pause = !pause;
