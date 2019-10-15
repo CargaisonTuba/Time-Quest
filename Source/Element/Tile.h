@@ -7,6 +7,8 @@ public:
 	Tile(sf::Vector2f coords, bool wall);
 	~Tile();
 
+	bool isWall() const;
+
 private:
 	sf::Vector2f _coords;
 	bool _wall;
