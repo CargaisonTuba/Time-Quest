@@ -17,7 +17,7 @@ class Map : public sf::Drawable
 public:
 	Map();
 	~Map();
-
+	
 	void update(Player &player);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
