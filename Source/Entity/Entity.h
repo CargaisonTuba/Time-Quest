@@ -8,6 +8,7 @@ public:
 	~Entity();
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	sf::Vector2f Entity::getPosition();
 
 protected:
 	sf::Texture _entityText[11][4];

@@ -38,3 +38,9 @@ void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
 	target.draw(s);
 }
+
+//Cette méthode sert dans la classe Arme pour connaître la position du propriétaire de l'armée par rapport à la souris et orienter l'arme
+sf::Vector2f Entity::getPosition()
+{
+	return _entitySprite.getPosition();
+}
