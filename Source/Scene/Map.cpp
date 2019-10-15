@@ -62,8 +62,8 @@ Map::~Map() {
 
 }
 
-void Map::update(Player& player) {
-	player.update();
+void Map::update(Player& player, Cursor curseur) {
+	player.update(curseur);
 }
 
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {
