@@ -10,7 +10,7 @@ int main()
 
 	//On instancie une nouvelle map, coeur du jeu.
 	Map map;
-	Player player("Time-Quest/Source/assets/soldatFrancais40.png", 100, sf::Vector2f(0, 0));
+	Player player("Time-Quest/Source/assets/soldatFrancais40.png", 100, sf::Vector2f(30, 30));
 
 	bool pause = false;
 

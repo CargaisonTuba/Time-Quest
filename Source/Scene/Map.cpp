@@ -10,13 +10,17 @@ Map::Map() {
 	if(!mapFile)
 		std::cerr << "[Erreur] : impossible d'ouvrir map.txt\n";
 	else {
+		std::cout << "Fichier ouvert. Lecture...\n";
 		int tileID;
-		while(mapFile >> tileID)
+		while (mapFile >> tileID) {
 			level.push_back(tileID);
+			std::cout << "Nouvelle tile\n";
+		}
 	}
 
 	sf::Vector2u tileSize(30, 30);
-	unsigned int width = sqrt(level.size()), height = width;	//Le niveau est découpé en 1 carré.
+	unsigned int width = 12, height = 8;	//Le niveau est découpé en 1 carré.
+	std::cout << level.size() << std::endl;
 
 	const std::string path = "Time-Quest/Source/assets/tilesheet.png";
 
@@ -48,6 +52,9 @@ Map::Map() {
 			quad[1].texCoords = sf::Vector2f((tu + 1) * tileSize.x, tv * tileSize.y);
 			quad[2].texCoords = sf::Vector2f((tu + 1) * tileSize.x, (tv + 1) * tileSize.y);
 			quad[3].texCoords = sf::Vector2f(tu * tileSize.x, (tv + 1) * tileSize.y);
+
+			_tiles.push_back(Tile(sf::Vector2f(i, j), (tileNumber == 0)));
+			std::cout << "New tile at " << i << ";" << j << " wall=" << _tiles[_tiles.size() - 1].isWall() << std::endl;
 		}
 }
 

@@ -8,3 +8,7 @@ Tile::Tile(sf::Vector2f coords, bool wall) {
 Tile::~Tile() {
 
 }
+
+bool Tile::isWall() const {
+	return _wall;
+}
