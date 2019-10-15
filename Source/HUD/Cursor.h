@@ -8,7 +8,7 @@ public:
 
 	sf::Vector2i position;
 	sf::Vector2f getPosition();
-	void update();
+	void update(sf::Window& window);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 private:

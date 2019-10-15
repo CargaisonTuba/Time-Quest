@@ -1,9 +1,5 @@
 #include "Entity.h"
 
-Entity::Entity()
-{
-
-}
 
 Entity::Entity(std::string texturePath, int defaultLife, sf::Vector2f initPosition) //Constructeur par défaut, sans paramètre
 {

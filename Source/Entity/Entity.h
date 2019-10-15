@@ -4,7 +4,6 @@
 class Entity : public sf::Drawable
 {
 public:
-	Entity();
 	Entity(std::string texturePath, int defaultLife, sf::Vector2f initPosition);
 	~Entity();
 

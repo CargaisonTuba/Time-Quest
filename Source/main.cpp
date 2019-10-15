@@ -14,8 +14,6 @@ int main()
 	Map map;
 	Player player("Time-Quest/Source/assets/soldatFrancais40.png", 100, sf::Vector2f(0, 0));
 	Cursor curseur("Time-Quest/Source/assets/curseur_tir.png");
-	Arme larme("Time-Quest/Source/assets/mas36final2.png");
-	larme.setProprio(player);
 
 	bool pause = false;
 
@@ -39,13 +37,12 @@ int main()
 			pause = !pause;
 
 		if(!pause)
-			map.update(player, larme, curseur.getPosition());
-		std::cout << curseur.getPosition().x << " " << curseur.getPosition().y << " \n";
-		curseur.update();
+			map.update(player, curseur);
+
+		curseur.update(window);
 		
 		window.draw(map);
 		window.draw(player);
-		window.draw(larme);
 		window.draw(curseur);
 
 		//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante

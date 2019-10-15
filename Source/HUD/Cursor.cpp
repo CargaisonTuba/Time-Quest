@@ -20,9 +20,9 @@ sf::Vector2f Cursor::getPosition()
 	return _cursorSprite.getPosition();
 }
 
-void Cursor::update() 
+void Cursor::update(sf::Window &window) 
 {
-	_cursorSprite.setPosition(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
+	_cursorSprite.setPosition(sf::Vector2f(sf::Mouse::getPosition(window)));
 }
 
 void Cursor::draw(sf::RenderTarget& target, sf::RenderStates states) const

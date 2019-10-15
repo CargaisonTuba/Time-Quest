@@ -1,6 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include "../Arme.h"
+#include "../HUD/Cursor.h"
 
 class Player : public Entity
 {
@@ -10,7 +11,12 @@ public:
 
 	sf::Vector2f getPosition() const;
 	//Le joueur a une arme comme attribut
-	/*Arme _armeJ;
-	void setWeapon(Arme);*/
-	void update();
+	
+	void setWeapon(Arme);
+	Arme getWeapon();
+	void update(Cursor curseur);
+	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
+private:
+	Arme _weaponJ;
 };
