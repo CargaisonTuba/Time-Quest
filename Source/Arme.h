@@ -20,5 +20,10 @@ private:
 	sf::Texture _armeText;
 	sf::Sprite _armeSprite;
 	Entity _proprio;
+
+	float longueurX;
+	float longueurY;
+	float hypo;
+	float angle;
 };
 

@@ -55,8 +55,9 @@ Map::~Map() {
 
 }
 
-void Map::update(Player& player) {
+void Map::update(Player& player, Arme& arme, sf::Vector2f mousePosition) {
 	player.update();
+	arme.update(mousePosition);
 }
 
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {

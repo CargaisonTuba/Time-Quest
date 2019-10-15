@@ -6,7 +6,7 @@
 
 #include "../Entity/Player.h"
 #include "../Entity/NPC/Ennemy.h"
-
+#include "../Arme.h"
 
 #include "../Element/Tile.h"
 #include "../Element/Object/ThrowedObject.h"
@@ -19,7 +19,8 @@ public:
 	Map();
 	~Map();
 	
-	void update(Player &player);
+	//On transmet l'arme et la position de la souris pour update l'arme
+	void update(Player &player, Arme &arme, sf::Vector2f mousePosition);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 private:

@@ -4,11 +4,12 @@
 class Entity : public sf::Drawable
 {
 public:
+	Entity();
 	Entity(std::string texturePath, int defaultLife, sf::Vector2f initPosition);
 	~Entity();
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	sf::Vector2f Entity::getPosition();
+	sf::Vector2f getPosition();
 
 protected:
 	sf::Texture _entityText[11][4];
