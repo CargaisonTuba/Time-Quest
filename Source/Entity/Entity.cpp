@@ -1,5 +1,6 @@
 #include "Entity.h"
 
+
 Entity::Entity(std::string texturePath, int defaultLife, sf::Vector2f initPosition) //Constructeur par défaut, sans paramètre
 {
 	//A la création d'un nouveau joueur, on lui attribue des caractéristiques:
@@ -37,4 +38,10 @@ void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	s.setTexture(_entityText[_spritePosCount][_dir]);
 
 	target.draw(s);
+}
+
+//Cette méthode sert dans la classe Arme pour connaître la position du propriétaire de l'armée par rapport à la souris et orienter l'arme
+sf::Vector2f Entity::getPosition()
+{
+	return _entitySprite.getPosition();
 }

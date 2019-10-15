@@ -37,9 +37,9 @@ int main()
 			pause = !pause;
 
 		if(!pause)
-			map.update(player);
-		std::cout << curseur.getPosition().x << " " << curseur.getPosition().y << " \n";
-		curseur.update();
+			map.update(player, curseur);
+
+		curseur.update(window);
 		
 		window.draw(map);
 		window.draw(player);
