@@ -1,7 +1,10 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-class ThrowedObject
+
+#include "Object.h"
+
+class ThrowedObject : public Object
 {
 };
 
