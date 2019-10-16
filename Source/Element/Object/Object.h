@@ -1,15 +1,18 @@
 #pragma once
+#include <SFML/Graphics.hpp>
+
 class Object
 {
 public:
 	Object();
 	~Object();
-	void setNextOne(Object &nextOne);
-	bool isNextOneEqualTo(Object *comparedObject);
-	bool update();
 
-public:
-	Object *_nextOne;
+	bool update();
+	sf::CircleShape* getBody();
+	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
+protected:
+	sf::CircleShape _body;
 
 };
 

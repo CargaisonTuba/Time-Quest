@@ -1,6 +1,7 @@
 #include "Player.h"
-#include "../Element/Object/ThrowedObject/Bullet.h"
-#include "../Element/Object/ObjectsList.h"
+
+
+
 
 Player::Player(std::string texturePath, int defaultLife, sf::Vector2f initPosition) : Entity(texturePath, defaultLife, initPosition) {
 
@@ -14,7 +15,7 @@ sf::Vector2f Player::getPosition() const {
 	return _entitySprite.getPosition();
 }
 
-void Player::update(ObjectsList &throwableObjectsList) {
+void Player::update(std::vector<ThrowedObject> &throwableObjectsList) {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
 		_entitySprite.move(sf::Vector2f(0, -1));
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
@@ -24,10 +25,15 @@ void Player::update(ObjectsList &throwableObjectsList) {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		_entitySprite.move(sf::Vector2f(1, 0));
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	{
 		this->fire(throwableObjectsList);
+	}
+		
+
+		
 }
 
-bool Player::fire(ObjectsList& throwableObjectsList)
+bool Player::fire(std::vector<ThrowedObject> &throwableObjectsList)
 {
 	sf::Vector2f positionPlayer = this->getPosition();
 	sf::Vector2i positionMouse = sf::Mouse::getPosition();
@@ -38,8 +44,9 @@ bool Player::fire(ObjectsList& throwableObjectsList)
 	sf::Vector2f direction(aim.x / lenAim, aim.y / lenAim);
 
 	Bullet newBullet = Bullet(positionPlayer, direction);
+	
+	throwableObjectsList.push_back(newBullet);
 
-	throwableObjectsList.addObject(newBullet);
-
+	
 	return true;
 }

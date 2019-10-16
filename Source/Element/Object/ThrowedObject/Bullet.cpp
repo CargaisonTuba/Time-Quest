@@ -6,7 +6,10 @@ Bullet::Bullet(sf::Vector2f playerPosition, sf::Vector2f direction)
 {
 	this->_creationDate = std::time(0);
 	this->_direction = direction;
-	this->body.setPosition(playerPosition);
+	this->_body.setPosition(playerPosition);
+	this->_body.setFillColor(sf::Color::Black);
+	this->_body.setOutlineColor(sf::Color::White);
+	this->_body.setRadius(2);
 }
 
 Bullet::~Bullet()
@@ -20,6 +23,7 @@ bool Bullet::update()
 	{
 		return false;
 	}
-	this->body.move(_direction);
+	this->_body.move(_direction);
 	return true;
 }
+

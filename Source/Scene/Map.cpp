@@ -1,5 +1,6 @@
+#include <iostream>
+
 #include "Map.h"
-#include "../Element/Object/ObjectsList.h"
 
 Map::Map() {
 	//On charge la map depuis le fichier
@@ -7,7 +8,7 @@ Map::Map() {
 	std::vector<int> level;	//contient tous les ID des tiles
 
 	//Initialisations des tableaux d'objets
-	this->_throwableObjectsList = &ObjectsList();
+	//this->_throwableObjectsList = &ObjectsList();
 
 	//On remplit ce tableau avec les valeurs du fichier map.txt, sortit tout droit de l'éditeur
 	std::ifstream mapFile("Time-Quest/Source/map.txt");
@@ -62,8 +63,11 @@ Map::~Map() {
 }
 
 void Map::update(Player& player) {
-	player.update(*this->getThrowableObjectsList());
-	
+	player.update(_throwableObjectsList);
+	for (unsigned int i = 0; i < _throwableObjectsList.size(); i++)
+	{
+		_throwableObjectsList[i].update();
+	}
 }
 
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {
@@ -74,30 +78,19 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	//on dessine les pnjs
 	for (unsigned int i = 0; i < _ennemies.size(); i++)
 		target.draw(_ennemies[i]);
-	
-	//On dessines les throwableObjects
-	if (!this->_throwableObjectsList->isEmpty())
-	{
-		//On replace l'indice de l'objet courant au début de la liste
-		this->_throwableObjectsList->resetCurrentObject();
 
-		//On effectue l'update et on regarde si l'object existe encore (update renvoie un bool) si non on le supprime de la liste
-		if (this->_throwableObjectsList->getCurrentObject()->update())
-		{
-			this->_throwableObjectsList->deleteCurrentObject();
-		}
-		while (this->_throwableObjectsList->setCurrentToNextOne())
-		{
-			if (this->_throwableObjectsList->getCurrentObject()->update())
-			{
-				this->_throwableObjectsList->deleteCurrentObject();
-			}
-		}
+	//On dessines les throwableObjects
+	for (unsigned int i = 0; i < _throwableObjectsList.size(); i++)
+	{
+	
+		_throwableObjectsList[i].draw(target, states);
+
 	}
+	
 
 }
 
-ObjectsList* Map::getThrowableObjectsList()
+std::vector<ThrowedObject> Map::getThrowableObjectsList()
 {
 	return this->_throwableObjectsList;
 }

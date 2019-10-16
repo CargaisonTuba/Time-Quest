@@ -11,7 +11,7 @@
 #include "../Element/Object/ThrowedObject.h"
 #include "../Element/Object/DroppedObject.h"
 #include "../Element/Object/SolidObject.h"
-#include "../Element/Object/ObjectsList.h"
+
 
 
 class Map : public sf::Drawable
@@ -23,7 +23,7 @@ public:
 	void update(Player &player);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-	ObjectsList *getThrowableObjectsList();
+	std::vector<ThrowedObject> getThrowableObjectsList();
 
 private:
 	//Entités
@@ -35,5 +35,6 @@ private:
 
 	std::vector<Tile> _tiles;
 
-	ObjectsList *_throwableObjectsList;
+	std::vector<ThrowedObject> _throwableObjectsList;
+	//ObjectsList *_throwableObjectsList;
 };

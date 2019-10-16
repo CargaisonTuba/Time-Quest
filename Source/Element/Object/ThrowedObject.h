@@ -6,5 +6,10 @@
 
 class ThrowedObject : public Object
 {
+public:
+	ThrowedObject();
+	~ThrowedObject();
+
+	bool update();
 };
 
