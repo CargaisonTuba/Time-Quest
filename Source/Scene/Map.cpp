@@ -66,7 +66,10 @@ void Map::update(Player& player) {
 	player.update(_throwableObjectsList);
 	for (unsigned int i = 0; i < _throwableObjectsList.size(); i++)
 	{
-		_throwableObjectsList[i].update();
+		if (!_throwableObjectsList[i].update())
+		{
+			_throwableObjectsList.erase(_throwableObjectsList.begin() + i);
+		}
 	}
 }
 

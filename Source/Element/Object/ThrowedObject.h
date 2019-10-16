@@ -7,9 +7,12 @@
 class ThrowedObject : public Object
 {
 public:
+	ThrowedObject(sf::Vector2f throwerPosition, sf::Vector2f direction);
 	ThrowedObject();
 	~ThrowedObject();
 
 	bool update();
+protected:
+	sf::Clock _clock;
 };
 

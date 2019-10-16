@@ -5,11 +5,19 @@
 #define NULL 0
 #endif
 
-Object::Object()
+Object::Object(sf::Vector2f throwerPosition, sf::Vector2f direction)
 {
 	this->_body.setPosition(0, 0);
-	this->_body.setFillColor(sf::Color::Black);
+	this->_body.setFillColor(sf::Color::Red);
 	this->_body.setRadius(3);
+	this->_creationDate = std::time(0);
+	this->_direction = direction;
+	this->_body.setPosition(throwerPosition);
+}
+
+Object::Object()
+{
+
 }
 
 Object::~Object()

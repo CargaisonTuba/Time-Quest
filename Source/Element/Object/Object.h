@@ -4,6 +4,7 @@
 class Object
 {
 public:
+	Object(sf::Vector2f throwerPosition, sf::Vector2f direction);
 	Object();
 	~Object();
 
@@ -13,6 +14,8 @@ public:
 
 protected:
 	sf::CircleShape _body;
-
+	std::time_t _creationDate;
+	sf::Vector2f _direction;
+	
 };
 
