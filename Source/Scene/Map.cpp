@@ -66,7 +66,9 @@ void Map::update(Player& player) {
 	player.update(_throwableObjectsList);
 	for (unsigned int i = 0; i < _throwableObjectsList.size(); i++)
 	{
-		if (!_throwableObjectsList[i].update())
+		bool cond = _throwableObjectsList[i].update();
+		std::cout << cond << "\n";
+		if (!cond)
 		{
 			_throwableObjectsList.erase(_throwableObjectsList.begin() + i);
 		}

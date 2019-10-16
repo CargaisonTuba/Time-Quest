@@ -1,5 +1,6 @@
 #include "Object.h"
 #include "SFML/Graphics.hpp"
+#include <iostream>
 
 #ifndef NULL
 #define NULL 0
@@ -27,6 +28,7 @@ Object::~Object()
 
 bool Object::update()
 {
+	std::cout << "chiasse de pute";
 	return true;
 }
 
@@ -37,5 +39,6 @@ sf::CircleShape* Object::getBody()
 
 void Object::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	target.draw(this->_body);
+	
+	target.draw(_body);
 }

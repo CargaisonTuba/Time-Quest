@@ -12,6 +12,8 @@ public:
 
 	bool update();
 
+	
+
 private:
 	std::time_t _creationDate;
 	sf::Vector2f _direction;
