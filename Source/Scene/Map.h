@@ -22,7 +22,7 @@ public:
 	~Map();
 	
 	//On transmet l'arme et la position de la souris pour update l'arme
-	void update(Player &player, Cursor curseur);
+	void update(Player &player, Cursor curseur, sf::View &view);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 private:

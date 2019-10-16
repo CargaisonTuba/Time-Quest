@@ -8,11 +8,12 @@ int main()
 {
 	//Nouvelle fenêtre
 	sf::RenderWindow window(sf::VideoMode(1080, 720), "Time Quest");
+	sf::View gameView(sf::Vector2f(0, 0), sf::Vector2f(360, 280));
 	window.setMouseCursorVisible(false);
 
 	//On instancie une nouvelle map, coeur du jeu.
 	Map map;
-  Player player("Time-Quest/Source/assets/soldatFrancais40.png", 100, sf::Vector2f(30, 30));
+	Player player("Time-Quest/Source/assets/soldatFrancais40.png", 100, sf::Vector2f(30, 30));
 	Cursor curseur("Time-Quest/Source/assets/curseur_tir.png");
 
 	bool pause = false;
@@ -37,9 +38,11 @@ int main()
 			pause = !pause;
 
 		if(!pause)
-			map.update(player, curseur);
+			map.update(player, curseur, gameView);
 
 		curseur.update(window);
+
+		window.setView(gameView);
 		
 		window.draw(map);
 		window.draw(player);

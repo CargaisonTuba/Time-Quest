@@ -1,7 +1,5 @@
 #pragma once
 #include "Entity.h"
-#include "../Arme.h"
-#include "../HUD/Cursor.h"
 
 class Player : public Entity
 {
@@ -14,7 +12,7 @@ public:
 	
 	void setWeapon(Arme);
 	Arme getWeapon();
-	void update(Cursor curseur);
+	void update(Cursor curseur, std::vector<Tile> _tiles);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 private:
