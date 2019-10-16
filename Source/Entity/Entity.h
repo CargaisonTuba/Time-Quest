@@ -17,4 +17,5 @@ protected:
 	float _animation_tick;
 
 	float _life, _totalLife;
+	sf::Clock _timeSinceShot;
 };

@@ -1,5 +1,5 @@
 #include "Player.h"
-
+#include <iostream>
 
 
 
@@ -13,6 +13,7 @@ Player::~Player() {
 
 sf::Vector2f Player::getPosition() const {
 	return _entitySprite.getPosition();
+	
 }
 
 void Player::update(std::vector<ThrowedObject> &throwableObjectsList) {
@@ -35,17 +36,23 @@ void Player::update(std::vector<ThrowedObject> &throwableObjectsList) {
 
 bool Player::fire(std::vector<ThrowedObject> &throwableObjectsList)
 {
-	sf::Vector2f positionPlayer = this->getPosition();
-	sf::Vector2i positionMouse = sf::Mouse::getPosition();
+	if (_timeSinceShot.getElapsedTime() > sf::seconds(1.f))
+	{
+		std::cout << "shoot !\n";
+		_timeSinceShot.restart();
+		sf::Vector2f positionPlayer = this->getPosition();
 
-	sf::Vector2f aim(positionMouse.x - positionPlayer.x, positionMouse.y - positionPlayer.y);
-	float lenAim = sqrt(aim.x * aim.x + aim.y * aim.y);
-
-	sf::Vector2f direction(aim.x / lenAim, aim.y / lenAim);
-
-	Bullet newBullet = Bullet(positionPlayer, direction);
+		sf::Vector2i positionMouse = sf::Mouse::getPosition();
+		sf::Vector2f aim(positionMouse.x - positionPlayer.x, positionMouse.y - positionPlayer.y);
+		float lenAim = sqrt(aim.x * aim.x + aim.y * aim.y);
+		sf::Vector2f direction(aim.x / lenAim, aim.y / lenAim);
+		//std::cout << "x: " << direction.x << " y: " << direction.y << "\n";
+		Bullet newBullet = Bullet(positionPlayer, direction);
+		
+		throwableObjectsList.push_back(newBullet);
+		
+	}
 	
-	throwableObjectsList.push_back(newBullet);
 
 	
 	return true;

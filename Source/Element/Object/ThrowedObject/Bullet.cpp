@@ -1,5 +1,6 @@
 #include <ctime>
 #include "Bullet.h"
+#include <iostream>
 
 
 Bullet::Bullet(sf::Vector2f throwerPosition, sf::Vector2f direction)
@@ -9,7 +10,7 @@ Bullet::Bullet(sf::Vector2f throwerPosition, sf::Vector2f direction)
 	this->_body.setPosition(throwerPosition);
 	this->_body.setFillColor(sf::Color::Black);
 	this->_body.setOutlineColor(sf::Color::White);
-	this->_body.setRadius(2);
+	this->_body.setRadius(30);
 }
 
 Bullet::~Bullet()
@@ -23,7 +24,10 @@ bool Bullet::update()
 	{
 		return false;
 	}
-	this->_body.move(_direction);
+	std::cout << _direction.x << " " << _direction.y << "\n";
+	//sf::Vector2f newPosition(_direction.x + _body.getPosition().x, _direction.y + _body.getPosition().y);
+	_body.move(sf::Vector2f(_direction.x*100,_direction.y*100));
+	//_body.setPosition(newPosition);
 	return true;
 }
 

@@ -1,3 +1,8 @@
+/*
+Le bug des balles qui se surperposent pour faire des traits ressemble à un nuage magique et genre ils volent dessus
+*/
+
+
 #include <SFML/Graphics.hpp>
 
 #include "Scene/Map.h"
