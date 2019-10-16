@@ -1,5 +1,9 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include "../Element/Tile.h"
+#include "../Arme.h"
+#include "../HUD/Cursor.h"
 
 class Entity : public sf::Drawable
 {
@@ -7,8 +11,10 @@ public:
 	Entity(std::string texturePath, int defaultLife, sf::Vector2f initPosition);
 	~Entity();
 
+	sf::Vector2f getPosition() const;
+	sf::FloatRect getHitbox();
+
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	sf::Vector2f getPosition();
 
 protected:
 	sf::Texture _entityText[11][4];

@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+
 class Cursor : public sf::Drawable
 {
 public:
@@ -8,7 +9,7 @@ public:
 
 	sf::Vector2i position;
 	sf::Vector2f getPosition();
-	void update(sf::Window& window);
+	void update(sf::RenderWindow& window);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 private:

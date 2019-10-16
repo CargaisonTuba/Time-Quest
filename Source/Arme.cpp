@@ -1,8 +1,6 @@
 #include "Arme.h"
 #include <iostream>
 
-
-
 Arme::Arme(std::string texturePath)
 {
 	if (!_armeText.loadFromFile(texturePath))
@@ -10,7 +8,8 @@ Arme::Arme(std::string texturePath)
 		std::cout << "Erreur text arme\n";
 	}
 	_armeSprite.setTexture(_armeText);
-	_armeSprite.setScale(0.1f, 0.1f);
+	_armeSprite.setScale(sf::Vector2f(1, 1));
+
 	angle = 0;
 	longueurX = 0;
 	longueurY = 0;
@@ -48,7 +47,7 @@ void Arme::update(sf::Vector2f playPos, Cursor curseur)
 	
 	sf::Vector2f mousePosition = curseur.getPosition();
 
-	std::cout << "Pos x : " << this->getPosition().x << " Pos y : " << this->getPosition().y << " Curseur X : " << mousePosition.x << " Curseur Y : " << mousePosition.y << "\n";
+	//std::cout << "Pos x : " << this->getPosition().x << " Pos y : " << this->getPosition().y << " Curseur X : " << mousePosition.x << " Curseur Y : " << mousePosition.y << "\n";
 
 	longueurX = abs((mousePosition.x) - (playPos.x));
 	longueurY = abs((mousePosition.y) - (playPos.y));
@@ -91,5 +90,8 @@ void Arme::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	sf::Texture t;
 	t.loadFromFile("Time-Quest/Source/assets/mas36final2.png");
 	s.setTexture(t);
+	if(!sf::Keyboard::isKeyPressed(sf::Keyboard::X))
+		s.setScale(sf::Vector2f(0.05f, 0.05f));
+
 	target.draw(s);
 }

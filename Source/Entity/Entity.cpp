@@ -33,15 +33,19 @@ Entity::~Entity() {
 
 }
 
+sf::Vector2f Entity::getPosition() const
+{
+	return _entitySprite.getPosition();
+}
+
+sf::FloatRect Entity::getHitbox() {
+	_entitySprite.setTexture(_entityText[0][0]);
+	return _entitySprite.getGlobalBounds();
+}
+
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	sf::Sprite s = _entitySprite;
 	s.setTexture(_entityText[_spritePosCount][_dir]);
 
 	target.draw(s);
-}
-
-//Cette méthode sert dans la classe Arme pour connaître la position du propriétaire de l'armée par rapport à la souris et orienter l'arme
-sf::Vector2f Entity::getPosition()
-{
-	return _entitySprite.getPosition();
 }

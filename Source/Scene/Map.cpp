@@ -53,7 +53,7 @@ Map::Map() {
 			quad[2].texCoords = sf::Vector2f((tu + 1) * tileSize.x, (tv + 1) * tileSize.y);
 			quad[3].texCoords = sf::Vector2f(tu * tileSize.x, (tv + 1) * tileSize.y);
 
-			_tiles.push_back(Tile(sf::Vector2f(i, j), (tileNumber == 0)));
+			_tiles.push_back(Tile(sf::Vector2f(i * 30, j * 30), (tileNumber == 0)));
 			std::cout << "New tile at " << i << ";" << j << " wall=" << _tiles[_tiles.size() - 1].isWall() << std::endl;
 		}
 }
@@ -62,8 +62,9 @@ Map::~Map() {
 
 }
 
-void Map::update(Player& player, Cursor curseur) {
-	player.update(curseur);
+void Map::update(Player& player, Cursor curseur, sf::View &view) {
+	player.update(curseur, _tiles);
+	view.setCenter(player.getPosition());
 }
 
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {
@@ -74,5 +75,4 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	//on dessine les pnjs
 	for (unsigned int i = 0; i < _ennemies.size(); i++)
 		target.draw(_ennemies[i]);
-
 }

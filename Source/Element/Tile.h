@@ -8,6 +8,7 @@ public:
 	~Tile();
 
 	bool isWall() const;
+	sf::FloatRect getHitbox() const;
 
 private:
 	sf::Vector2f _coords;
