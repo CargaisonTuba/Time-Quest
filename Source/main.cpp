@@ -39,8 +39,9 @@ int main()
 			pause = !pause;
 
 		if(!pause)
-			map.update(player);
-
+			map.update(window, player);
+		
+		
 		window.draw(map);
 		window.draw(player);
 

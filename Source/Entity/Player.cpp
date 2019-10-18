@@ -16,7 +16,7 @@ sf::Vector2f Player::getPosition() const {
 	
 }
 
-void Player::update(std::vector<ThrowedObject> &throwableObjectsList) {
+void Player::update(std::vector<ThrowedObject> &throwableObjectsList, sf::RenderWindow& window) {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
 		_entitySprite.move(sf::Vector2f(0, -1));
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
@@ -27,14 +27,14 @@ void Player::update(std::vector<ThrowedObject> &throwableObjectsList) {
 		_entitySprite.move(sf::Vector2f(1, 0));
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
-		this->fire(throwableObjectsList);
+		this->fire(throwableObjectsList, window);
 	}
 		
 
 		
 }
 
-bool Player::fire(std::vector<ThrowedObject> &throwableObjectsList)
+bool Player::fire(std::vector<ThrowedObject> &throwableObjectsList, sf::RenderWindow &window)
 {
 	if (_timeSinceShot.getElapsedTime() > sf::seconds(1.f))
 	{
@@ -42,7 +42,7 @@ bool Player::fire(std::vector<ThrowedObject> &throwableObjectsList)
 		_timeSinceShot.restart();
 		sf::Vector2f positionPlayer = this->getPosition();
 
-		sf::Vector2i positionMouse = sf::Mouse::getPosition();
+		sf::Vector2i positionMouse = sf::Mouse::getPosition(window);
 		sf::Vector2f aim(positionMouse.x - positionPlayer.x, positionMouse.y - positionPlayer.y);
 		float lenAim = sqrt(aim.x * aim.x + aim.y * aim.y);
 		sf::Vector2f direction(aim.x / lenAim, aim.y / lenAim);

@@ -11,7 +11,7 @@ public:
 	~Player();
 
 	sf::Vector2f getPosition() const;
-	void update(std::vector<ThrowedObject> &throwableObjectsList);
-	bool fire(std::vector<ThrowedObject> &throwableObjectsList);
-
+	void update(std::vector<ThrowedObject> &throwableObjectsList, sf::RenderWindow& window);
+	bool fire(std::vector<ThrowedObject> &throwableObjectsList, sf::RenderWindow& window);
+	
 };

@@ -20,7 +20,7 @@ public:
 	Map();
 	~Map();
 
-	void update(Player &player);
+	void update(sf::RenderWindow& window, Player &player);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 	std::vector<ThrowedObject> getThrowableObjectsList();

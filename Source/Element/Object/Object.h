@@ -9,8 +9,9 @@ public:
 	~Object();
 
 	bool update();
-	sf::CircleShape* getBody();
+	sf::CircleShape& getBody();
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	sf::Vector2f getDirection();
 
 protected:
 	sf::CircleShape _body;

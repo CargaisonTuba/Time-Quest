@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "Map.h"
+#include "../Element/Object/ThrowedObject/Bullet.h"
 
 Map::Map() {
 	//On charge la map depuis le fichier
@@ -62,11 +63,14 @@ Map::~Map() {
 
 }
 
-void Map::update(Player& player) {
-	player.update(_throwableObjectsList);
+void Map::update(sf::RenderWindow& window, Player& player) {
+	player.update(_throwableObjectsList, window);
 	for (unsigned int i = 0; i < _throwableObjectsList.size(); i++)
 	{
+		std::cout << i << "\n";
 		bool cond = _throwableObjectsList[i].update();
+		//_throwableObjectsList[i].getBody().move(_throwableObjectsList[i].getDirection());
+
 		if (!cond)
 		{
 			_throwableObjectsList.erase(_throwableObjectsList.begin() + i);

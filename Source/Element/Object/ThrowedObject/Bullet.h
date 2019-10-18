@@ -10,7 +10,6 @@ public:
 	Bullet(sf::Vector2f throwerPosition, sf::Vector2f direction);
 	~Bullet();
 
-	bool update();
 
 	
 
