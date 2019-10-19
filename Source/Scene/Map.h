@@ -15,18 +15,21 @@
 #include "../Element/Object/DroppedObject.h"
 #include "../Element/Object/SolidObject.h"
 
+
+
 class Map : public sf::Drawable
 {
 public:
 	Map();
 	~Map();
-	
-	//On transmet l'arme et la position de la souris pour update l'arme
-	void update(Player &player, Cursor curseur, sf::View &view);
+
+	void update(Player &player, Cursor curseur, sf::View &view, sf::RenderWindow& window);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
+	std::vector<ThrowedObject> getThrowableObjectsList();
+
 private:
-	//Entités
+	//EntitÃ©s
 	std::vector<Ennemy> _ennemies;
 
 	//TileMap
@@ -34,4 +37,7 @@ private:
 	sf::Texture _tileset;
 
 	std::vector<Tile> _tiles;
+
+	std::vector<ThrowedObject> _throwableObjectsList;
+	//ObjectsList *_throwableObjectsList;
 };

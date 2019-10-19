@@ -1,3 +1,8 @@
+/*
+Le bug des balles qui se surperposent pour faire des traits ressemble � un nuage magique et genre ils volent dessus
+*/
+
+
 #include <SFML/Graphics.hpp>
 
 #include "Scene/Map.h"
@@ -38,7 +43,7 @@ int main()
 			pause = !pause;
 
 		if(!pause)
-			map.update(player, curseur, gameView);
+			map.update(player, curseur, gameView, window);
 
 		curseur.update(window);
 
