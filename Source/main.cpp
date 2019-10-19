@@ -13,7 +13,7 @@ int main()
 {
 	//Nouvelle fenêtre
 	sf::RenderWindow window(sf::VideoMode(1080, 720), "Time Quest");
-	sf::View gameView(sf::Vector2f(0, 0), sf::Vector2f(360, 280));
+	sf::View gameView(sf::Vector2f(0, 0), sf::Vector2f(540, 360));
 	window.setMouseCursorVisible(false);
 
 	//On instancie une nouvelle map, coeur du jeu.
@@ -43,7 +43,7 @@ int main()
 			pause = !pause;
 
 		if(!pause)
-			map.update(player, curseur, gameView, window);
+			map.update(player, curseur, gameView);
 
 		curseur.update(window);
 

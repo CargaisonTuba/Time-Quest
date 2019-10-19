@@ -62,27 +62,22 @@ Map::Map() {
 			_tiles.push_back(Tile(sf::Vector2f(i * 30, j * 30), (tileNumber == 0)));
 			std::cout << "New tile at " << i << ";" << j << " wall=" << _tiles[_tiles.size() - 1].isWall() << std::endl;
 		}
-	
-	
 }
 
 Map::~Map() {
 
 }
 
-void Map::update(Player& player, Cursor curseur, sf::View &view, sf::RenderWindow& window) {
-	player.update(curseur, _tiles, _throwableObjectsList, window);
+void Map::update(Player& player, Cursor curseur, sf::View &view) {
+	player.update(curseur, _tiles, _throwableObjectsList);
   
   for (unsigned int i = 0; i < _throwableObjectsList.size(); i++)
 	{
-		std::cout << i << "\n";
 		bool cond = _throwableObjectsList[i].update();
 		//_throwableObjectsList[i].getBody().move(_throwableObjectsList[i].getDirection());
 
 		if (!cond)
-		{
 			_throwableObjectsList.erase(_throwableObjectsList.begin() + i);
-		}
 	}
   
 	view.setCenter(player.getPosition());
@@ -99,13 +94,7 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {
   
 	//On dessines les throwableObjects
 	for (unsigned int i = 0; i < _throwableObjectsList.size(); i++)
-	{
-	
 		_throwableObjectsList[i].draw(target, states);
-
-	}
-	
-
 }
 
 std::vector<ThrowedObject> Map::getThrowableObjectsList()

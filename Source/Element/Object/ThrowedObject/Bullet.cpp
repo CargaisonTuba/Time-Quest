@@ -13,6 +13,3 @@ Bullet::~Bullet()
 {
 
 }
-
-
-

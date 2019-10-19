@@ -28,7 +28,7 @@ sf::Vector2f Player::getPosition() const {
 }
 
 //On met la position de la souris en paramètre pour pouvoir décider dans quelle direction pointe l'arme
-void Player::update(Cursor curseur, std::vector<Tile> _tiles, std::vector<ThrowedObject> &throwableObjectsList, sf::RenderWindow& window) {
+void Player::update(Cursor curseur, std::vector<Tile> _tiles, std::vector<ThrowedObject> &throwableObjectsList) {
 	float speed = 1;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
 		_dir = 2;
@@ -71,11 +71,11 @@ void Player::update(Cursor curseur, std::vector<Tile> _tiles, std::vector<Throwe
   
   if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
-		this->fire(throwableObjectsList, window);
+		this->fire(throwableObjectsList, curseur);
 	}
 }
 
-bool Player::fire(std::vector<ThrowedObject> &throwableObjectsList, sf::RenderWindow &window)
+bool Player::fire(std::vector<ThrowedObject> &throwableObjectsList, Cursor &cursor)
 {
 	if (_timeSinceShot.getElapsedTime() > sf::seconds(1.f))
 	{
@@ -83,11 +83,11 @@ bool Player::fire(std::vector<ThrowedObject> &throwableObjectsList, sf::RenderWi
 		_timeSinceShot.restart();
 		sf::Vector2f positionPlayer = this->getPosition();
 
-		sf::Vector2i positionMouse = sf::Mouse::getPosition(window);
+		sf::Vector2f positionMouse = cursor.getPosition();
 		sf::Vector2f aim(positionMouse.x - positionPlayer.x, positionMouse.y - positionPlayer.y);
 		float lenAim = sqrt(aim.x * aim.x + aim.y * aim.y);
 		sf::Vector2f direction(aim.x / lenAim, aim.y / lenAim);
-		//std::cout << "x: " << direction.x << " y: " << direction.y << "\n";
+
 		Bullet newBullet = Bullet(positionPlayer, direction);
 		
 		throwableObjectsList.push_back(newBullet);
@@ -100,7 +100,6 @@ bool Player::fire(std::vector<ThrowedObject> &throwableObjectsList, sf::RenderWi
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	sf::Sprite s = _entitySprite;
 	s.setTexture(_entityText[_spritePosCount][_dir]);
-	s.setOrigin(13.f, 16.f);
 	target.draw(s);
 	target.draw(_weaponJ);
 }

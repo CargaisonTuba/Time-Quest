@@ -14,8 +14,8 @@ public:
 	
 	void setWeapon(Arme);
 	Arme getWeapon();
-	void update(Cursor curseur, std::vector<Tile> _tiles, std::vector<ThrowedObject> &throwableObjectsList, sf::RenderWindow& window);
-  bool fire(std::vector<ThrowedObject> &throwableObjectsList, sf::RenderWindow& window);
+	void update(Cursor curseur, std::vector<Tile> _tiles, std::vector<ThrowedObject> &throwableObjectsList);
+	bool fire(std::vector<ThrowedObject> &throwableObjectsList, Cursor& cursor);
   
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 

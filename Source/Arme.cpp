@@ -47,8 +47,6 @@ void Arme::update(sf::Vector2f playPos, Cursor curseur)
 	
 	sf::Vector2f mousePosition = curseur.getPosition();
 
-	//std::cout << "Pos x : " << this->getPosition().x << " Pos y : " << this->getPosition().y << " Curseur X : " << mousePosition.x << " Curseur Y : " << mousePosition.y << "\n";
-
 	longueurX = abs((mousePosition.x) - (playPos.x));
 	longueurY = abs((mousePosition.y) - (playPos.y));
 	hypo = sqrt(longueurX * longueurX + longueurY * longueurY);
@@ -90,8 +88,7 @@ void Arme::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	sf::Texture t;
 	t.loadFromFile("Time-Quest/Source/assets/mas36final23.png");
 	s.setTexture(t);
-	//if(!sf::Keyboard::isKeyPressed(sf::Keyboard::X))
-		//s.setScale(sf::Vector2f(0.05f, 0.05f));
-	s.setOrigin(80.f, 10.f);
+
+	s.move(13, 13);	//on centre l'arme
 	target.draw(s);
 }
