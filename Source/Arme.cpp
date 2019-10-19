@@ -88,10 +88,10 @@ void Arme::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	sf::Sprite s = _armeSprite;
 	sf::Texture t;
-	t.loadFromFile("Time-Quest/Source/assets/mas36final23.png");
+	t.loadFromFile("Time-Quest/Source/assets/mas36final2.png");
 	s.setTexture(t);
-	//if(!sf::Keyboard::isKeyPressed(sf::Keyboard::X))
-		//s.setScale(sf::Vector2f(0.05f, 0.05f));
-	s.setOrigin(80.f, 10.f);
+	if(!sf::Keyboard::isKeyPressed(sf::Keyboard::X))
+		s.setScale(sf::Vector2f(0.05f, 0.05f));
+
 	target.draw(s);
 }

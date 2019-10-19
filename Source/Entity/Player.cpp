@@ -100,7 +100,6 @@ bool Player::fire(std::vector<ThrowedObject> &throwableObjectsList, sf::RenderWi
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	sf::Sprite s = _entitySprite;
 	s.setTexture(_entityText[_spritePosCount][_dir]);
-	s.setOrigin(13.f, 16.f);
 	target.draw(s);
 	target.draw(_weaponJ);
 }
