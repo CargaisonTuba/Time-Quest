@@ -11,18 +11,22 @@ Map::Map() {
 	//Initialisations des tableaux d'objets
 	//this->_throwableObjectsList = &ObjectsList();
 
-	//On remplit ce tableau avec les valeurs du fichier map.txt, sortit tout droit de l'éditeur
+	//On remplit ce tableau avec les valeurs du fichier map.txt, sortit tout droit de l'Ã©diteur
 	std::ifstream mapFile("Time-Quest/Source/map.txt");
 	if(!mapFile)
 		std::cerr << "[Erreur] : impossible d'ouvrir map.txt\n";
 	else {
+		std::cout << "Fichier ouvert. Lecture...\n";
 		int tileID;
-		while(mapFile >> tileID)
+		while (mapFile >> tileID) {
 			level.push_back(tileID);
+			std::cout << "Nouvelle tile\n";
+		}
 	}
 
 	sf::Vector2u tileSize(30, 30);
-	unsigned int width = sqrt(level.size()), height = width;	//Le niveau est découpé en 1 carré.
+	unsigned int width = 12, height = 8;	//Le niveau est dÃ©coupÃ© en 1 carrÃ©.
+	std::cout << level.size() << std::endl;
 
 	const std::string path = "Time-Quest/Source/assets/tilesheet.png";
 
@@ -54,6 +58,9 @@ Map::Map() {
 			quad[1].texCoords = sf::Vector2f((tu + 1) * tileSize.x, tv * tileSize.y);
 			quad[2].texCoords = sf::Vector2f((tu + 1) * tileSize.x, (tv + 1) * tileSize.y);
 			quad[3].texCoords = sf::Vector2f(tu * tileSize.x, (tv + 1) * tileSize.y);
+
+			_tiles.push_back(Tile(sf::Vector2f(i * 30, j * 30), (tileNumber == 0)));
+			std::cout << "New tile at " << i << ";" << j << " wall=" << _tiles[_tiles.size() - 1].isWall() << std::endl;
 		}
 	
 	
@@ -63,9 +70,10 @@ Map::~Map() {
 
 }
 
-void Map::update(sf::RenderWindow& window, Player& player) {
-	player.update(_throwableObjectsList, window);
-	for (unsigned int i = 0; i < _throwableObjectsList.size(); i++)
+void Map::update(Player& player, Cursor curseur, sf::View &view, sf::RenderWindow& window) {
+	player.update(curseur, _tiles, _throwableObjectsList, window);
+  
+  for (unsigned int i = 0; i < _throwableObjectsList.size(); i++)
 	{
 		std::cout << i << "\n";
 		bool cond = _throwableObjectsList[i].update();
@@ -76,6 +84,8 @@ void Map::update(sf::RenderWindow& window, Player& player) {
 			_throwableObjectsList.erase(_throwableObjectsList.begin() + i);
 		}
 	}
+  
+	view.setCenter(player.getPosition());
 }
 
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {
@@ -86,7 +96,7 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	//on dessine les pnjs
 	for (unsigned int i = 0; i < _ennemies.size(); i++)
 		target.draw(_ennemies[i]);
-
+  
 	//On dessines les throwableObjects
 	for (unsigned int i = 0; i < _throwableObjectsList.size(); i++)
 	{

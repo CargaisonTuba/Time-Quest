@@ -1,5 +1,6 @@
 #include "Entity.h"
 
+
 Entity::Entity(std::string texturePath, int defaultLife, sf::Vector2f initPosition) //Constructeur par défaut, sans paramètre
 {
 	//A la création d'un nouveau joueur, on lui attribue des caractéristiques:
@@ -31,6 +32,16 @@ Entity::Entity(std::string texturePath, int defaultLife, sf::Vector2f initPositi
 
 Entity::~Entity() {
 
+}
+
+sf::Vector2f Entity::getPosition() const
+{
+	return _entitySprite.getPosition();
+}
+
+sf::FloatRect Entity::getHitbox() {
+	_entitySprite.setTexture(_entityText[0][0]);
+	return _entitySprite.getGlobalBounds();
 }
 
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {

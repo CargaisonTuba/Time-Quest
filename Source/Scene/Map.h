@@ -6,6 +6,9 @@
 
 #include "../Entity/Player.h"
 #include "../Entity/NPC/Ennemy.h"
+#include "../Arme.h"
+
+#include "../HUD/Cursor.h"
 
 #include "../Element/Tile.h"
 #include "../Element/Object/ThrowedObject.h"
@@ -20,13 +23,13 @@ public:
 	Map();
 	~Map();
 
-	void update(sf::RenderWindow& window, Player &player);
+	void update(Player &player, Cursor curseur, sf::View &view, sf::RenderWindow& window);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 	std::vector<ThrowedObject> getThrowableObjectsList();
 
 private:
-	//Entités
+	//EntitÃ©s
 	std::vector<Ennemy> _ennemies;
 
 	//TileMap
