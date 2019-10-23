@@ -50,3 +50,37 @@ void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
 	target.draw(s);
 }
+
+
+//Définitions des méthodes liées aux attributs rôle-play
+float Entity::getMaxHealth()
+{
+	return this->_maxHealth;
+}
+
+float Entity::getHealth()
+{
+	return this->_health;
+}
+
+void Entity::addHealth(float addedLife)
+{
+	float _newHealth = this->_health + addedLife;
+	if (_newHealth > this->_maxHealth)
+	{
+		this->_health = this->_maxHealth;
+	}
+	else
+	{
+		this->_health = _newHealth;
+	}
+}
+
+bool Entity::isDead()
+{
+	if (this->_health <= 0)
+	{
+		return true;
+	}
+	return false;
+}

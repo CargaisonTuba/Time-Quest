@@ -16,6 +16,12 @@ public:
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
+	//Méthodes liées aux attributs rôle-play
+	float getMaxHealth();
+	float getHealth();
+	void addHealth(float addedLife);
+	bool isDead();
+
 protected:
 	sf::Texture _entityText[11][4];
 	sf::Sprite _entitySprite;
@@ -25,4 +31,7 @@ protected:
 
 	float _life, _totalLife;
 	sf::Clock _timeSinceShot;
+
+	//Attributs rôle-play
+	float _maxHealth, _health;
 };
