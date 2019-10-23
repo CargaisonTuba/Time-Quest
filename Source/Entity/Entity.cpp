@@ -28,6 +28,10 @@ Entity::Entity(std::string texturePath, int defaultLife, sf::Vector2f initPositi
 	_life = defaultLife;	//ca représentera la vie ACTUELLE du joueur
 	_totalLife = defaultLife;		//ca représente la vie TOTALE du joueur (c'est une sorte de constante, on y touchera plus après)
 	_timeSinceShot.restart();
+
+	//Initialisation des attributs rôle-play
+	this->_maxHealth = 100;
+	this->_health = this->_maxHealth;
 }
 
 Entity::~Entity() {

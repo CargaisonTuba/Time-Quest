@@ -29,49 +29,54 @@ sf::Vector2f Player::getPosition() const {
 
 //On met la position de la souris en paramètre pour pouvoir décider dans quelle direction pointe l'arme
 void Player::update(Cursor curseur, std::vector<Tile> _tiles, std::vector<ThrowedObject> &throwableObjectsList) {
-	float speed = 1;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
-		_dir = 2;
-		_entitySprite.move(sf::Vector2f(0, -speed));
-		for (int i = 0; i < _tiles.size(); i++) {
-			if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
-				_entitySprite.move(sf::Vector2f(0, speed));
-			}
-		}
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-		_dir = 3;
-		_entitySprite.move(sf::Vector2f(-speed, 0));
-		for (int i = 0; i < _tiles.size(); i++) {
-			if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
-				_entitySprite.move(sf::Vector2f(speed, 0));
-			}
-		}
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		_dir = 0;
-		_entitySprite.move(sf::Vector2f(0, speed));
-		for (int i = 0; i < _tiles.size(); i++) {
-			if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
-				_entitySprite.move(sf::Vector2f(0, -speed));
-			}
-		}
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		_dir = 1;
-		_entitySprite.move(sf::Vector2f(speed, 0));
-		for (int i = 0; i < _tiles.size(); i++) {
-			if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
-				_entitySprite.move(sf::Vector2f(-speed, 0));
-			}
-		}
-	}
-
-	_weaponJ.update(this->getPosition(), curseur);
-  
-  if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	if (!isDead())
 	{
-		this->fire(throwableObjectsList, curseur);
+
+		float speed = 1;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
+			_dir = 2;
+			_entitySprite.move(sf::Vector2f(0, -speed));
+			for (int i = 0; i < _tiles.size(); i++) {
+				if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
+					_entitySprite.move(sf::Vector2f(0, speed));
+				}
+			}
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+			_dir = 3;
+			_entitySprite.move(sf::Vector2f(-speed, 0));
+			for (int i = 0; i < _tiles.size(); i++) {
+				if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
+					_entitySprite.move(sf::Vector2f(speed, 0));
+				}
+			}
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+			_dir = 0;
+			_entitySprite.move(sf::Vector2f(0, speed));
+			for (int i = 0; i < _tiles.size(); i++) {
+				if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
+					_entitySprite.move(sf::Vector2f(0, -speed));
+				}
+			}
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+			_dir = 1;
+			_entitySprite.move(sf::Vector2f(speed, 0));
+			for (int i = 0; i < _tiles.size(); i++) {
+				if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
+					_entitySprite.move(sf::Vector2f(-speed, 0));
+				}
+			}
+		}
+
+		_weaponJ.update(this->getPosition(), curseur);
+
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		{
+			this->fire(throwableObjectsList, curseur);
+		}
+
 	}
 }
 

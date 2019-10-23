@@ -39,19 +39,45 @@ int main()
 
 		//le code commence là
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
-			pause = !pause;
+		if (player.isDead())
+		{
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+				pause = !pause;
 
-		if(!pause)
-			map.update(player, curseur, gameView);
+			if (!pause)
+				map.update(player, curseur, gameView);
+
+			window.setView(gameView);
+
+			window.draw(map);
+			window.draw(player);
+			window.draw(curseur);
+		}
+		else
+		{
+			sf::Font old_stamper;
+			if (old_stamper.loadFromFile("assets/fonts/old_stamper/old_stamper.ttf"))
+			{
+				sf::Text deathText("{Vous etes mort!}", old_stamper, 17);
+				deathText.setFillColor(sf::Color::Red);
+				deathText.setOutlineColor(sf::Color::Black);
+				deathText.setCharacterSize(30);
+				deathText.setOutlineThickness(7);
+				sf::Vector2f position(window.getSize().x/2, window.getSize().y/2);
+				deathText.setPosition(position);
+				
+			}
+			else
+			{
+				std::cout << "can't load font\n";
+			}
+			
+		}
+		
 
 		curseur.update(window);
 
-		window.setView(gameView);
 		
-		window.draw(map);
-		window.draw(player);
-		window.draw(curseur);
 
 		//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante
 		window.display();
