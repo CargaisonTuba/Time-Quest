@@ -22,38 +22,44 @@ int main()
 	Cursor curseur("Time-Quest/Source/assets/curseur_tir.png");
 
 	bool pause = false;
+	sf::Clock loopClock;
 
 	//Boucle principale
 	while (window.isOpen())
 	{
-		//On regarde si on ferme la fenêtre
-		sf::Event event;
-		while (window.pollEvent(event))
+		while (loopClock.getElapsedTime().asSeconds() > 0.0166)
 		{
-			if (event.type == sf::Event::Closed)
-				window.close();
+			loopClock.restart();
+			//On regarde si on ferme la fenêtre
+			sf::Event event;
+			while (window.pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed)
+					window.close();
+			}
+
+			//On efface la frame précédente
+			window.clear();
+
+			//le code commence là
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+				pause = !pause;
+
+			if (!pause)
+				map.update(player, curseur, gameView);
+
+			curseur.update(window);
+
+			window.setView(gameView);
+
+			window.draw(map);
+			window.draw(player);
+			window.draw(curseur);
+
+			//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante
+			
 		}
-
-		//On efface la frame précédente
-		window.clear();
-
-		//le code commence là
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
-			pause = !pause;
-
-		if(!pause)
-			map.update(player, curseur, gameView);
-
-		curseur.update(window);
-
-		window.setView(gameView);
-		
-		window.draw(map);
-		window.draw(player);
-		window.draw(curseur);
-
-		//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante
 		window.display();
 	}
 
