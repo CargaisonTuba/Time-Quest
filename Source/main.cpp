@@ -39,8 +39,9 @@ int main()
 
 		//le code commence là
 
-		if (player.isDead())
+		if (!player.isDead())
 		{
+			//Le joueur est en vie
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
 				pause = !pause;
 
@@ -55,17 +56,18 @@ int main()
 		}
 		else
 		{
+			//Le joueur est mort -> deathscreen
 			sf::Font old_stamper;
-			if (old_stamper.loadFromFile("assets/fonts/old_stamper/old_stamper.ttf"))
+			if (old_stamper.loadFromFile("Time-Quest/Source/assets/fonts/old_stamper/old_stamper.ttf"))
 			{
 				sf::Text deathText("{Vous etes mort!}", old_stamper, 17);
 				deathText.setFillColor(sf::Color::Red);
 				deathText.setOutlineColor(sf::Color::Black);
 				deathText.setCharacterSize(30);
 				deathText.setOutlineThickness(7);
-				sf::Vector2f position(window.getSize().x/2, window.getSize().y/2);
+				sf::Vector2f position(window.getSize().x/2-25, window.getSize().y/2 - 25);
 				deathText.setPosition(position);
-				
+				window.draw(deathText);
 			}
 			else
 			{
