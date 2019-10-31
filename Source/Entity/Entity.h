@@ -4,6 +4,8 @@
 #include "../Element/Tile.h"
 #include "../Arme.h"
 #include "../HUD/Cursor.h"
+#include "../Element/Object/ThrowedObject.h"
+#include "../Element/Object/ThrowedObject/Bullet.h"
 
 class Entity : public sf::Drawable
 {
@@ -13,6 +15,9 @@ public:
 
 	sf::Vector2f getPosition() const;
 	sf::FloatRect getHitbox();
+
+	void setWeapon(Arme newWeapon);
+	Arme getWeapon();
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
@@ -25,4 +30,6 @@ protected:
 
 	float _life, _totalLife;
 	sf::Clock _timeSinceShot;
+
+	Arme _curWeapon;
 };

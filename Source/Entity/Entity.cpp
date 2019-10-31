@@ -44,9 +44,20 @@ sf::FloatRect Entity::getHitbox() {
 	return _entitySprite.getGlobalBounds();
 }
 
+void Entity::setWeapon(Arme newWeapon)
+{
+	_curWeapon = newWeapon;
+}
+
+Arme Entity::getWeapon()
+{
+	return this->_curWeapon;
+}
+
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	sf::Sprite s = _entitySprite;
 	s.setTexture(_entityText[_spritePosCount][_dir]);
 
 	target.draw(s);
+	target.draw(_curWeapon);
 }

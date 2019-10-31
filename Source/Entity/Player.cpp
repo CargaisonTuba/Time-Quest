@@ -1,8 +1,6 @@
 #include "Player.h"
 #include <iostream>
 
-
-
 Player::Player(std::string texturePath, int defaultLife, sf::Vector2f initPosition) : Entity(texturePath, defaultLife, initPosition) {
 	this->setWeapon(Arme("Time-Quest/Source/assets/mas36final2.png"));
 }
@@ -10,17 +8,6 @@ Player::Player(std::string texturePath, int defaultLife, sf::Vector2f initPositi
 Player::~Player() {
 
 }
-
-void Player::setWeapon(Arme arme)
-{
-	arme.setPosition(this->getPosition());
-}
-
-Arme Player::getWeapon()
-{
-	return this->_weaponJ;
-}
-
 
 sf::Vector2f Player::getPosition() const {
 	return _entitySprite.getPosition();
@@ -67,7 +54,7 @@ void Player::update(Cursor curseur, std::vector<Tile> _tiles, std::vector<Throwe
 		}
 	}
 
-	_weaponJ.update(this->getPosition(), curseur);
+	_curWeapon.update(this->getPosition(), curseur);
   
   if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
@@ -95,11 +82,4 @@ bool Player::fire(std::vector<ThrowedObject> &throwableObjectsList, Cursor &curs
 	}
   
 	return true;
-}
-
-void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-	sf::Sprite s = _entitySprite;
-	s.setTexture(_entityText[_spritePosCount][_dir]);
-	target.draw(s);
-	target.draw(_weaponJ);
 }

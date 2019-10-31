@@ -16,7 +16,6 @@
 #include "../Element/Object/SolidObject.h"
 
 
-
 class Map : public sf::Drawable
 {
 public:

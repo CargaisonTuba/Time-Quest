@@ -1,8 +1,5 @@
 #pragma once
 #include "Entity.h"
-#include "../Element/Object/ThrowedObject.h"
-#include "../Element/Object/ThrowedObject/Bullet.h"
-
 
 class Player : public Entity
 {
@@ -11,14 +8,7 @@ public:
 	~Player();
 
 	sf::Vector2f getPosition() const;
-	
-	void setWeapon(Arme);
-	Arme getWeapon();
+
 	void update(Cursor curseur, std::vector<Tile> _tiles, std::vector<ThrowedObject> &throwableObjectsList);
 	bool fire(std::vector<ThrowedObject> &throwableObjectsList, Cursor& cursor);
-  
-	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-
-private:
-	Arme _weaponJ;
 };

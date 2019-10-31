@@ -8,7 +8,6 @@ Arme::Arme(std::string texturePath)
 		std::cout << "Erreur text arme\n";
 	}
 	_armeSprite.setTexture(_armeText);
-	_armeSprite.setScale(sf::Vector2f(1, 1));
 
 	angle = 0;
 	longueurX = 0;
@@ -19,10 +18,6 @@ Arme::Arme(std::string texturePath)
 
 Arme::Arme()
 {
-	angle = 0;
-	longueurX = 0;
-	longueurY = 0;
-	hypo = 0;
 	std::cout << "Ceci est le constructeur par défaut\n";
 }
 
@@ -41,38 +36,43 @@ sf::Vector2f Arme::getPosition()
 	return _armeSprite.getPosition();
 }
 
-void Arme::update(sf::Vector2f playPos, Cursor curseur)
-{
-	this->setPosition(playPos);
-	
-	sf::Vector2f mousePosition = curseur.getPosition();
+void Arme::update(sf::Vector2f entityPos) {
+	this->setPosition(entityPos);
+	_armeSprite.setScale(0.1, 0.1);
+}
 
-	longueurX = abs((mousePosition.x) - (playPos.x));
-	longueurY = abs((mousePosition.y) - (playPos.y));
+void Arme::update(sf::Vector2f entityPos, Cursor cursor)
+{
+	this->setPosition(entityPos);
+	
+	sf::Vector2f mousePosition = cursor.getPosition();
+
+	longueurX = abs((mousePosition.x) - (entityPos.x));
+	longueurY = abs((mousePosition.y) - (entityPos.y));
 	hypo = sqrt(longueurX * longueurX + longueurY * longueurY);
 
-	if (mousePosition.y < playPos.y)
+	if (mousePosition.y < entityPos.y)
 	{
-		if (mousePosition.x < playPos.x)
+		if (mousePosition.x < entityPos.x)
 		{
 			angle = (180 + acos(longueurX / hypo) * 180.0 / 3.141592653589793);
 			_armeSprite.setScale(1 / 6.f, -1 / 6.f);
 		}
-		else if (mousePosition.x > playPos.x)
+		else if (mousePosition.x > entityPos.x)
 		{
 			angle = 360 - (acos(longueurX / hypo) * 180.0 / 3.141592653589793);
 			_armeSprite.setScale(1 / 6.f, 1 / 6.f);
 		}
 	}
-	else if (mousePosition.y > playPos.y)
+	else if (mousePosition.y > entityPos.y)
 	{
-		if (mousePosition.x > playPos.x)
+		if (mousePosition.x > entityPos.x)
 		{
 			angle = acos(longueurX / hypo) * 180.0 / 3.141592653589793;
 			_armeSprite.setScale(1 / 6.f, 1 / 6.f);
 
 		}
-		else if (mousePosition.x < playPos.x)
+		else if (mousePosition.x < entityPos.x)
 		{
 			angle = 180 - (acos(longueurX / hypo) * 180.0 / 3.141592653589793);
 			_armeSprite.setScale(1 / 6.f, -1 / 6.f);
@@ -85,9 +85,8 @@ void Arme::update(sf::Vector2f playPos, Cursor curseur)
 void Arme::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	sf::Sprite s = _armeSprite;
-	sf::Texture t;
-	t.loadFromFile("Time-Quest/Source/assets/mas36final23.png");
-	s.setTexture(t);
+	s.setTexture(_armeText);
+	s.setScale(s.getScale().x * 0.4, s.getScale().y * 0.4);
 
 	s.move(13, 13);	//on centre l'arme
 	target.draw(s);

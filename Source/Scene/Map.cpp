@@ -8,9 +8,6 @@ Map::Map() {
 
 	std::vector<int> level;	//contient tous les ID des tiles
 
-	//Initialisations des tableaux d'objets
-	//this->_throwableObjectsList = &ObjectsList();
-
 	//On remplit ce tableau avec les valeurs du fichier map.txt, sortit tout droit de l'éditeur
 	std::ifstream mapFile("Time-Quest/Source/map.txt");
 	if(!mapFile)
@@ -62,6 +59,10 @@ Map::Map() {
 			_tiles.push_back(Tile(sf::Vector2f(i * 30, j * 30), (tileNumber == 0)));
 			std::cout << "New tile at " << i << ";" << j << " wall=" << _tiles[_tiles.size() - 1].isWall() << std::endl;
 		}
+
+	//On initialise les ennemis
+	for (int i = 0; i < 10; i++)
+		_ennemies.push_back(Ennemy("Time-Quest/Source/assets/soldatAllemand40.png", 20, sf::Vector2f(rand() % 100, rand() % 100)));
 }
 
 Map::~Map() {
@@ -70,8 +71,11 @@ Map::~Map() {
 
 void Map::update(Player& player, Cursor curseur, sf::View &view) {
 	player.update(curseur, _tiles, _throwableObjectsList);
+
+	for (unsigned int i = 0; i < _ennemies.size(); i++)
+		_ennemies[i].update();
   
-  for (unsigned int i = 0; i < _throwableObjectsList.size(); i++)
+	for (unsigned int i = 0; i < _throwableObjectsList.size(); i++)
 	{
 		bool cond = _throwableObjectsList[i].update();
 		//_throwableObjectsList[i].getBody().move(_throwableObjectsList[i].getDirection());
