@@ -54,6 +54,36 @@ Arme Entity::getWeapon()
 	return this->_curWeapon;
 }
 
+float Entity::getLife() const {
+	return _life;
+}
+
+sf::RectangleShape Entity::getLifebar() const {
+	return _lifeBar;
+}
+
+bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, Cursor& cursor)
+{
+	if (_timeSinceShot.getElapsedTime() > sf::seconds(1.f))
+	{
+		std::cout << "shoot !\n";
+		_timeSinceShot.restart();
+		sf::Vector2f pos = this->getPosition();
+
+		sf::Vector2f positionMouse = cursor.getPosition();
+		sf::Vector2f aim(positionMouse.x - pos.x, positionMouse.y - pos.y);
+		float lenAim = sqrt(aim.x * aim.x + aim.y * aim.y);
+		sf::Vector2f direction(aim.x / lenAim, aim.y / lenAim);
+
+		Bullet newBullet = Bullet(pos, direction, _curWeapon.getDamages());
+
+		throwableObjectsList.push_back(newBullet);
+
+	}
+
+	return true;
+}
+
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	sf::Sprite s = _entitySprite;
 	s.setTexture(_entityText[_spritePosCount][_dir]);

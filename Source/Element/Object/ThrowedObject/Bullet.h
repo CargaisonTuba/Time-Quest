@@ -7,15 +7,12 @@
 class Bullet : public ThrowedObject
 {
 public:
-	Bullet(sf::Vector2f throwerPosition, sf::Vector2f direction);
+	Bullet(sf::Vector2f throwerPosition, sf::Vector2f direction, float damages);
 	~Bullet();
-
-
-	
 
 private:
 	std::time_t _creationDate;
 	sf::Vector2f _direction;
 	sf::Clock _clock;
-	
+	float _damages;
 };

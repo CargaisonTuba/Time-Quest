@@ -6,7 +6,7 @@ class Arme : public sf::Drawable
 {
 public:
 	
-	Arme(std::string texturePath);
+	Arme(std::string texturePath, float damages);
 	Arme();
 	~Arme();
 
@@ -14,6 +14,9 @@ public:
 	void setPosition(sf::Vector2f unePosition);
 	void update(sf::Vector2f entityPos);
 	void update(sf::Vector2f entityPos, Cursor cursor);
+
+	float getDamages() const;
+
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 private:
@@ -23,5 +26,7 @@ private:
 
 	float longueurX, longueurY;
 	float hypo, angle;
+
+	float _damages;
 };
 

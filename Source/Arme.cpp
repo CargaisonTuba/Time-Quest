@@ -1,7 +1,7 @@
 #include "Arme.h"
 #include <iostream>
 
-Arme::Arme(std::string texturePath)
+Arme::Arme(std::string texturePath, float damages)
 {
 	if (!_armeText.loadFromFile(texturePath))
 	{
@@ -13,12 +13,12 @@ Arme::Arme(std::string texturePath)
 	longueurX = 0;
 	longueurY = 0;
 	hypo = 0;
-	std::cout << "Ceci est le constructeur normal\n";
+	_damages = damages;
 }
 
 Arme::Arme()
 {
-	std::cout << "Ceci est le constructeur par défaut\n";
+
 }
 
 Arme::~Arme()
@@ -80,6 +80,10 @@ void Arme::update(sf::Vector2f entityPos, Cursor cursor)
 	}
 
 	_armeSprite.setRotation(angle);
+}
+
+float Arme::getDamages() const {
+	return _damages;
 }
 
 void Arme::draw(sf::RenderTarget& target, sf::RenderStates states) const

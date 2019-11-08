@@ -10,5 +10,4 @@ public:
 	sf::Vector2f getPosition() const;
 
 	void update(Cursor curseur, std::vector<Tile> _tiles, std::vector<ThrowedObject> &throwableObjectsList);
-	bool fire(std::vector<ThrowedObject> &throwableObjectsList, Cursor& cursor);
 };

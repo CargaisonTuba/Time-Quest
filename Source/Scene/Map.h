@@ -38,5 +38,6 @@ private:
 	std::vector<Tile> _tiles;
 
 	std::vector<ThrowedObject> _throwableObjectsList;
-	//ObjectsList *_throwableObjectsList;
+	
+	sf::RectangleShape _playerLifebar;	//sert de variable transitoire pour dessiner l'HUD
 };

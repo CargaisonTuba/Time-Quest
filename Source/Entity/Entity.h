@@ -18,6 +18,10 @@ public:
 
 	void setWeapon(Arme newWeapon);
 	Arme getWeapon();
+	float getLife() const;
+	sf::RectangleShape getLifebar() const;
+
+	bool fire(std::vector<ThrowedObject>& throwableObjectsList, Cursor& cursor);
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
@@ -32,4 +36,7 @@ protected:
 	sf::Clock _timeSinceShot;
 
 	Arme _curWeapon;
+
+	//Barre de vie, assez simple pour le moment.
+	sf::RectangleShape _lifeBar;
 };
