@@ -56,13 +56,13 @@ Map::Map() {
 			quad[2].texCoords = sf::Vector2f((float)((tu + 1) * tileSize.x), (float)((tv + 1) * tileSize.y));
 			quad[3].texCoords = sf::Vector2f((float)(tu * tileSize.x), (float)((tv + 1) * tileSize.y));
 
-			_tiles.push_back(Tile(sf::Vector2f(i * 30, j * 30), (tileNumber == 0)));
+			_tiles.push_back(Tile(sf::Vector2f((float)i * 30, (float)j * 30), (tileNumber == 0)));
 			std::cout << "New tile at " << i << ";" << j << " wall=" << _tiles[_tiles.size() - 1].isWall() << std::endl;
 		}
 
 	//On initialise les ennemis
 	for (unsigned int i = 0; i < 10; i++)
-		_ennemies.push_back(Ennemy("Time-Quest/Source/assets/soldatAllemand40.png", 20, sf::Vector2f(rand() % 100, rand() % 100)));
+		_ennemies.push_back(Ennemy("Time-Quest/Source/assets/soldatAllemand40.png", 20, sf::Vector2f((float)(rand() % 100), (float)(rand() % 100))));
 }
 
 Map::~Map() {

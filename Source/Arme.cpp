@@ -18,7 +18,11 @@ Arme::Arme(std::string texturePath, float damages)
 
 Arme::Arme()
 {
-
+	angle = 0;
+	longueurX = 0;
+	longueurY = 0;
+	hypo = 0;
+	_damages = 0;
 }
 
 Arme::~Arme()
@@ -38,7 +42,7 @@ sf::Vector2f Arme::getPosition()
 
 void Arme::update(sf::Vector2f entityPos) {
 	this->setPosition(entityPos);
-	_armeSprite.setScale(0.1, 0.1);
+	_armeSprite.setScale(0.1f, 0.1f);
 }
 
 void Arme::update(sf::Vector2f entityPos, Cursor cursor)
@@ -55,27 +59,27 @@ void Arme::update(sf::Vector2f entityPos, Cursor cursor)
 	{
 		if (mousePosition.x < entityPos.x)
 		{
-			angle = (180 + acos(longueurX / hypo) * 180.0 / 3.141592653589793);
-			_armeSprite.setScale(1 / 6.f, -1 / 6.f);
+			angle = (180.f + acos(longueurX / hypo) * 180.0f / (float)3.141592653589793);
+			_armeSprite.setScale(1.f / 6.f, -1.f / 6.f);
 		}
 		else if (mousePosition.x > entityPos.x)
 		{
-			angle = 360 - (acos(longueurX / hypo) * 180.0 / 3.141592653589793);
-			_armeSprite.setScale(1 / 6.f, 1 / 6.f);
+			angle = 360.f - (acos(longueurX / hypo) * 180.0f / (float)3.141592653589793);
+			_armeSprite.setScale(1.f / 6.f, 1.f / 6.f);
 		}
 	}
 	else if (mousePosition.y > entityPos.y)
 	{
 		if (mousePosition.x > entityPos.x)
 		{
-			angle = acos(longueurX / hypo) * 180.0 / 3.141592653589793;
-			_armeSprite.setScale(1 / 6.f, 1 / 6.f);
+			angle = acos(longueurX / hypo) * 180.0f / (float)3.141592653589793;
+			_armeSprite.setScale(1.f / 6.f, 1.f / 6.f);
 
 		}
 		else if (mousePosition.x < entityPos.x)
 		{
-			angle = 180 - (acos(longueurX / hypo) * 180.0 / 3.141592653589793);
-			_armeSprite.setScale(1 / 6.f, -1 / 6.f);
+			angle = 180.f - (acos(longueurX / hypo) * 180.0f / (float)3.141592653589793);
+			_armeSprite.setScale(1.f / 6.f, -1.f / 6.f);
 		}
 	}
 
@@ -90,7 +94,7 @@ void Arme::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	sf::Sprite s = _armeSprite;
 	s.setTexture(_armeText);
-	s.setScale(s.getScale().x * 0.4, s.getScale().y * 0.4);
+	s.setScale(s.getScale().x * 0.4f, s.getScale().y * 0.4f);
 
 	s.move(13, 13);	//on centre l'arme
 	target.draw(s);

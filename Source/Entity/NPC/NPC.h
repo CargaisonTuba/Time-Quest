@@ -4,7 +4,7 @@
 class NPC : public Entity
 {
 public:
-	NPC(std::string texturePath, int defaultLife, sf::Vector2f initPosition);
+	NPC(std::string texturePath, float defaultLife, sf::Vector2f initPosition);
 	~NPC();
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;

@@ -10,7 +10,7 @@
 class Entity : public sf::Drawable
 {
 public:
-	Entity(std::string texturePath, int defaultLife, sf::Vector2f initPosition);
+	Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosition);
 	~Entity();
 
 	sf::Vector2f getPosition() const;

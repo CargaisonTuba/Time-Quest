@@ -1,7 +1,7 @@
 #include "Player.h"
 #include <iostream>
 
-Player::Player(std::string texturePath, int defaultLife, sf::Vector2f initPosition) : Entity(texturePath, defaultLife, initPosition) {
+Player::Player(std::string texturePath, float defaultLife, sf::Vector2f initPosition) : Entity(texturePath, defaultLife, initPosition) {
 	this->setWeapon(Arme("Time-Quest/Source/assets/mas36final2.png", 20));
 
 	_lifeBar.setFillColor(sf::Color::Red);
@@ -26,7 +26,7 @@ void Player::update(Cursor curseur, std::vector<Tile> _tiles, std::vector<Throwe
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
 		_dir = 2;
 		_entitySprite.move(sf::Vector2f(0, -speed));
-		for (int i = 0; i < _tiles.size(); i++) {
+		for (unsigned int i = 0; i < _tiles.size(); i++) {
 			if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
 				_entitySprite.move(sf::Vector2f(0, speed));
 			}
@@ -35,7 +35,7 @@ void Player::update(Cursor curseur, std::vector<Tile> _tiles, std::vector<Throwe
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
 		_dir = 3;
 		_entitySprite.move(sf::Vector2f(-speed, 0));
-		for (int i = 0; i < _tiles.size(); i++) {
+		for (unsigned int i = 0; i < _tiles.size(); i++) {
 			if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
 				_entitySprite.move(sf::Vector2f(speed, 0));
 			}
@@ -44,7 +44,7 @@ void Player::update(Cursor curseur, std::vector<Tile> _tiles, std::vector<Throwe
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 		_dir = 0;
 		_entitySprite.move(sf::Vector2f(0, speed));
-		for (int i = 0; i < _tiles.size(); i++) {
+		for (unsigned int i = 0; i < _tiles.size(); i++) {
 			if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
 				_entitySprite.move(sf::Vector2f(0, -speed));
 			}
@@ -53,7 +53,7 @@ void Player::update(Cursor curseur, std::vector<Tile> _tiles, std::vector<Throwe
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 		_dir = 1;
 		_entitySprite.move(sf::Vector2f(speed, 0));
-		for (int i = 0; i < _tiles.size(); i++) {
+		for (unsigned int i = 0; i < _tiles.size(); i++) {
 			if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
 				_entitySprite.move(sf::Vector2f(-speed, 0));
 			}
