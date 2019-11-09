@@ -16,7 +16,7 @@ ThrowedObject::ThrowedObject(sf::Vector2f throwerPosition, sf::Vector2f directio
 
 ThrowedObject::ThrowedObject()
 {
-
+	_damages = 0;
 }
 
 ThrowedObject::~ThrowedObject()

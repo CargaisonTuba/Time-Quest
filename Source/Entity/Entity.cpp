@@ -23,6 +23,7 @@ Entity::Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosi
 	}
 
 	//Le sprite de link sera placé initialement dans le coin haut gauche de la map. (0, 0)
+	//_entitySprite.setOrigin(13.5, 13.5);
 	_entitySprite.setPosition(initPosition);
 
 	_life = defaultLife;	//ca représentera la vie ACTUELLE du joueur
@@ -64,11 +65,12 @@ sf::RectangleShape Entity::getLifebar() const {
 
 bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, Cursor& cursor)
 {
-	if (_timeSinceShot.getElapsedTime() > sf::seconds(1.f))
+	if (_timeSinceShot.getElapsedTime() > sf::milliseconds(this->getWeapon().getCoolDown()))
 	{
 		std::cout << "shoot !\n";
+		this->getWeapon().playTir();
 		_timeSinceShot.restart();
-		sf::Vector2f pos = this->getPosition();
+		sf::Vector2f pos = this->getWeapon().getPosition();
 
 		sf::Vector2f positionMouse = cursor.getPosition();
 		sf::Vector2f aim(positionMouse.x - pos.x, positionMouse.y - pos.y);

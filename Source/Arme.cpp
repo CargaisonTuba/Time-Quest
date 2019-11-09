@@ -12,12 +12,35 @@ Arme::Arme(std::string texturePath, float damages)
 	if (texturePath == "Time-Quest/Source/assets/mas36.png")
 	{
 		_armeSprite.setOrigin(65.f, -15.f);
+		_coolDown = 1000;
+		_capacite = 5;
+		_soundPath = "Time-Quest/Source/assets/sound/mas36shoot.wav";
 	}
+	if (texturePath == "Time-Quest/Source/assets/mas38.png")
+	{
+		_armeSprite.setOrigin(55.f, -15.f);
+		_coolDown = 200;
+		_capacite = 30;
+		_soundPath = "Time-Quest/Source/assets/sound/mas38shoot.wav";
+	}
+	if (texturePath == "Time-Quest/Source/assets/mp40s.png")
+	{
+		_armeSprite.setOrigin(55.f, -15.f);
+		_coolDown = 200;
+		_capacite = 30;
+	}
+	if (!_tirBuffer.loadFromFile(_soundPath))
+	{
+		std::cout << "Erreur sound buffer\n";
+	}
+	_tirSound.setBuffer(_tirBuffer);
 	angle = 0;
 	longueurX = 0;
 	longueurY = 0;
 	hypo = 0;
 	_damages = damages;
+	_munRest = _capacite;
+	
 }
 
 Arme::Arme()
@@ -27,6 +50,9 @@ Arme::Arme()
 	longueurY = 0;
 	hypo = 0;
 	_damages = 0;
+	_coolDown = 0;
+	_capacite = 0;
+	_munRest = 0;
 }
 
 Arme::~Arme()
@@ -42,6 +68,11 @@ void Arme::setPosition(sf::Vector2f unePosition)
 sf::Vector2f Arme::getPosition()
 {
 	return _armeSprite.getPosition();
+}
+
+float Arme::getCoolDown()
+{
+	return this->_coolDown;
 }
 
 
@@ -91,6 +122,12 @@ void Arme::update(sf::Vector2f entityPos, Cursor cursor)
 	}
 
 	_armeSprite.setRotation(angle);
+}
+
+void Arme::playTir()
+{
+	_tirSound.play();
+	std::cout << "poum!\n";
 }
 
 float Arme::getDamages() const {
