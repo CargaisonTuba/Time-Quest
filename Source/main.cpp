@@ -23,6 +23,17 @@ int main()
 
 	bool pause = false;
 
+	//Delta-time
+	//Cela nous permet d'avoir un jeu qui n'est pas en fonction des fps
+	//Par exemple, pour éviter que le joueur aille à 100 km/h si on a bcp de FPS et qu'il soit ultra lent en cas de lag
+	//On va alors, à chaque frame, calculer le temps qu'il s'est écoulé depuis la dernière frame, et le jeu se basera là dessus
+	sf::Clock deltaClock;
+	sf::Time deltaTime;
+	float dt = 0;
+
+	//seed pour l'aléatoire
+	srand(time(NULL));
+
 	//Boucle principale
 	while (window.isOpen())
 	{
@@ -39,11 +50,17 @@ int main()
 
 		//le code commence là
 
+		//deltaTime
+		deltaTime = deltaClock.restart();
+		dt = deltaTime.asMilliseconds();
+
+		std::cout << dt << std::endl;
+
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
 			pause = !pause;
 
 		if(!pause)
-			map.update(player, curseur, gameView);
+			map.update(player, curseur, gameView, dt);
 
 		curseur.update(window);
 

@@ -7,5 +7,5 @@ public:
 	Ennemy(std::string texturePath, float defaultLife, sf::Vector2f initPosition);
 	~Ennemy();
 
-	void update(sf::Vector2f playerPos);
+	bool update(sf::Vector2f playerPos, std::vector<ThrowedObject>& throwableObjectsList, float const& dt);
 };

@@ -22,7 +22,7 @@ public:
 	Map();
 	~Map();
 
-	void update(Player &player, Cursor curseur, sf::View &view);
+	void update(Player &player, Cursor curseur, sf::View &view, float const& dt);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 	std::vector<ThrowedObject> getThrowableObjectsList();

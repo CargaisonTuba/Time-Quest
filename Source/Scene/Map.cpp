@@ -62,23 +62,23 @@ Map::Map() {
 
 	//On initialise les ennemis
 	for (unsigned int i = 0; i < 10; i++)
-		_ennemies.push_back(Ennemy("Time-Quest/Source/assets/soldatAllemand40.png", 20, sf::Vector2f((float)(rand() % 100), (float)(rand() % 100))));
+		_ennemies.push_back(Ennemy("Time-Quest/Source/assets/soldatAllemand40.png", 30, sf::Vector2f((float)(rand() % 200), (float)(rand() % 200))));
 }
 
 Map::~Map() {
 
 }
 
-void Map::update(Player& player, Cursor curseur, sf::View &view) {
-	player.update(curseur, _tiles, _throwableObjectsList);
+void Map::update(Player& player, Cursor curseur, sf::View &view, float const& dt) {
+	player.update(curseur, _tiles, _throwableObjectsList, dt);
 
 	for (unsigned int i = 0; i < _ennemies.size(); i++)
-		_ennemies[i].update(player.getPosition());
+		if (_ennemies[i].update(player.getPosition(), _throwableObjectsList, dt))	//si l'ennemi est mort, on le retire de la liste
+			_ennemies.erase(_ennemies.begin() + i);
   
 	for (unsigned int i = 0; i < _throwableObjectsList.size(); i++)
 	{
-		bool cond = _throwableObjectsList[i].update();
-		//_throwableObjectsList[i].getBody().move(_throwableObjectsList[i].getDirection());
+		bool cond = _throwableObjectsList[i].update(dt);
 
 		if (!cond)
 			_throwableObjectsList.erase(_throwableObjectsList.begin() + i);

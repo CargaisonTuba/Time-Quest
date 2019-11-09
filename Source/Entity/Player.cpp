@@ -20,9 +20,9 @@ sf::Vector2f Player::getPosition() const {
 }
 
 //On met la position de la souris en paramètre pour pouvoir décider dans quelle direction pointe l'arme
-void Player::update(Cursor curseur, std::vector<Tile> _tiles, std::vector<ThrowedObject> &throwableObjectsList) {
+void Player::update(Cursor curseur, std::vector<Tile> _tiles, std::vector<ThrowedObject> &throwableObjectsList, float const& dt) {
 	//déplacement du joueur
-	float speed = 1;	//À FAIRE : implémenter le deltaTime
+	float speed = 0.15f * dt;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
 		_dir = 2;
 		_entitySprite.move(sf::Vector2f(0, -speed));
@@ -68,5 +68,5 @@ void Player::update(Cursor curseur, std::vector<Tile> _tiles, std::vector<Throwe
 		this->fire(throwableObjectsList, curseur);
 
 	//On met la barre de vie du joueur à jour
-	_lifeBar.setSize(sf::Vector2f(_life, 20));
+	_lifeBar.setSize(sf::Vector2f((_life * 300) / _totalLife, 20));
 }
