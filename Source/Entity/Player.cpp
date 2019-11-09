@@ -2,7 +2,7 @@
 #include <iostream>
 
 Player::Player(std::string texturePath, float defaultLife, sf::Vector2f initPosition) : Entity(texturePath, defaultLife, initPosition) {
-	this->setWeapon(Arme("Time-Quest/Source/assets/mas36final2.png", 20));
+	this->setWeapon(Arme("Time-Quest/Source/assets/mas36.png", 20));
 
 	_lifeBar.setFillColor(sf::Color::Red);
 	_lifeBar.setOutlineColor(sf::Color::Magenta);
