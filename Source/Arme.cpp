@@ -7,8 +7,12 @@ Arme::Arme(std::string texturePath, float damages)
 	{
 		std::cout << "Erreur text arme\n";
 	}
+	
 	_armeSprite.setTexture(_armeText);
-
+	if (texturePath == "Time-Quest/Source/assets/mas36.png")
+	{
+		_armeSprite.setOrigin(65.f, -15.f);
+	}
 	angle = 0;
 	longueurX = 0;
 	longueurY = 0;
@@ -40,11 +44,14 @@ sf::Vector2f Arme::getPosition()
 	return _armeSprite.getPosition();
 }
 
+
+//Update des armes des ennemis
 void Arme::update(sf::Vector2f entityPos) {
 	this->setPosition(entityPos);
-	_armeSprite.setScale(0.1f, 0.1f);
+	_armeSprite.setScale(0.3f, 0.3f);
 }
 
+//update de l'arme du joueur
 void Arme::update(sf::Vector2f entityPos, Cursor cursor)
 {
 	this->setPosition(entityPos);
@@ -94,7 +101,7 @@ void Arme::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	sf::Sprite s = _armeSprite;
 	s.setTexture(_armeText);
-	s.setScale(s.getScale().x * 0.4f, s.getScale().y * 0.4f);
+	
 
 	s.move(13, 13);	//on centre l'arme
 	target.draw(s);

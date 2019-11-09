@@ -1,7 +1,7 @@
 #include "Ennemy.h"
 
 Ennemy::Ennemy(std::string texturePath, float defaultLife, sf::Vector2f initPosition) : NPC(texturePath, defaultLife, initPosition) {
-	this->setWeapon(Arme("Time-Quest/Source/assets/mp40.png", 5));
+	this->setWeapon(Arme("Time-Quest/Source/assets/mp40S.png", 5));
 }
 
 Ennemy::~Ennemy() {
