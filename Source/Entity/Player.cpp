@@ -4,7 +4,7 @@
 
 
 Player::Player(std::string texturePath, int defaultLife, sf::Vector2f initPosition) : Entity(texturePath, defaultLife, initPosition) {
-	this->setWeapon(Arme("Time-Quest/Source/assets/mas36final2.png"));
+	this->setWeapon(Arme("Time-Quest/Source/assets/mas36.png"));
 }
 
 Player::~Player() {
