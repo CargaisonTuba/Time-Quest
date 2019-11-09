@@ -86,7 +86,7 @@ void Arme::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	sf::Sprite s = _armeSprite;
 	sf::Texture t;
-	t.loadFromFile("Time-Quest/Source/assets/mas36final23.png");
+	t.loadFromFile("Time-Quest/Source/assets/mas36.png");
 	s.setTexture(t);
 
 	s.move(13, 13);	//on centre l'arme
