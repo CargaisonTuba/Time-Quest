@@ -1,30 +1,32 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "./Entity/Entity.h"
 #include "./HUD/Cursor.h"
 
 class Arme : public sf::Drawable
 {
 public:
 	
-	Arme(std::string texturePath);
+	Arme(std::string texturePath, float damages);
 	Arme();
 	~Arme();
 
-	sf::Vector2i position;
 	sf::Vector2f getPosition();
 	void setPosition(sf::Vector2f unePosition);
-	void update(sf::Vector2f playPos, Cursor curseur);
+	void update(sf::Vector2f entityPos);
+	void update(sf::Vector2f entityPos, Cursor cursor);
+
+	float getDamages() const;
+
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 private:
 	sf::Texture _armeText;
 	sf::Sprite _armeSprite;
+	sf::Vector2i position;
 
+	float longueurX, longueurY;
+	float hypo, angle;
 
-	float longueurX;
-	float longueurY;
-	float hypo;
-	float angle;
+	float _damages;
 };
 

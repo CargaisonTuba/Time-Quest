@@ -1,7 +1,7 @@
 #include "Entity.h"
 
 
-Entity::Entity(std::string texturePath, int defaultLife, sf::Vector2f initPosition) //Constructeur par défaut, sans paramètre
+Entity::Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosition) //Constructeur par défaut, sans paramètre
 {
 	//A la création d'un nouveau joueur, on lui attribue des caractéristiques:
 
@@ -44,9 +44,50 @@ sf::FloatRect Entity::getHitbox() {
 	return _entitySprite.getGlobalBounds();
 }
 
+void Entity::setWeapon(Arme newWeapon)
+{
+	_curWeapon = newWeapon;
+}
+
+Arme Entity::getWeapon()
+{
+	return this->_curWeapon;
+}
+
+float Entity::getLife() const {
+	return _life;
+}
+
+sf::RectangleShape Entity::getLifebar() const {
+	return _lifeBar;
+}
+
+bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, Cursor& cursor)
+{
+	if (_timeSinceShot.getElapsedTime() > sf::seconds(1.f))
+	{
+		std::cout << "shoot !\n";
+		_timeSinceShot.restart();
+		sf::Vector2f pos = this->getPosition();
+
+		sf::Vector2f positionMouse = cursor.getPosition();
+		sf::Vector2f aim(positionMouse.x - pos.x, positionMouse.y - pos.y);
+		float lenAim = sqrt(aim.x * aim.x + aim.y * aim.y);
+		sf::Vector2f direction(aim.x / lenAim, aim.y / lenAim);
+
+		Bullet newBullet = Bullet(pos, direction, _curWeapon.getDamages());
+
+		throwableObjectsList.push_back(newBullet);
+
+	}
+
+	return true;
+}
+
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	sf::Sprite s = _entitySprite;
 	s.setTexture(_entityText[_spritePosCount][_dir]);
 
 	target.draw(s);
+	target.draw(_curWeapon);
 }

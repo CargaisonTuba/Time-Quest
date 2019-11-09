@@ -8,7 +8,7 @@
 
 Object::Object(sf::Vector2f throwerPosition, sf::Vector2f direction)
 {
-
+	_creationDate = (time_t)0;
 	this->_body.setFillColor(sf::Color::Red);
 	this->_body.setRadius(3);
 	this->_direction = direction;
@@ -17,7 +17,7 @@ Object::Object(sf::Vector2f throwerPosition, sf::Vector2f direction)
 
 Object::Object()
 {
-
+	_creationDate = (time_t)0;
 }
 
 Object::~Object()
@@ -27,7 +27,6 @@ Object::~Object()
 
 bool Object::update()
 {
-	
 	return true;
 }
 
@@ -39,7 +38,6 @@ sf::CircleShape& Object::getBody()
 
 void Object::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	
 	target.draw(_body);
 }
 
@@ -47,4 +45,8 @@ sf::Vector2f Object::getDirection()
 {
 	//std::cout << "direction x: " << _direction.x << " y: " << _direction.y << "\n";
 	return _direction;
+}
+
+sf::FloatRect Object::getHitbox() const {
+	return _body.getGlobalBounds();
 }

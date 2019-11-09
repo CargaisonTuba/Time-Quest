@@ -4,15 +4,24 @@
 #include "../Element/Tile.h"
 #include "../Arme.h"
 #include "../HUD/Cursor.h"
+#include "../Element/Object/ThrowedObject.h"
+#include "../Element/Object/ThrowedObject/Bullet.h"
 
 class Entity : public sf::Drawable
 {
 public:
-	Entity(std::string texturePath, int defaultLife, sf::Vector2f initPosition);
+	Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosition);
 	~Entity();
 
 	sf::Vector2f getPosition() const;
 	sf::FloatRect getHitbox();
+
+	void setWeapon(Arme newWeapon);
+	Arme getWeapon();
+	float getLife() const;
+	sf::RectangleShape getLifebar() const;
+
+	bool fire(std::vector<ThrowedObject>& throwableObjectsList, Cursor& cursor);
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
@@ -25,4 +34,9 @@ protected:
 
 	float _life, _totalLife;
 	sf::Clock _timeSinceShot;
+
+	Arme _curWeapon;
+
+	//Barre de vie, assez simple pour le moment.
+	sf::RectangleShape _lifeBar;
 };

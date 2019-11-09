@@ -13,6 +13,8 @@ public:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	sf::Vector2f getDirection();
 
+	sf::FloatRect getHitbox() const;
+
 protected:
 	sf::CircleShape _body;
 	std::time_t _creationDate;

@@ -7,7 +7,6 @@ public:
 	Cursor(std::string texturePath);
 	~Cursor();
 
-	sf::Vector2i position;
 	sf::Vector2f getPosition();
 	void update(sf::RenderWindow& window);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -15,5 +14,6 @@ public:
 private:
 	sf::Texture _cursorText;
 	sf::Sprite _cursorSprite;
+	sf::Vector2i position;
 };
 
