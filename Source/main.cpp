@@ -13,7 +13,13 @@ int main()
 	sf::View gameView(sf::Vector2f(0, 0), sf::Vector2f(400, 267));
 	window.setMouseCursorVisible(false);
 
-	std::cout << "Time-Quest " << VERSION << std::endl;
+	//On désactive les erreurs SFML pour que ça ne pollue pas la console
+	//(enlever cette ligne s'il y a des erreurs inconnues
+	sf::err().rdbuf(NULL);
+
+	std::cout << "\x1B[34mTime-Quest\x1B[0m " << VERSION << std::endl;
+	std::cout << "\nHugo, Fergal, Robin - G3S3 - PTUT S2S3\n\n\n";
+
 	//On instancie une nouvelle map, coeur du jeu.
 	Map map;
 	Player player("Time-Quest/Source/assets/soldatFrancais40.png", 100, sf::Vector2f(200, 200));

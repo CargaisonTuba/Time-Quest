@@ -33,7 +33,7 @@ Arme::Arme(std::string typeArme)
 				//On charge le son via le chemin dans le 2è mot suivant
 				if (!_tirBuffer.loadFromFile(listeArmeVect[i + 2]))
 				{
-					std::cout << "Erreur sound buffer\n";
+					std::cout << "\x1B[31m[Erreur]\x1B[0m : SoundBuffer : impossible de charger " << listeArmeVect[i + 2] << std::endl;;
 				}
 				_tirSound.setBuffer(_tirBuffer);
 
