@@ -47,16 +47,25 @@ Arme::Arme(std::string typeArme)
 				_armeSprite.setOrigin(std::stoi(listeArmeVect[i + 5]), std::stoi(listeArmeVect[i + 6]));
 
 				//Idem pour dégâts de l'arme
-				_damages = std::stoi(listeArmeVect[i + 7]);
+				_damages = std::stof(listeArmeVect[i + 7]);
 
 			}
 		}
-	}	
+	}
+	else
+	{
+		_damages = 0;
+		_coolDown = 0;
+		_munRest = 0;
+		_readyState = false;
+		_capacite = 0;
+	}
 	angle = 0;
 	longueurX = 0;
 	longueurY = 0;
 	hypo = 0;
 	_munRest = _capacite;
+	_readyState = true;
 }
 
 Arme::Arme()
@@ -85,6 +94,10 @@ sf::Vector2f Arme::getPosition()
 {
 	return _armeSprite.getPosition();
 }
+sf::Vector2f Arme::getOrigin()
+{
+	return _armeSprite.getOrigin();
+}
 
 int Arme::getCoolDown()
 {
@@ -94,14 +107,14 @@ int Arme::getCoolDown()
 
 //Update des armes des ennemis
 void Arme::update(sf::Vector2f entityPos) {
-	this->setPosition(entityPos);
+	this->setPosition(sf::Vector2f(entityPos.x -15, entityPos.y -15));
 	_armeSprite.setScale(0.3f, 0.3f);
 }
 
 //update de l'arme du joueur
 void Arme::update(sf::Vector2f entityPos, Cursor cursor)
 {
-	this->setPosition(entityPos);
+	
 	
 	sf::Vector2f mousePosition = cursor.getPosition();
 
@@ -115,12 +128,15 @@ void Arme::update(sf::Vector2f entityPos, Cursor cursor)
 		{
 			angle = (180.f + acos(longueurX / hypo) * 180.0f / (float)3.141592653589793);
 			_armeSprite.setScale(1.f / 6.f, -1.f / 6.f);
+			this->setPosition(sf::Vector2f(entityPos.x - 15, entityPos.y - 10));
 		}
 		else if (mousePosition.x > entityPos.x)
 		{
 			angle = 360.f - (acos(longueurX / hypo) * 180.0f / (float)3.141592653589793);
 			_armeSprite.setScale(1.f / 6.f, 1.f / 6.f);
+			this->setPosition(sf::Vector2f(entityPos.x - 12, entityPos.y - 10));
 		}
+		
 	}
 	else if (mousePosition.y > entityPos.y)
 	{
@@ -128,15 +144,39 @@ void Arme::update(sf::Vector2f entityPos, Cursor cursor)
 		{
 			angle = acos(longueurX / hypo) * 180.0f / (float)3.141592653589793;
 			_armeSprite.setScale(1.f / 6.f, 1.f / 6.f);
-
+			if (angle > 45 && angle < 135)
+			{
+				this->setPosition(sf::Vector2f(entityPos.x - 12, entityPos.y - 8));
+			}
+			else
+			{
+				this->setPosition(sf::Vector2f(entityPos.x - 12, entityPos.y - 10));
+			}			
 		}
 		else if (mousePosition.x < entityPos.x)
 		{
 			angle = 180.f - (acos(longueurX / hypo) * 180.0f / (float)3.141592653589793);
 			_armeSprite.setScale(1.f / 6.f, -1.f / 6.f);
+			if (angle > 45 && angle < 135)
+			{
+				this->setPosition(sf::Vector2f(entityPos.x - 15, entityPos.y - 8));
+			}
+			else
+			{
+				this->setPosition(sf::Vector2f(entityPos.x - 15, entityPos.y - 10));
+			}
 		}
+		
 	}
 	_armeSprite.setRotation(angle);
+	if (_timeSinceReload.getElapsedTime() > sf::milliseconds(_reloadTime))
+	{
+		this->_readyState = true;
+	}
+	if (this->_munRest == 0)
+	{
+		this->_readyState = false;
+	}
 }
 
 void Arme::playTir()
@@ -170,4 +210,16 @@ float Arme::getAngle()
 int Arme::getMunRest()
 {
 	return this->_munRest;
+}
+
+void Arme::recharger()
+{
+	_timeSinceReload.restart();
+	_readyState = false;
+	this->_munRest = this->_capacite;
+}
+
+bool Arme::getReady()
+{
+	return this->_readyState;
 }

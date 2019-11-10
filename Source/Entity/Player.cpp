@@ -2,7 +2,7 @@
 #include <iostream>
 
 Player::Player(std::string texturePath, float defaultLife, sf::Vector2f initPosition) : Entity(texturePath, defaultLife, initPosition) {
-	this->setWeapon(Arme("mas38"));
+	this->setWeapon(Arme("mas36"));
 
 	_lifeBar.setFillColor(sf::Color::Red);
 	_lifeBar.setOutlineColor(sf::Color::Magenta);
@@ -83,6 +83,10 @@ void Player::update(Cursor curseur, std::vector<Tile> _tiles, std::vector<Throwe
 	else
 	{
 		_dir = 1;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+	{
+		this->getWeapon().recharger();
 	}
 	
 
