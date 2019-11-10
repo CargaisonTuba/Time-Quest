@@ -62,7 +62,7 @@ Map::Map() {
 
 	//On initialise les ennemis
 	for (unsigned int i = 0; i < 10; i++)
-		_ennemies.push_back(Ennemy("Time-Quest/Source/assets/soldatAllemand40.png", 30, sf::Vector2f((float)(rand() % 200), (float)(rand() % 200))));
+		_ennemies.push_back(Ennemy("Time-Quest/Source/assets/soldatAllemand40.png", 100, sf::Vector2f((float)(rand() % 200), (float)(rand() % 200))));
 }
 
 Map::~Map() {

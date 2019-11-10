@@ -1,44 +1,61 @@
 #include "Arme.h"
 #include <iostream>
 
-Arme::Arme(std::string texturePath, float damages)
+
+Arme::Arme(std::string typeArme)
 {
-	if (!_armeText.loadFromFile(texturePath))
-	{
-		std::cout << "Erreur text arme\n";
-	}
 	
-	_armeSprite.setTexture(_armeText);
-	if (texturePath == "Time-Quest/Source/assets/mas36.png")
+	std::ifstream listeArme("Time-Quest/Source/arme.txt");
+	if (listeArme)
 	{
-		_armeSprite.setOrigin(65.f, -15.f);
-		_coolDown = 1000;
-		_capacite = 5;
-		_soundPath = "Time-Quest/Source/assets/sound/mas36shoot.wav";
-	}
-	if (texturePath == "Time-Quest/Source/assets/mas38.png")
-	{
-		_armeSprite.setOrigin(55.f, -15.f);
-		_coolDown = 200;
-		_capacite = 30;
-		_soundPath = "Time-Quest/Source/assets/sound/mas38shoot.wav";
-	}
-	if (texturePath == "Time-Quest/Source/assets/mp40s.png")
-	{
-		_armeSprite.setOrigin(55.f, -15.f);
-		_coolDown = 200;
-		_capacite = 30;
-	}
-	if (!_tirBuffer.loadFromFile(_soundPath))
-	{
-		std::cout << "Erreur sound buffer\n";
-	}
-	_tirSound.setBuffer(_tirBuffer);
+		std::vector<std::string> listeArmeVect;
+		std::string mot;
+
+		//On stocke tous les mots du fichier arme.txt dans un tableau
+		while (listeArme >> mot)
+		{
+			//std::cout << mot << "\n";
+			listeArmeVect.push_back(mot);
+		}
+
+		//On parcourt le table et si on trouve dans le tableau le nom de l'arme (typeArme), alors :
+		for (int i = 0; i < listeArmeVect.size(); i++)
+		{
+			if (listeArmeVect[i] == typeArme)
+			{
+				//On charge la texture via le chemin dans le mot suivant
+				if (!_armeText.loadFromFile(listeArmeVect[i+1]))
+				{
+					std::cout << "Erreur text arme\n";
+				}
+				_armeSprite.setTexture(_armeText);
+
+				//On charge le son via le chemin dans le 2è mot suivant
+				if (!_tirBuffer.loadFromFile(listeArmeVect[i + 2]))
+				{
+					std::cout << "Erreur sound buffer\n";
+				}
+				_tirSound.setBuffer(_tirBuffer);
+
+				//On attribue au cool down le 3è mot suivant (casté de string à int via stoi)
+				_coolDown = std::stoi(listeArmeVect[i+3]);
+
+				//On attribue la capacité du chargeur au 4è mot suivant casté de string à int
+				_capacite = std::stoi(listeArmeVect[i + 4]);
+
+				//De la même façon paramètre l'origine de l'arme
+				_armeSprite.setOrigin(std::stoi(listeArmeVect[i + 5]), std::stoi(listeArmeVect[i + 6]));
+
+				//Idem pour dégâts de l'arme
+				_damages = std::stoi(listeArmeVect[i + 7]);
+
+			}
+		}
+	}	
 	angle = 0;
 	longueurX = 0;
 	longueurY = 0;
 	hypo = 0;
-	_damages = damages;
 	_munRest = _capacite;
 	
 }
@@ -70,7 +87,7 @@ sf::Vector2f Arme::getPosition()
 	return _armeSprite.getPosition();
 }
 
-float Arme::getCoolDown()
+int Arme::getCoolDown()
 {
 	return this->_coolDown;
 }

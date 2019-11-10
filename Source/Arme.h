@@ -2,12 +2,14 @@
 #include <SFML/Graphics.hpp>
 #include "./HUD/Cursor.h"
 #include <SFML/Audio.hpp>
+#include <fstream>
+#include <iostream>
 
 class Arme : public sf::Drawable
 {
 public:
 	
-	Arme(std::string texturePath, float damages);
+	Arme(std::string typeArme);
 	Arme();
 	~Arme();
 
@@ -17,7 +19,7 @@ public:
 	void update(sf::Vector2f entityPos, Cursor cursor);
 
 	float getDamages() const;
-	float getCoolDown();
+	int getCoolDown();
 	
 	void playTir();
 
