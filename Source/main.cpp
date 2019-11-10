@@ -16,7 +16,7 @@ int main()
 	std::cout << "Time-Quest " << VERSION << std::endl;
 	//On instancie une nouvelle map, coeur du jeu.
 	Map map;
-	Player player("Time-Quest/Source/assets/soldatFrancais40.png", 100, sf::Vector2f(80, 80));
+	Player player("Time-Quest/Source/assets/soldatFrancais40.png", 100, sf::Vector2f(200, 200));
 	Cursor curseur("Time-Quest/Source/assets/curseur_tir.png");
 
 	bool pause = false, pauseJustActivated = false;
