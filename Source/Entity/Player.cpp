@@ -2,7 +2,7 @@
 #include <iostream>
 
 Player::Player(std::string texturePath, float defaultLife, sf::Vector2f initPosition) : Entity(texturePath, defaultLife, initPosition) {
-	this->setWeapon(Arme("mas36"));
+	this->setWeapon(Arme("mas38"));
 
 	_lifeBar.setFillColor(sf::Color::Red);
 	_lifeBar.setOutlineColor(sf::Color::Magenta);
@@ -20,11 +20,12 @@ sf::Vector2f Player::getPosition() const {
 }
 
 //On met la position de la souris en paramètre pour pouvoir décider dans quelle direction pointe l'arme
-void Player::update(Cursor curseur, std::vector<Tile> _tiles, std::vector<ThrowedObject> &throwableObjectsList, float const& dt) {
+void Player::update(Cursor curseur, std::vector<Tile> _tiles, std::vector<ThrowedObject> &throwableObjectsList, float const& dt) 
+{
 	//déplacement du joueur
 	float speed = 0.15f * dt;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
-		_dir = 2;
+		
 		_entitySprite.move(sf::Vector2f(0, -speed));
 		for (unsigned int i = 0; i < _tiles.size(); i++) {
 			if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
@@ -33,7 +34,7 @@ void Player::update(Cursor curseur, std::vector<Tile> _tiles, std::vector<Throwe
 		}
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-		_dir = 3;
+		
 		_entitySprite.move(sf::Vector2f(-speed, 0));
 		for (unsigned int i = 0; i < _tiles.size(); i++) {
 			if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
@@ -42,7 +43,7 @@ void Player::update(Cursor curseur, std::vector<Tile> _tiles, std::vector<Throwe
 		}
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		_dir = 0;
+		
 		_entitySprite.move(sf::Vector2f(0, speed));
 		for (unsigned int i = 0; i < _tiles.size(); i++) {
 			if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
@@ -51,7 +52,7 @@ void Player::update(Cursor curseur, std::vector<Tile> _tiles, std::vector<Throwe
 		}
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		_dir = 1;
+		
 		_entitySprite.move(sf::Vector2f(speed, 0));
 		for (unsigned int i = 0; i < _tiles.size(); i++) {
 			if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
@@ -59,6 +60,33 @@ void Player::update(Cursor curseur, std::vector<Tile> _tiles, std::vector<Throwe
 			}
 		}
 	}
+
+	if (this->getWeapon().getAngle() > 45)
+	{
+		if (this->getWeapon().getAngle() < 135)
+		{
+			_dir = 0;
+		}
+		else if (this->getWeapon().getAngle() < 225)
+		{
+			_dir = 3;
+		}
+		else if (this->getWeapon().getAngle() < 315)
+		{
+			_dir = 2;
+		}
+		else
+		{
+			_dir = 1;
+		}
+	}
+	else
+	{
+		_dir = 1;
+	}
+	
+
+
 
 	//l'arme accompagne le joueur, logique
 	_curWeapon.update(this->getPosition(), curseur);

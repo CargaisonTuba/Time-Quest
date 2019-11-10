@@ -41,4 +41,6 @@ protected:
 
 	//Barre de vie, assez simple pour le moment.
 	sf::RectangleShape _lifeBar;
+	float longueurX, longueurY;
+	float hypo, angle;
 };

@@ -57,7 +57,6 @@ Arme::Arme(std::string typeArme)
 	longueurY = 0;
 	hypo = 0;
 	_munRest = _capacite;
-	
 }
 
 Arme::Arme()
@@ -137,14 +136,16 @@ void Arme::update(sf::Vector2f entityPos, Cursor cursor)
 			_armeSprite.setScale(1.f / 6.f, -1.f / 6.f);
 		}
 	}
-
 	_armeSprite.setRotation(angle);
 }
 
 void Arme::playTir()
 {
+	std::cout << "mun avant tir : " << _munRest << "\n";
 	_tirSound.play();
 	std::cout << "poum!\n";
+	_munRest--;
+	std::cout << "mun après tir : " << _munRest << "\n";
 }
 
 float Arme::getDamages() const {
@@ -159,4 +160,14 @@ void Arme::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 	s.move(13, 13);	//on centre l'arme
 	target.draw(s);
+}
+
+float Arme::getAngle()
+{
+	return this->angle;
+}
+
+int Arme::getMunRest()
+{
+	return this->_munRest;
 }

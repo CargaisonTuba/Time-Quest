@@ -25,6 +25,9 @@ public:
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
+	float getAngle();
+	int getMunRest();
+
 private:
 	sf::Texture _armeText;
 	sf::Sprite _armeSprite;

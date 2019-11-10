@@ -54,7 +54,7 @@ int main()
 		deltaTime = deltaClock.restart();
 		dt = deltaTime.asMilliseconds();
 
-		std::cout << dt << std::endl;
+		//std::cout << dt << std::endl;
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
 			pause = !pause;
