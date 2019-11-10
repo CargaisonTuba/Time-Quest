@@ -63,11 +63,11 @@ sf::RectangleShape Entity::getLifebar() const {
 	return _lifeBar;
 }
 
-bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, Cursor& cursor)
+bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, Cursor const&cursor)
 {
 	if (_timeSinceShot.getElapsedTime() > sf::milliseconds(this->getWeapon().getCoolDown()) && this->getWeapon().getReady())
 	{
-		std::cout << "shoot !\n";
+		std::cout << "\x1B[33m[Debug]\x1B[0m :shoot !\n";
 		this->getWeapon().playTir();
 		_timeSinceShot.restart();
 		sf::Vector2f pos = this->getWeapon().getPosition();

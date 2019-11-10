@@ -1,13 +1,10 @@
-/*
-Le bug des balles qui se surperposent pour faire des traits ressemble � un nuage magique et genre ils volent dessus
-*/
-
-
 #include <SFML/Graphics.hpp>
 
 #include "Scene/Map.h"
 #include "Entity/Player.h"
 #include "HUD/Cursor.h"
+
+#define VERSION "\x1B[33m1.0 beta\x1B[0m"
 
 int main()
 {
@@ -16,6 +13,7 @@ int main()
 	sf::View gameView(sf::Vector2f(0, 0), sf::Vector2f(400, 267));
 	window.setMouseCursorVisible(false);
 
+	std::cout << "Time-Quest " << VERSION << std::endl;
 	//On instancie une nouvelle map, coeur du jeu.
 	Map map;
 	Player player("Time-Quest/Source/assets/soldatFrancais40.png", 100, sf::Vector2f(80, 80));
@@ -56,8 +54,13 @@ int main()
 
 		//std::cout << dt << std::endl;
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
 			pause = !pause;
+			if (pause)
+				std::cout << "\x1B[33m[Info] : Jeu en pause\n\x1B[0m";
+			else
+				std::cout << "\x1B[33m[Info] : Reprise du jeu\n\x1B[0m";
+		}
 
 		if(!pause)
 			map.update(player, curseur, gameView, dt);

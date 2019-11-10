@@ -16,7 +16,7 @@ Cursor::~Cursor() {
 
 }
 
-sf::Vector2f Cursor::getPosition()
+sf::Vector2f Cursor::getPosition() const
 {
 	return _cursorSprite.getPosition();
 }

@@ -104,7 +104,6 @@ int Arme::getCoolDown()
 	return this->_coolDown;
 }
 
-
 //Update des armes des ennemis
 void Arme::update(sf::Vector2f entityPos) {
 	this->setPosition(sf::Vector2f(entityPos.x -15, entityPos.y -15));
@@ -113,9 +112,7 @@ void Arme::update(sf::Vector2f entityPos) {
 
 //update de l'arme du joueur
 void Arme::update(sf::Vector2f entityPos, Cursor cursor)
-{
-	
-	
+{	
 	sf::Vector2f mousePosition = cursor.getPosition();
 
 	longueurX = abs((mousePosition.x) - (entityPos.x));
@@ -181,11 +178,9 @@ void Arme::update(sf::Vector2f entityPos, Cursor cursor)
 
 void Arme::playTir()
 {
-	std::cout << "mun avant tir : " << _munRest << "\n";
+	_tirSound.setBuffer(_tirBuffer);
 	_tirSound.play();
-	std::cout << "poum!\n";
 	_munRest--;
-	std::cout << "mun après tir : " << _munRest << "\n";
 }
 
 float Arme::getDamages() const {
@@ -196,7 +191,6 @@ void Arme::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	sf::Sprite s = _armeSprite;
 	s.setTexture(_armeText);
-	
 
 	s.move(13, 13);	//on centre l'arme
 	target.draw(s);

@@ -20,10 +20,10 @@ sf::Vector2f Player::getPosition() const {
 }
 
 //On met la position de la souris en paramètre pour pouvoir décider dans quelle direction pointe l'arme
-void Player::update(Cursor curseur, std::vector<Tile> _tiles, std::vector<ThrowedObject> &throwableObjectsList, float const& dt) 
+void Player::update(Cursor const &curseur, std::vector<Tile> const &_tiles, std::vector<ThrowedObject> &throwableObjectsList, float const& dt) 
 {
 	//déplacement du joueur
-	float speed = 0.15f * dt;
+	float speed = 0.1f * dt;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
 		
 		_entitySprite.move(sf::Vector2f(0, -speed));
@@ -61,6 +61,21 @@ void Player::update(Cursor curseur, std::vector<Tile> _tiles, std::vector<Throwe
 		}
 	}
 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)
+		|| sf::Keyboard::isKeyPressed(sf::Keyboard::Q)
+		|| sf::Keyboard::isKeyPressed(sf::Keyboard::S)
+		|| sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+		_animation_tick += dt;
+		if (_animation_tick >= 50) {
+			_animation_tick = 0;
+			_spritePosCount++;
+			if (_spritePosCount >= _spritePosCountMax)
+				_spritePosCount = 0;
+		}
+	}
+	else
+		_spritePosCount = 0;
+
 	if (this->getWeapon().getAngle() > 45)
 	{
 		if (this->getWeapon().getAngle() < 135)
@@ -88,9 +103,6 @@ void Player::update(Cursor curseur, std::vector<Tile> _tiles, std::vector<Throwe
 	{
 		this->getWeapon().recharger();
 	}
-	
-
-
 
 	//l'arme accompagne le joueur, logique
 	_curWeapon.update(this->getPosition(), curseur);
