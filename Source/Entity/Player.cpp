@@ -8,6 +8,8 @@ Player::Player(std::string texturePath, float defaultLife, sf::Vector2f initPosi
 	_lifeBar.setOutlineColor(sf::Color::Magenta);
 	_lifeBar.setOutlineThickness(2);
 	_lifeBar.setPosition(sf::Vector2f(20, 680));
+
+	_justChanged = false;
 }
 
 Player::~Player() {
@@ -22,6 +24,19 @@ sf::Vector2f Player::getPosition() const {
 //On met la position de la souris en paramètre pour pouvoir décider dans quelle direction pointe l'arme
 void Player::update(Cursor const &curseur, std::vector<Tile> const &_tiles, std::vector<ThrowedObject> &throwableObjectsList, float const& dt) 
 {
+	//changement d'arme (TEST)
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+		if (!_justChanged) {
+			_justChanged = true;
+			if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+				setWeapon(Arme("mas38"));
+			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+				setWeapon(Arme("mp40"));
+		}
+	}
+	else
+		_justChanged = false;
+
 	//déplacement du joueur
 	float speed = 0.1f * dt;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
@@ -108,6 +123,7 @@ void Player::update(Cursor const &curseur, std::vector<Tile> const &_tiles, std:
 			throwableObjectsList.erase(throwableObjectsList.begin() + i);
 			if (_life <= 0) {
 				_life = 0;
+				std::cout << "\x1B[33m[info]\x1B[0m : \x1B[35mmort\x1B[0m du joueur\n";
 			}
 		}
 

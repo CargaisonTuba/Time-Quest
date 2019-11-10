@@ -60,7 +60,7 @@ Map::Map() {
 
 	//On initialise les ennemis
 	std::cout << "\x1B[33m[info]\x1B[0m : chargement des entites...\n";
-	for (unsigned int i = 0; i < 10; i++)
+	for (unsigned int i = 0; i < 5; i++)
 		_ennemies.push_back(Ennemy("Time-Quest/Source/assets/soldatAllemand40.png", 100, sf::Vector2f((float)(rand() % 200), (float)(rand() % 200))));
 	std::cout << "\x1B[32m[OK]\x1B[0m : " << _ennemies.size() << " entites chargees\n";
 	std::cout << "\x1B[32m[OK]\x1B[0m : Map chargee\n";

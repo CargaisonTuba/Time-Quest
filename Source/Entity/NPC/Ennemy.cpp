@@ -1,7 +1,7 @@
 #include "Ennemy.h"
 
 Ennemy::Ennemy(std::string texturePath, float defaultLife, sf::Vector2f initPosition) : NPC(texturePath, defaultLife, initPosition) {
-	this->setWeapon(Arme("mp40"));
+	this->setWeapon(Arme("mas36"));
 }
 
 Ennemy::~Ennemy() {
@@ -23,15 +23,24 @@ bool Ennemy::update(sf::Vector2f playerPos, std::vector<ThrowedObject>& throwabl
 	float dist = sqrt((playerX - ennemyX) * (playerX - ennemyX) + (playerY - ennemyY) * (playerY - ennemyY));
 	sf::Vector2f direction((playerX - ennemyX) / dist, (playerY - ennemyY) / dist);
 
-	if (dist <= MIN_DIST_PLAYER)
+	if (dist <= MIN_DIST_PLAYER) {
 		if (dist >= _curWeapon.getRange())
 		{
 			_entitySprite.move(direction);
+			_animation_tick += dt;
+			if (_animation_tick >= 50) {
+				_animation_tick = 0;
+				_spritePosCount++;
+				if (_spritePosCount >= _spritePosCountMax)
+					_spritePosCount = 0;
+			}
 		}
 		else
 		{
+			_spritePosCount = 0;
 			fire(throwableObjectsList, playerPos);
 		}
+	}
 
 	//l'ennemi perd de la vie s'il est touché par une balle
 	for(unsigned int i = 0; i < throwableObjectsList.size(); i++)
@@ -40,6 +49,7 @@ bool Ennemy::update(sf::Vector2f playerPos, std::vector<ThrowedObject>& throwabl
 			throwableObjectsList.erase(throwableObjectsList.begin() + i);
 			if (_life <= 0) {
 				_life = 0;
+				std::cout << "\x1B[33m[info]\x1B[0m : \x1B[35mmort\x1B[0m d'un ennemi !\n";
 				return true;
 			}
 		}

@@ -24,16 +24,16 @@ Arme::Arme(std::string typeArme)
 			if (listeArmeVect[i] == typeArme)
 			{
 				//On charge la texture via le chemin dans le mot suivant
-				if (!_armeText.loadFromFile(listeArmeVect[i+1]))
+				if (!_armeText.loadFromFile(listeArmeVect[i + 1]))
 				{
-					std::cout << "Erreur text arme\n";
+					std::cout << "\x1B[31m[Erreur]\x1B[0m : Texture Arme : impossible de charger " << listeArmeVect[i + 1] << std::endl;;
 				}
 				_armeSprite.setTexture(_armeText);
 
 				//On charge le son via le chemin dans le 2è mot suivant
 				if (!_tirBuffer.loadFromFile(listeArmeVect[i + 2]))
 				{
-					std::cout << "\x1B[31m[Erreur]\x1B[0m : SoundBuffer : impossible de charger " << listeArmeVect[i + 2] << std::endl;;
+					std::cout << "\x1B[31m[Erreur]\x1B[0m : SoundBuffer : impossible de charger " << listeArmeVect[i + 2] << std::endl;
 				}
 				_tirSound.setBuffer(_tirBuffer);
 

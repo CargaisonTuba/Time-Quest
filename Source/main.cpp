@@ -4,7 +4,7 @@
 #include "Entity/Player.h"
 #include "HUD/Cursor.h"
 
-#define VERSION "\x1B[33m1.0 beta\x1B[0m"
+#define VERSION "\x1B[34mtimequest-\x1B[33m1.1-beta\x1B[0m"
 
 int main()
 {
@@ -17,7 +17,7 @@ int main()
 	//(enlever cette ligne s'il y a des erreurs inconnues
 	sf::err().rdbuf(NULL);
 
-	std::cout << "\x1B[34mTime-Quest\x1B[0m " << VERSION << std::endl;
+	std::cout <<  VERSION << std::endl;
 	std::cout << "\nHugo, Fergal, Robin - G3S3 - PTUT S2S3\n\n\n";
 
 	//On instancie une nouvelle map, coeur du jeu.
@@ -87,6 +87,8 @@ int main()
 		//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante
 		window.display();
 	}
+
+	std::cout << "\x1B[31m[fin] : fermeture de " << VERSION << "\x1B[0m "<< std::endl;
 
 	//Tout s'est bien passé, on retourne la valeur 0.
 	return 0;

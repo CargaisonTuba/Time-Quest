@@ -48,6 +48,7 @@ sf::FloatRect Entity::getHitbox() {
 
 void Entity::setWeapon(Arme newWeapon)
 {
+	std::cout << "\x1B[33m[info]\x1B[0m : changement d'arme\n";
 	_curWeapon = newWeapon;
 }
 
@@ -68,7 +69,6 @@ bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f
 {
 	if (_timeSinceShot.getElapsedTime() > sf::milliseconds(_curWeapon.getCoolDown()) && _curWeapon.getReady())
 	{
-		std::cout << "\x1B[33m[Debug]\x1B[0m :shoot !\n";
 		this->getWeapon().playTir();
 		_timeSinceShot.restart();
 		sf::Vector2f pos = this->getPosition();
