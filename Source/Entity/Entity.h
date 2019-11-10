@@ -23,7 +23,7 @@ public:
 	float getLife() const;
 	sf::RectangleShape getLifebar() const;
 
-	bool fire(std::vector<ThrowedObject>& throwableObjectsList, Cursor const&cursor);
+	bool fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection);
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 

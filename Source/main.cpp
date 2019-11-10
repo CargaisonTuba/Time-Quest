@@ -19,7 +19,7 @@ int main()
 	Player player("Time-Quest/Source/assets/soldatFrancais40.png", 100, sf::Vector2f(80, 80));
 	Cursor curseur("Time-Quest/Source/assets/curseur_tir.png");
 
-	bool pause = false;
+	bool pause = false, pauseJustActivated = false;
 
 	//Delta-time
 	//Cela nous permet d'avoir un jeu qui n'est pas en fonction des fps
@@ -55,12 +55,17 @@ int main()
 		//std::cout << dt << std::endl;
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
-			pause = !pause;
-			if (pause)
-				std::cout << "\x1B[33m[Info] : Jeu en pause\n\x1B[0m";
-			else
-				std::cout << "\x1B[33m[Info] : Reprise du jeu\n\x1B[0m";
+			if (!pauseJustActivated) {
+				pause = !pause;
+				pauseJustActivated = !pauseJustActivated;
+				if (pause)
+					std::cout << "\x1B[33m[Info] : Jeu en pause\n\x1B[0m";
+				else
+					std::cout << "\x1B[33m[Info] : Reprise du jeu\n\x1B[0m";
+			}
 		}
+		else
+			pauseJustActivated = false;
 
 		if(!pause)
 			map.update(player, curseur, gameView, dt);

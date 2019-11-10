@@ -76,40 +76,40 @@ void Player::update(Cursor const &curseur, std::vector<Tile> const &_tiles, std:
 	else
 		_spritePosCount = 0;
 
-	if (this->getWeapon().getAngle() > 45)
-	{
+	if (this->getWeapon().getAngle() > 45) {
 		if (this->getWeapon().getAngle() < 135)
-		{
 			_dir = 0;
-		}
 		else if (this->getWeapon().getAngle() < 225)
-		{
 			_dir = 3;
-		}
 		else if (this->getWeapon().getAngle() < 315)
-		{
 			_dir = 2;
-		}
 		else
-		{
 			_dir = 1;
-		}
 	}
 	else
-	{
 		_dir = 1;
-	}
+
+	//recharger l'arme
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
-	{
 		this->getWeapon().recharger();
-	}
 
 	//l'arme accompagne le joueur, logique
 	_curWeapon.update(this->getPosition(), curseur);
 
 	//On fait en sorte que le joueur tire avec clic gauche.
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-		this->fire(throwableObjectsList, curseur);
+		this->fire(throwableObjectsList, curseur.getPosition());
+
+	//Si le joueur se fait toucher, il perd de la vie
+	//l'ennemi perd de la vie s'il est touché par une balle
+	for (unsigned int i = 0; i < throwableObjectsList.size(); i++)
+		if (getHitbox().intersects(throwableObjectsList[i].getHitbox())) {
+			_life -= throwableObjectsList[i].getDamages();
+			throwableObjectsList.erase(throwableObjectsList.begin() + i);
+			if (_life <= 0) {
+				_life = 0;
+			}
+		}
 
 	//On met la barre de vie du joueur à jour
 	_lifeBar.setSize(sf::Vector2f((_life * 300) / _totalLife, 20));

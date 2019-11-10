@@ -17,9 +17,14 @@ bool Ennemy::update(sf::Vector2f playerPos, std::vector<ThrowedObject>& throwabl
 	_lifeBar.setOutlineColor(sf::Color::White);
 
 	//si le joueur est proche, l'ennemi tire sur le joueur.
-	//à faire
+	float playerX = playerPos.x, ennemyX = getPosition().x;
+	float playerY = playerPos.y, ennemyY = getPosition().y;
+	float dist = sqrt((playerX - ennemyX) * (playerX - ennemyX) + (playerY - ennemyY) * (playerY - ennemyY));
 
-	//l'ennemi meurt si il est touché par une balle (logique)
+	if (dist <= MIN_DIST_PLAYER)
+		fire(throwableObjectsList, playerPos);
+
+	//l'ennemi perd de la vie s'il est touché par une balle
 	for(unsigned int i = 0; i < throwableObjectsList.size(); i++)
 		if (getHitbox().intersects(throwableObjectsList[i].getHitbox())) {
 			_life -= throwableObjectsList[i].getDamages();
