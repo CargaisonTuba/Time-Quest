@@ -7,7 +7,7 @@ public:
 	Cursor(std::string texturePath);
 	~Cursor();
 
-	sf::Vector2f getPosition();
+	sf::Vector2f getPosition() const;
 	void update(sf::RenderWindow& window);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 

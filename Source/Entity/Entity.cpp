@@ -24,6 +24,8 @@ Entity::Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosi
 
 	//Le sprite de link sera placé initialement dans le coin haut gauche de la map. (0, 0)
 	_entitySprite.setPosition(initPosition);
+	_entitySprite.setOrigin(13.f, 13.f);
+
 
 	_life = defaultLife;	//ca représentera la vie ACTUELLE du joueur
 	_totalLife = defaultLife;		//ca représente la vie TOTALE du joueur (c'est une sorte de constante, on y touchera plus après)
@@ -46,6 +48,7 @@ sf::FloatRect Entity::getHitbox() {
 
 void Entity::setWeapon(Arme newWeapon)
 {
+	std::cout << "\x1B[33m[info]\x1B[0m : changement d'arme\n";
 	_curWeapon = newWeapon;
 }
 
@@ -62,20 +65,23 @@ sf::RectangleShape Entity::getLifebar() const {
 	return _lifeBar;
 }
 
-bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, Cursor& cursor)
+bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection)
 {
-	if (_timeSinceShot.getElapsedTime() > sf::seconds(1.f))
+	if (_timeSinceShot.getElapsedTime() > sf::milliseconds(_curWeapon.getCoolDown()) && _curWeapon.getReady())
 	{
-		std::cout << "shoot !\n";
+		this->getWeapon().playTir();
 		_timeSinceShot.restart();
 		sf::Vector2f pos = this->getPosition();
 
-		sf::Vector2f positionMouse = cursor.getPosition();
-		sf::Vector2f aim(positionMouse.x - pos.x, positionMouse.y - pos.y);
+		sf::Vector2f aim(shootDirection.x - pos.x, shootDirection.y - pos.y);
 		float lenAim = sqrt(aim.x * aim.x + aim.y * aim.y);
 		sf::Vector2f direction(aim.x / lenAim, aim.y / lenAim);
 
-		Bullet newBullet = Bullet(pos, direction, _curWeapon.getDamages());
+		sf::Vector2f posBalle;
+		posBalle.x = pos.x + aim.x - (aim.x * (lenAim - 25)) / lenAim;
+		posBalle.y = pos.y + aim.y - (aim.y * (lenAim - 25)) / lenAim;
+		
+		Bullet newBullet = Bullet(posBalle, direction, _curWeapon.getRange(), _curWeapon.getDamages());
 
 		throwableObjectsList.push_back(newBullet);
 

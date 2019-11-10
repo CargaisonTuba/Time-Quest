@@ -8,15 +8,15 @@ Cursor::Cursor(std::string texturePath)
 		std::cout << "Erreur text curseur\n";
 	}
 	_cursorSprite.setTexture(_cursorText);
-	_cursorSprite.setScale(sf::Vector2f(5.f, 5.f));
-	_cursorSprite.setOrigin(sf::Vector2f(2.5, 2.5));
+	_cursorSprite.setScale(sf::Vector2f(1.f, 1.f));
+	_cursorSprite.setOrigin(sf::Vector2f(4, 4));
 }
 
 Cursor::~Cursor() {
 
 }
 
-sf::Vector2f Cursor::getPosition()
+sf::Vector2f Cursor::getPosition() const
 {
 	return _cursorSprite.getPosition();
 }

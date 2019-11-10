@@ -5,31 +5,30 @@
 
 Map::Map() {
 	//On charge la map depuis le fichier
+	std::cout << "\x1B[33m[Info]\x1B[0m : Chargement de la map...\n";
 
 	std::vector<int> level;	//contient tous les ID des tiles
 
 	//On remplit ce tableau avec les valeurs du fichier map.txt, sortit tout droit de l'éditeur
 	std::ifstream mapFile("Time-Quest/Source/map.txt");
 	if(!mapFile)
-		std::cerr << "[Erreur] : impossible d'ouvrir map.txt\n";
+		std::cerr << "\x1B[31m[Erreur]\x1B[0m : impossible d'ouvrir map.txt\n";
 	else {
-		std::cout << "Fichier ouvert. Lecture...\n";
 		int tileID;
 		while (mapFile >> tileID) {
 			level.push_back(tileID);
-			std::cout << "Nouvelle tile\n";
 		}
 	}
 
 	sf::Vector2u tileSize(30, 30);
 	unsigned int width = 12, height = 8;	//Le niveau est découpé en 1 carré.
-	std::cout << level.size() << std::endl;
+	std::cout << "\x1B[33m[Info]\x1B[0m : " << level.size() << " tiles en cours de chargement..." << std::endl;
 
 	const std::string path = "Time-Quest/Source/assets/tilesheet.png";
 
 	//on charge les textures
 	if (!_tileset.loadFromFile(path))
-		std::cout << "[Erreur] : chargement " << path << std::endl;
+		std::cout << "\x1B[31m[Erreur]\x1B[0m : impossible de charger " << path << std::endl;
 
 	_vertices.setPrimitiveType(sf::Quads);
 	_vertices.resize(width * height * 4);
@@ -57,19 +56,21 @@ Map::Map() {
 			quad[3].texCoords = sf::Vector2f((float)(tu * tileSize.x), (float)((tv + 1) * tileSize.y));
 
 			_tiles.push_back(Tile(sf::Vector2f((float)i * 30, (float)j * 30), (tileNumber == 0)));
-			std::cout << "New tile at " << i << ";" << j << " wall=" << _tiles[_tiles.size() - 1].isWall() << std::endl;
 		}
 
 	//On initialise les ennemis
-	for (unsigned int i = 0; i < 10; i++)
-		_ennemies.push_back(Ennemy("Time-Quest/Source/assets/soldatAllemand40.png", 30, sf::Vector2f((float)(rand() % 200), (float)(rand() % 200))));
+	std::cout << "\x1B[33m[info]\x1B[0m : chargement des entites...\n";
+	for (unsigned int i = 0; i < 5; i++)
+		_ennemies.push_back(Ennemy("Time-Quest/Source/assets/soldatAllemand40.png", 100, sf::Vector2f((float)(rand() % 200), (float)(rand() % 200))));
+	std::cout << "\x1B[32m[OK]\x1B[0m : " << _ennemies.size() << " entites chargees\n";
+	std::cout << "\x1B[32m[OK]\x1B[0m : Map chargee\n";
 }
 
 Map::~Map() {
 
 }
 
-void Map::update(Player& player, Cursor curseur, sf::View &view, float const& dt) {
+void Map::update(Player& player, Cursor &curseur, sf::View &view, float const& dt) {
 	player.update(curseur, _tiles, _throwableObjectsList, dt);
 
 	for (unsigned int i = 0; i < _ennemies.size(); i++)

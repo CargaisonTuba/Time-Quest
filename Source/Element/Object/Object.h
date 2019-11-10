@@ -19,6 +19,7 @@ protected:
 	sf::CircleShape _body;
 	std::time_t _creationDate;
 	sf::Vector2f _direction;
+	sf::Vector2f _posInit;
 	
 };
 

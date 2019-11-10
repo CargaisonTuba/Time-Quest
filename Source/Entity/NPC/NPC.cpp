@@ -9,8 +9,8 @@ NPC::~NPC() {
 
 }
 
-void NPC::update() {
-	_curWeapon.update(getPosition());
+void NPC::update(sf::Vector2f playerPos) {
+	_curWeapon.update(getPosition(), playerPos);
 
 	//mise à jour de la barre de vie avec la vie et la position actuelle de l'ennemi
 	_lifeBar.setSize(sf::Vector2f(_totalLife, 5));

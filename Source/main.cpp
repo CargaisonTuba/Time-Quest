@@ -1,13 +1,10 @@
-/*
-Le bug des balles qui se surperposent pour faire des traits ressemble � un nuage magique et genre ils volent dessus
-*/
-
-
 #include <SFML/Graphics.hpp>
 
 #include "Scene/Map.h"
 #include "Entity/Player.h"
 #include "HUD/Cursor.h"
+
+#define VERSION "\x1B[34mtimequest-\x1B[33m1.1-beta\x1B[0m"
 
 int main()
 {
@@ -16,12 +13,19 @@ int main()
 	sf::View gameView(sf::Vector2f(0, 0), sf::Vector2f(400, 267));
 	window.setMouseCursorVisible(false);
 
+	//On désactive les erreurs SFML pour que ça ne pollue pas la console
+	//(enlever cette ligne s'il y a des erreurs inconnues
+	sf::err().rdbuf(NULL);
+
+	std::cout <<  VERSION << std::endl;
+	std::cout << "\nHugo, Fergal, Robin - G3S3 - PTUT S2S3\n\n\n";
+
 	//On instancie une nouvelle map, coeur du jeu.
 	Map map;
-	Player player("Time-Quest/Source/assets/soldatFrancais40.png", 100, sf::Vector2f(30, 30));
+	Player player("Time-Quest/Source/assets/soldatFrancais40.png", 100, sf::Vector2f(200, 180));
 	Cursor curseur("Time-Quest/Source/assets/curseur_tir.png");
 
-	bool pause = false;
+	bool pause = false, pauseJustActivated = false;
 
 	//Delta-time
 	//Cela nous permet d'avoir un jeu qui n'est pas en fonction des fps
@@ -54,10 +58,20 @@ int main()
 		deltaTime = deltaClock.restart();
 		dt = deltaTime.asMilliseconds();
 
-		std::cout << dt << std::endl;
+		//std::cout << dt << std::endl;
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
-			pause = !pause;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+			if (!pauseJustActivated) {
+				pause = !pause;
+				pauseJustActivated = !pauseJustActivated;
+				if (pause)
+					std::cout << "\x1B[33m[Info] : Jeu en pause\n\x1B[0m";
+				else
+					std::cout << "\x1B[33m[Info] : Reprise du jeu\n\x1B[0m";
+			}
+		}
+		else
+			pauseJustActivated = false;
 
 		if(!pause)
 			map.update(player, curseur, gameView, dt);
@@ -73,6 +87,8 @@ int main()
 		//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante
 		window.display();
 	}
+
+	std::cout << "\x1B[31m[fin] : fermeture de " << VERSION << "\x1B[0m "<< std::endl;
 
 	//Tout s'est bien passé, on retourne la valeur 0.
 	return 0;

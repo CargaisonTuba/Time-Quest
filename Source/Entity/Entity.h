@@ -1,11 +1,13 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <SFML/Audio.hpp>
 #include "../Element/Tile.h"
 #include "../Arme.h"
 #include "../HUD/Cursor.h"
 #include "../Element/Object/ThrowedObject.h"
 #include "../Element/Object/ThrowedObject/Bullet.h"
+
 
 class Entity : public sf::Drawable
 {
@@ -21,7 +23,7 @@ public:
 	float getLife() const;
 	sf::RectangleShape getLifebar() const;
 
-	bool fire(std::vector<ThrowedObject>& throwableObjectsList, Cursor& cursor);
+	bool fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection);
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
@@ -39,4 +41,6 @@ protected:
 
 	//Barre de vie, assez simple pour le moment.
 	sf::RectangleShape _lifeBar;
+	float longueurX, longueurY;
+	float hypo, angle;
 };
