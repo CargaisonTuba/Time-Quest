@@ -9,7 +9,7 @@ Cursor::Cursor(std::string texturePath)
 	}
 	_cursorSprite.setTexture(_cursorText);
 	_cursorSprite.setScale(sf::Vector2f(1.f, 1.f));
-	_cursorSprite.setOrigin(sf::Vector2f(2.5, 2.5));
+	_cursorSprite.setOrigin(sf::Vector2f(4, 4));
 }
 
 Cursor::~Cursor() {
