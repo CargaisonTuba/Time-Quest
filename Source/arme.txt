@@ -1,4 +1,4 @@
-mas36 Time-Quest/Source/assets/mas36.png Time-Quest/Source/assets/sound/mas36shoot.wav 1000 5 65 0 80
+mas36 Time-Quest/Source/assets/mas36.png Time-Quest/Source/assets/sound/mas36shoot.wav 1000 5 65 5 80
 mas38 Time-Quest/Source/assets/mas38.png Time-Quest/Source/assets/sound/mas38shoot.wav 150 30 65 -15 20
 mp40 Time-Quest/Source/assets/mp40s.png Time-Quest/Source/assets/sound/mp40shoot.wav 200 30 65 0 10
 fm2429 Time-Quest/Source/assets/fm2429.png Time-Quest/Source/assets/sound/mp40shoot.wav 300 30 65 0 20

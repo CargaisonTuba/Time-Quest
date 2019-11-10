@@ -2,7 +2,7 @@
 #include <iostream>
 
 Player::Player(std::string texturePath, float defaultLife, sf::Vector2f initPosition) : Entity(texturePath, defaultLife, initPosition) {
-	this->setWeapon(Arme("mas36"));
+	this->setWeapon(Arme("fm2429"));
 
 	_lifeBar.setFillColor(sf::Color::Red);
 	_lifeBar.setOutlineColor(sf::Color::Magenta);
