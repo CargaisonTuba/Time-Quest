@@ -16,12 +16,14 @@ public:
 	sf::Vector2f getOrigin();
 	sf::Vector2f getPosition();
 	void setPosition(sf::Vector2f unePosition);
-	void update(sf::Vector2f entityPos);
+	void update(sf::Vector2f entityPos, sf::Vector2f playerPos);
 	void update(sf::Vector2f entityPos, Cursor cursor);
 
 	float getDamages() const;
 	int getCoolDown();
 	
+	int getRange();
+
 	void playTir();
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -45,6 +47,7 @@ private:
 	int _capacite;
 	int _munRest;
 	int _reloadTime;
+	int _range;
 
 	std::string _soundPath;
 	sf::SoundBuffer _tirBuffer;

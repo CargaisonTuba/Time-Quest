@@ -1,7 +1,7 @@
 #pragma once
 #include "NPC.h"
 
-#define MIN_DIST_PLAYER 50	//distance minimale pour attaquer le joueur
+#define MIN_DIST_PLAYER 200	//distance minimale pour attaquer le joueur
 
 class Ennemy : public NPC
 {

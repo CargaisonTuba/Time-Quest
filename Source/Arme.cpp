@@ -49,6 +49,11 @@ Arme::Arme(std::string typeArme)
 				//Idem pour dégâts de l'arme
 				_damages = std::stof(listeArmeVect[i + 7]);
 
+				//Idem pour la portée
+				_range = std::stoi(listeArmeVect[i + 8]);
+
+				break;
+
 			}
 		}
 	}
@@ -59,6 +64,7 @@ Arme::Arme(std::string typeArme)
 		_munRest = 0;
 		_readyState = false;
 		_capacite = 0;
+		_reloadTime = 0;
 	}
 	angle = 0;
 	longueurX = 0;
@@ -78,6 +84,9 @@ Arme::Arme()
 	_coolDown = 0;
 	_capacite = 0;
 	_munRest = 0;
+	_range = 0;
+	_readyState = 0;
+	_reloadTime = 0;
 }
 
 Arme::~Arme()
@@ -105,9 +114,70 @@ int Arme::getCoolDown()
 }
 
 //Update des armes des ennemis
-void Arme::update(sf::Vector2f entityPos) {
+void Arme::update(sf::Vector2f entityPos, sf::Vector2f playerPos) {
 	this->setPosition(sf::Vector2f(entityPos.x -15, entityPos.y -15));
 	_armeSprite.setScale(0.3f, 0.3f);
+
+
+	longueurX = abs((playerPos.x) - (entityPos.x));
+	longueurY = abs((playerPos.y) - (entityPos.y));
+	hypo = sqrt(longueurX * longueurX + longueurY * longueurY);
+
+	if (playerPos.y < entityPos.y)
+	{
+		if (playerPos.x < entityPos.x)
+		{
+			angle = (180.f + acos(longueurX / hypo) * 180.0f / (float)3.141592653589793);
+			_armeSprite.setScale(1.f / 6.f, -1.f / 6.f);
+			this->setPosition(sf::Vector2f(entityPos.x - 15, entityPos.y - 10));
+		}
+		else if (playerPos.x > entityPos.x)
+		{
+			angle = 360.f - (acos(longueurX / hypo) * 180.0f / (float)3.141592653589793);
+			_armeSprite.setScale(1.f / 6.f, 1.f / 6.f);
+			this->setPosition(sf::Vector2f(entityPos.x - 12, entityPos.y - 10));
+		}
+
+	}
+	else if (playerPos.y > entityPos.y)
+	{
+		if (playerPos.x > entityPos.x)
+		{
+			angle = acos(longueurX / hypo) * 180.0f / (float)3.141592653589793;
+			_armeSprite.setScale(1.f / 6.f, 1.f / 6.f);
+			if (angle > 45 && angle < 135)
+			{
+				this->setPosition(sf::Vector2f(entityPos.x - 12, entityPos.y - 8));
+			}
+			else
+			{
+				this->setPosition(sf::Vector2f(entityPos.x - 12, entityPos.y - 10));
+			}
+		}
+		else if (playerPos.x < entityPos.x)
+		{
+			angle = 180.f - (acos(longueurX / hypo) * 180.0f / (float)3.141592653589793);
+			_armeSprite.setScale(1.f / 6.f, -1.f / 6.f);
+			if (angle > 45 && angle < 135)
+			{
+				this->setPosition(sf::Vector2f(entityPos.x - 15, entityPos.y - 8));
+			}
+			else
+			{
+				this->setPosition(sf::Vector2f(entityPos.x - 15, entityPos.y - 10));
+			}
+		}
+
+	}
+	_armeSprite.setRotation(angle);
+	if (_timeSinceReload.getElapsedTime() > sf::milliseconds(_reloadTime))
+	{
+		this->_readyState = true;
+	}
+	if (this->_munRest == 0)
+	{
+		this->_readyState = false;
+	}
 }
 
 //update de l'arme du joueur
@@ -216,4 +286,9 @@ void Arme::recharger()
 bool Arme::getReady()
 {
 	return this->_readyState;
+}
+
+int Arme::getRange()
+{
+	return this->_range;
 }

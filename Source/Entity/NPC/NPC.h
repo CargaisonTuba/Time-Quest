@@ -8,5 +8,5 @@ public:
 	~NPC();
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	void update();
+	void update(sf::Vector2f playerPos);
 };

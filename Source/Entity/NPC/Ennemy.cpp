@@ -9,20 +9,29 @@ Ennemy::~Ennemy() {
 }
 
 bool Ennemy::update(sf::Vector2f playerPos, std::vector<ThrowedObject>& throwableObjectsList, float const& dt) {
-	_curWeapon.update(getPosition());
+	_curWeapon.update(getPosition(), playerPos);
 
 	//mise à jour de la barre de vie avec la vie et la position actuelle de l'ennemi
 	_lifeBar.setSize(sf::Vector2f((_life * 20) / _totalLife, 5));
-	_lifeBar.setPosition(getPosition());
+	
+	_lifeBar.setPosition(sf::Vector2f(getPosition().x -10, getPosition().y -20));
 	_lifeBar.setOutlineColor(sf::Color::White);
 
 	//si le joueur est proche, l'ennemi tire sur le joueur.
 	float playerX = playerPos.x, ennemyX = getPosition().x;
 	float playerY = playerPos.y, ennemyY = getPosition().y;
 	float dist = sqrt((playerX - ennemyX) * (playerX - ennemyX) + (playerY - ennemyY) * (playerY - ennemyY));
+	sf::Vector2f direction((playerX - ennemyX) / dist, (playerY - ennemyY) / dist);
 
 	if (dist <= MIN_DIST_PLAYER)
-		fire(throwableObjectsList, playerPos);
+		if (dist >= _curWeapon.getRange())
+		{
+			_entitySprite.move(direction);
+		}
+		else
+		{
+			fire(throwableObjectsList, playerPos);
+		}
 
 	//l'ennemi perd de la vie s'il est touché par une balle
 	for(unsigned int i = 0; i < throwableObjectsList.size(); i++)

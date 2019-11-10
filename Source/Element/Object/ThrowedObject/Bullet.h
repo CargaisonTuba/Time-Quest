@@ -7,7 +7,7 @@
 class Bullet : public ThrowedObject
 {
 public:
-	Bullet(sf::Vector2f throwerPosition, sf::Vector2f direction, float damages);
+	Bullet(sf::Vector2f throwerPosition, sf::Vector2f direction, int range, float damages);
 	~Bullet();
 
 private:

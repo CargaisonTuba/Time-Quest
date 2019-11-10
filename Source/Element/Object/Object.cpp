@@ -13,6 +13,7 @@ Object::Object(sf::Vector2f throwerPosition, sf::Vector2f direction)
 	this->_body.setRadius(3);
 	this->_direction = direction;
 	this->_body.setPosition(throwerPosition);
+	this->_posInit = throwerPosition;
 }
 
 Object::Object()

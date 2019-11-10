@@ -24,6 +24,7 @@ Entity::Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosi
 
 	//Le sprite de link sera placé initialement dans le coin haut gauche de la map. (0, 0)
 	_entitySprite.setPosition(initPosition);
+	_entitySprite.setOrigin(13.f, 13.f);
 
 
 	_life = defaultLife;	//ca représentera la vie ACTUELLE du joueur
@@ -65,18 +66,22 @@ sf::RectangleShape Entity::getLifebar() const {
 
 bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection)
 {
-	if (_timeSinceShot.getElapsedTime() > sf::milliseconds(this->getWeapon().getCoolDown()) && this->getWeapon().getReady())
+	if (_timeSinceShot.getElapsedTime() > sf::milliseconds(_curWeapon.getCoolDown()) && _curWeapon.getReady())
 	{
 		std::cout << "\x1B[33m[Debug]\x1B[0m :shoot !\n";
 		this->getWeapon().playTir();
 		_timeSinceShot.restart();
-		sf::Vector2f pos = this->getWeapon().getPosition();
+		sf::Vector2f pos = this->getPosition();
 
 		sf::Vector2f aim(shootDirection.x - pos.x, shootDirection.y - pos.y);
 		float lenAim = sqrt(aim.x * aim.x + aim.y * aim.y);
 		sf::Vector2f direction(aim.x / lenAim, aim.y / lenAim);
 
-		Bullet newBullet = Bullet(pos, direction, _curWeapon.getDamages());
+		sf::Vector2f posBalle;
+		posBalle.x = pos.x + aim.x - (aim.x * (lenAim - 25)) / lenAim;
+		posBalle.y = pos.y + aim.y - (aim.y * (lenAim - 25)) / lenAim;
+		
+		Bullet newBullet = Bullet(posBalle, direction, _curWeapon.getRange(), _curWeapon.getDamages());
 
 		throwableObjectsList.push_back(newBullet);
 
