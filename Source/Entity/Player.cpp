@@ -39,6 +39,10 @@ void Player::update(Cursor const &curseur, std::vector<Tile> const &_tiles, std:
 
 	//déplacement du joueur
 	float speed = 0.1f * dt;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+	{
+		speed = speed * 1.5;
+	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
 		
 		_entitySprite.move(sf::Vector2f(0, -speed));
