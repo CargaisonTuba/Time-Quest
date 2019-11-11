@@ -74,7 +74,7 @@ void Map::update(Player& player, Cursor &curseur, sf::View &view, float const& d
 	player.update(curseur, _tiles, _throwableObjectsList, dt);
 
 	for (unsigned int i = 0; i < _ennemies.size(); i++)
-		if (_ennemies[i].update(player.getPosition(), _throwableObjectsList, dt))	//si l'ennemi est mort, on le retire de la liste
+		if (_ennemies[i].update(player.getPosition(), _tiles, _throwableObjectsList, dt))	//si l'ennemi est mort, on le retire de la liste
 			_ennemies.erase(_ennemies.begin() + i);
   
 	for (unsigned int i = 0; i < _throwableObjectsList.size(); i++)

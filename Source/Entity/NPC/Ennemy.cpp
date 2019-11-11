@@ -8,7 +8,7 @@ Ennemy::~Ennemy() {
 
 }
 
-bool Ennemy::update(sf::Vector2f playerPos, std::vector<ThrowedObject>& throwableObjectsList, float const& dt) {
+bool Ennemy::update(sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, float const& dt) {
 	_curWeapon.update(getPosition(), playerPos);
 
 	//mise à jour de la barre de vie avec la vie et la position actuelle de l'ennemi
@@ -27,6 +27,11 @@ bool Ennemy::update(sf::Vector2f playerPos, std::vector<ThrowedObject>& throwabl
 		if (dist >= _curWeapon.getRange())
 		{
 			_entitySprite.move(direction);
+			for (unsigned int i = 0; i < _tiles.size(); i++) {
+				if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
+					_entitySprite.move(-direction);
+				}
+			}
 			_animation_tick += dt;
 			if (_animation_tick >= 50) {
 				_animation_tick = 0;

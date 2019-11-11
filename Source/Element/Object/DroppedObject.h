@@ -2,5 +2,10 @@
 
 class DroppedObject
 {
+public:
+
+
+private:
+
 };
 

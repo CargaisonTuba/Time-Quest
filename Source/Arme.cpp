@@ -278,13 +278,16 @@ int Arme::getMunRest()
 
 void Arme::recharger()
 {
+	//std::cout << _readyState << " recharchement\n";
 	_timeSinceReload.restart();
 	_readyState = false;
+	//std::cout << _readyState << "\n";
 	this->_munRest = this->_capacite;
 }
 
 bool Arme::getReady()
 {
+	//std::cout << _readyState <<"\n";
 	return this->_readyState;
 }
 

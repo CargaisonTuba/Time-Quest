@@ -67,7 +67,7 @@ sf::RectangleShape Entity::getLifebar() const {
 
 bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection)
 {
-	if (_timeSinceShot.getElapsedTime() > sf::milliseconds(_curWeapon.getCoolDown()) && _curWeapon.getReady())
+	if (_timeSinceShot.getElapsedTime() > sf::milliseconds(_curWeapon.getCoolDown()) && _curWeapon.getReady()==true)
 	{
 		this->getWeapon().playTir();
 		_timeSinceShot.restart();
