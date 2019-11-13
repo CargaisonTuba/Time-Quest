@@ -42,6 +42,6 @@ bool ThrowedObject::update(float const& dt)
 		return false;
 	}
 
-	this->_body.move(_direction * dt);
+	this->_body.move(sf::Vector2f((_direction.x * dt)/5, (_direction.y * dt)/5));
 	return true;
 }

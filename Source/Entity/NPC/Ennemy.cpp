@@ -26,7 +26,7 @@ bool Ennemy::update(sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std
 	if (dist <= MIN_DIST_PLAYER) {
 		if (dist >= _curWeapon.getRange())
 		{
-			_entitySprite.move(direction);
+			_entitySprite.move(sf::Vector2f(direction.x/5, direction.y/5));
 			for (unsigned int i = 0; i < _tiles.size(); i++) {
 				if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
 					_entitySprite.move(-direction);
