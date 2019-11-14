@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <stdlib.h>
 #include <SFML/Audio.hpp>
 #include "../Element/Tile.h"
 #include "../Arme.h"

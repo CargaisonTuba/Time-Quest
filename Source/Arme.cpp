@@ -52,6 +52,11 @@ Arme::Arme(std::string typeArme)
 				//Idem pour la portée
 				_range = std::stoi(listeArmeVect[i + 8]);
 
+				//Temps de rechargement
+				_reloadTime = std::stoi(listeArmeVect[i + 9]);
+
+				_angleImpr = std::stof(listeArmeVect[i + 10]);
+
 				break;
 
 			}
@@ -269,6 +274,11 @@ void Arme::draw(sf::RenderTarget& target, sf::RenderStates states) const
 float Arme::getAngle()
 {
 	return this->angle;
+}
+
+float Arme::getAngleImpr()
+{
+	return this->_angleImpr;
 }
 
 int Arme::getMunRest()

@@ -29,6 +29,7 @@ public:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 	float getAngle();
+	float getAngleImpr();
 	int getMunRest();
 	void recharger();
 
@@ -41,7 +42,7 @@ private:
 	int _coolDown;
 
 	float longueurX, longueurY;
-	float hypo, angle;
+	float hypo, angle, _angleImpr;
 
 	float _damages;
 	int _capacite;
