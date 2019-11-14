@@ -23,6 +23,8 @@ public:
 	~Map();
 
 	void update(Player &player, Cursor &curseur, sf::View &view, float const& dt);
+	sf::Vector2f getPlayerSpawn() const;
+
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 	std::vector<ThrowedObject> getThrowableObjectsList();
@@ -34,8 +36,10 @@ private:
 	//TileMap
 	sf::VertexArray _vertices;
 	sf::Texture _tileset;
+	sf::Vector2f _mapSize;
 
 	std::vector<Tile> _tiles;
+	sf::Vector2f _playerSpawn;
 
 	std::vector<ThrowedObject> _throwableObjectsList;
 	

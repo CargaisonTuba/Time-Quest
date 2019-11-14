@@ -1,0 +1,9 @@
+0 wall
+1 water
+2 normal
+3 normal
+4 normal
+5 normal
+6 wall
+7 normal
+8 normal

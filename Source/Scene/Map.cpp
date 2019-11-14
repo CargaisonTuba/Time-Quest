@@ -8,6 +8,9 @@ Map::Map() {
 	std::cout << "\x1B[33m[Info]\x1B[0m : Chargement de la map...\n";
 
 	std::vector<int> level;	//contient tous les ID des tiles
+	std::string currentOperation = "";
+	sf::Vector2u tileSize(30, 30);
+	unsigned int width = 0, height = 0;	//Le niveau est découpé en 1 carré.
 
 	//On remplit ce tableau avec les valeurs du fichier map.txt, sortit tout droit de l'éditeur
 	std::ifstream mapFile("Time-Quest/Source/map.txt");
@@ -15,13 +18,36 @@ Map::Map() {
 		std::cerr << "\x1B[31m[Erreur]\x1B[0m : impossible d'ouvrir map.txt\n";
 	else {
 		int tileID;
-		while (mapFile >> tileID) {
-			level.push_back(tileID);
+		while (mapFile >> currentOperation) {	//on charge les infos de la map dans le jeu
+			if (currentOperation == "#mapsize") {
+				mapFile >> width;
+				mapFile >> height;
+			}
+			else if (currentOperation == "#playerspawn") {
+				mapFile >> _playerSpawn.x;
+				mapFile >> _playerSpawn.y;
+			}
+			else if (currentOperation == "#ennemy") {
+				//while (currentOperation != "#tiles") {
+					float eLife = 0;
+					sf::Vector2f ePos(0, 0);
+					mapFile >> eLife;
+					mapFile >> ePos.x;
+					mapFile >> ePos.y;
+					_ennemies.push_back(Ennemy("Time-Quest/Source/assets/soldatAllemand40.png", eLife, ePos));
+				//}
+			}
+			else if (currentOperation == "#tiles") {
+				while (mapFile >> tileID)
+					level.push_back(tileID);
+			}
+			currentOperation = "";
 		}
 	}
 
-	sf::Vector2u tileSize(30, 30);
-	unsigned int width = 12, height = 8;	//Le niveau est découpé en 1 carré.
+	if(width == 0 && height == 0)
+		std::cerr << "\x1B[31m[Erreur]\x1B[0m : map vide ou erreur de lecture\n";
+
 	std::cout << "\x1B[33m[Info]\x1B[0m : " << level.size() << " tiles en cours de chargement..." << std::endl;
 
 	const std::string path = "Time-Quest/Source/assets/tilesheet.png";
@@ -55,15 +81,20 @@ Map::Map() {
 			quad[2].texCoords = sf::Vector2f((float)((tu + 1) * tileSize.x), (float)((tv + 1) * tileSize.y));
 			quad[3].texCoords = sf::Vector2f((float)(tu * tileSize.x), (float)((tv + 1) * tileSize.y));
 
-			_tiles.push_back(Tile(sf::Vector2f((float)i * 30, (float)j * 30), (tileNumber == 0)));
+			int status = NORMAL;
+			if (tileNumber == 0 || tileNumber == 6)
+				status = WALL;
+			if (tileNumber == 1)
+				status = WATER;
+
+			_tiles.push_back(Tile(sf::Vector2f((float)i * 30, (float)j * 30), status));
 		}
 
-	//On initialise les ennemis
-	std::cout << "\x1B[33m[info]\x1B[0m : chargement des entites...\n";
-	for (unsigned int i = 0; i < 5; i++)
-		_ennemies.push_back(Ennemy("Time-Quest/Source/assets/soldatAllemand40.png", 100, sf::Vector2f((float)(rand() % 200), (float)(rand() % 200))));
 	std::cout << "\x1B[32m[OK]\x1B[0m : " << _ennemies.size() << " entites chargees\n";
 	std::cout << "\x1B[32m[OK]\x1B[0m : Map chargee\n";
+
+	_mapSize.x = width;
+	_mapSize.y = height;
 }
 
 Map::~Map() {
@@ -86,6 +117,11 @@ void Map::update(Player& player, Cursor &curseur, sf::View &view, float const& d
 	}
 
 	_playerLifebar = player.getLifebar();
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::C)) {
+		view.setCenter(player.getPosition());
+		view.setSize(sf::Vector2f(2000, 2000));
+	}
   
 	view.setCenter(player.getPosition());
 }
@@ -93,6 +129,10 @@ void Map::update(Player& player, Cursor &curseur, sf::View &view, float const& d
 std::vector<ThrowedObject> Map::getThrowableObjectsList()
 {
 	return this->_throwableObjectsList;
+}
+
+sf::Vector2f Map::getPlayerSpawn() const {
+	return _playerSpawn;
 }
 
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {

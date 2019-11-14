@@ -1,9 +1,9 @@
 #include "Tile.h"
 #include <iostream>
 
-Tile::Tile(sf::Vector2f coords, bool wall) {
+Tile::Tile(sf::Vector2f coords, int status) {
 	_coords = coords;
-	_wall = wall;
+	_status = status;
 }
 
 Tile::~Tile() {
@@ -11,7 +11,7 @@ Tile::~Tile() {
 }
 
 bool Tile::isWall() const {
-	return _wall;
+	return _status == WALL;
 }
 
 sf::FloatRect Tile::getHitbox() const {
