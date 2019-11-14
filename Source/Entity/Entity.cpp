@@ -66,7 +66,7 @@ sf::RectangleShape Entity::getLifebar() const {
 	return _lifeBar;
 }
 
-bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection)
+bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection, std::vector<Tile> const& _tiles)
 {
 	if (_timeSinceShot.getElapsedTime() > sf::milliseconds(_curWeapon.getCoolDown()) && _curWeapon.getReady()==true)
 	{
@@ -83,6 +83,12 @@ bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f
 		posBalle.y = pos.y + aim.y - (aim.y * (lenAim - 25)) / lenAim;
 		
 		Bullet newBullet = Bullet(posBalle, direction, _curWeapon.getRange(), _curWeapon.getDamages());
+		_entitySprite.move(sf::Vector2f(-direction.x/2, -direction.y/2));
+		for (unsigned int i = 0; i < _tiles.size(); i++) {
+			if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
+				_entitySprite.move(sf::Vector2f(direction.x/2, direction.y/2));
+			}
+		}
 
 		throwableObjectsList.push_back(newBullet);
 

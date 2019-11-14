@@ -117,7 +117,7 @@ void Player::update(Cursor const &curseur, std::vector<Tile> const &_tiles, std:
 
 	//On fait en sorte que le joueur tire avec clic gauche.
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-		this->fire(throwableObjectsList, curseur.getPosition());
+		this->fire(throwableObjectsList, curseur.getPosition(), _tiles);
 
 	//Si le joueur se fait toucher, il perd de la vie
 	//l'ennemi perd de la vie s'il est touché par une balle
