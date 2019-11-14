@@ -30,6 +30,7 @@ public:
 protected:
 	sf::Texture _entityText[11][4];
 	sf::Sprite _entitySprite;
+	sf::Vector2f _initPos;
 	int _spritePosCount, _spritePosCountMax;
 	int _dir;	//Haut, bas, ...
 	float _animation_tick;

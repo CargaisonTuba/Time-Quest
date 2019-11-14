@@ -25,6 +25,7 @@ Entity::Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosi
 	//Le sprite de link sera placé initialement dans le coin haut gauche de la map. (0, 0)
 	_entitySprite.setPosition(initPosition);
 	_entitySprite.setOrigin(13.f, 13.f);
+	_initPos = initPosition;
 
 
 	_life = defaultLife;	//ca représentera la vie ACTUELLE du joueur

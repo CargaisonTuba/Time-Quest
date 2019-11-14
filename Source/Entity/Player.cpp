@@ -128,6 +128,8 @@ void Player::update(Cursor const &curseur, std::vector<Tile> const &_tiles, std:
 			if (_life <= 0) {
 				_life = 0;
 				std::cout << "\x1B[33m[info]\x1B[0m : \x1B[35mmort\x1B[0m du joueur\n";
+				_entitySprite.setPosition(_initPos);
+				_life = _totalLife;
 			}
 		}
 
