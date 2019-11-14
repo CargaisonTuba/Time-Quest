@@ -31,7 +31,7 @@ float ThrowedObject::getDamages() const {
 	return _damages;
 }
 
-bool ThrowedObject::update(float const& dt)
+bool ThrowedObject::update(float const& dt,  std::vector<Tile> const& _tiles)
 {
 	if (_clock.getElapsedTime() > sf::seconds(5.f))
 	{
@@ -43,5 +43,13 @@ bool ThrowedObject::update(float const& dt)
 	}
 
 	this->_body.move(sf::Vector2f((_direction.x * dt)/5, (_direction.y * dt)/5));
+	for (unsigned int i = 0; i < _tiles.size(); i++)
+	{
+		if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall())
+		{
+			_body.move(sf::Vector2f(-(_direction.x * dt) / 5, -(_direction.y * dt) / 5));
+			return false;
+		}
+	}
 	return true;
 }

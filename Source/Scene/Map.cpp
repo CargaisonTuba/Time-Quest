@@ -110,7 +110,7 @@ void Map::update(Player& player, Cursor &curseur, sf::View &view, float const& d
   
 	for (unsigned int i = 0; i < _throwableObjectsList.size(); i++)
 	{
-		bool cond = _throwableObjectsList[i].update(dt);
+		bool cond = _throwableObjectsList[i].update(dt, _tiles);
 
 		if (!cond)
 			_throwableObjectsList.erase(_throwableObjectsList.begin() + i);
