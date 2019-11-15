@@ -24,71 +24,12 @@ int main()
 	std::cout << "\nHugo, Fergal, Robin - G3S3 - PTUT S2S3\n\n\n";
 
 	//Initialisation du SceneManager
-	SceneManager sc = SceneManager();
+	bool run = true;
+	SceneManager sc = SceneManager(run);
 
-
-	bool pause = false, pauseJustActivated = false;
-
-	//Delta-time
-	//Cela nous permet d'avoir un jeu qui n'est pas en fonction des fps
-	//Par exemple, pour éviter que le joueur aille à 100 km/h si on a bcp de FPS et qu'il soit ultra lent en cas de lag
-	//On va alors, à chaque frame, calculer le temps qu'il s'est écoulé depuis la dernière frame, et le jeu se basera là dessus
-	sf::Clock deltaClock;
-	sf::Time deltaTime;
-	float dt = 0;
-
-	//seed pour l'aléatoire
-	srand(time(NULL));
-
-	//Boucle principale
-	while (window.isOpen())
+	while (run)
 	{
-		//On regarde si on ferme la fenêtre
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-				window.close();
-		}
-
-		//On efface la frame précédente
-		window.clear();
-
-		//le code commence là
-
-		//deltaTime
-		deltaTime = deltaClock.restart();
-		dt = deltaTime.asMilliseconds();
-
-		//std::cout << dt << std::endl;
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
-			if (!pauseJustActivated) {
-				pause = !pause;
-				pauseJustActivated = !pauseJustActivated;
-				if (pause)
-					std::cout << "\x1B[33m[Info] : Jeu en pause\n\x1B[0m";
-				else
-					std::cout << "\x1B[33m[Info] : Reprise du jeu\n\x1B[0m";
-			}
-		}
-		else
-			pauseJustActivated = false;
-
-		gameView.setSize(sf::Vector2f(400, 267));
-		if(!pause)
-			map.update(player, curseur, gameView, dt);
-
-		curseur.update(window);
-
-		window.setView(gameView);
-		
-		window.draw(map);
-		window.draw(player);
-		window.draw(curseur);
-
-		//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante
-		window.display();
+		sc.runGame();
 	}
 
 	std::cout << "\x1B[31m[fin] : fermeture de " << VERSION << "\x1B[0m "<< std::endl;
