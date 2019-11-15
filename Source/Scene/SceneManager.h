@@ -10,7 +10,7 @@ private:
 	Cursor cursor;
 	sf::RenderWindow window;
 	sf::View gameView;
-	bool& run;
+	bool* run;
 	bool pause;
 	bool pauseJustActivated;
 

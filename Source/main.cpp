@@ -9,12 +9,6 @@
 
 int main()
 {
-	//Nouvelle fenêtre
-	sf::RenderWindow window(sf::VideoMode(1080, 720), "Time Quest");
-	sf::View gameView(sf::Vector2f(0, 0), sf::Vector2f(400, 267));
-	window.setMouseCursorVisible(false);
-
-	
 
 	//On désactive les erreurs SFML pour que ça ne pollue pas la console
 	//(enlever cette ligne s'il y a des erreurs inconnues

@@ -3,16 +3,20 @@
 #include "GamingScene.h"
 #include "MenuScene.h"
 #include "../Entity/Player.h"
+#include "../Scene/Map.h"
+#include "../HUD/Cursor.h"
+
 
 SceneManager::SceneManager(bool& run)
 {
 	this->currentScene = GamingScene(Map("Time-Quest/Source/map.txt"), Hud());
-	this->player = Player("Time-Quest/Source/assets/soldatFrancais40.png", 500, this->currentScene.getMap().getPlayerSpawn());
-	this->cursor = Cursor("Time-Quest/Source/assets/curseur_tir.png");
+	player = Player("Time-Quest/Source/assets/soldatFrancais40.png", 500, this->currentScene.getMap().getPlayerSpawn());
+	cursor = Cursor("Time-Quest/Source/assets/curseur_tir.png");
 	//Nouvelle fenêtre
 	sf::RenderWindow window(sf::VideoMode(1080, 720), "Time Quest");
+	window.setMouseCursorVisible(false);
 	this->gameView = sf::View(sf::Vector2f(0, 0), sf::Vector2f(400, 267));
-	this->run = run;
+	this->run = &run;
 	this->pause = false;
 	this->pauseJustActivated = false;
 }

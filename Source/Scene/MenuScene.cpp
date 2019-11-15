@@ -1,6 +1,6 @@
 #pragma once
 #include "Map.h"
-#include "Overlay.h"
+
 class Scene
 {
 private:
