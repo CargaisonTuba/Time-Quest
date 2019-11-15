@@ -3,7 +3,7 @@
 #include "Map.h"
 #include "../Element/Object/ThrowedObject/Bullet.h"
 
-Map::Map() {
+Map::Map(std::string mapPath) {
 	//On charge la map depuis le fichier
 	std::cout << "\x1B[33m[Info]\x1B[0m : Chargement de la map...\n";
 
@@ -13,7 +13,7 @@ Map::Map() {
 	unsigned int width = 0, height = 0;	//Le niveau est découpé en 1 carré.
 
 	//On remplit ce tableau avec les valeurs du fichier map.txt, sortit tout droit de l'éditeur
-	std::ifstream mapFile("Time-Quest/Source/map.txt");
+	std::ifstream mapFile(mapPath); //"Time-Quest/Source/map.txt"
 	if(!mapFile)
 		std::cerr << "\x1B[31m[Erreur]\x1B[0m : impossible d'ouvrir map.txt\n";
 	else {

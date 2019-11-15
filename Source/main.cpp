@@ -3,6 +3,7 @@
 #include "Scene/Map.h"
 #include "Entity/Player.h"
 #include "HUD/Cursor.h"
+#include "Scene/SceneManager.h"
 
 #define VERSION "\x1B[34mtimequest-\x1B[33m1.1-beta\x1B[0m"
 
@@ -13,6 +14,8 @@ int main()
 	sf::View gameView(sf::Vector2f(0, 0), sf::Vector2f(400, 267));
 	window.setMouseCursorVisible(false);
 
+	
+
 	//On désactive les erreurs SFML pour que ça ne pollue pas la console
 	//(enlever cette ligne s'il y a des erreurs inconnues
 	sf::err().rdbuf(NULL);
@@ -20,10 +23,9 @@ int main()
 	std::cout <<  VERSION << std::endl;
 	std::cout << "\nHugo, Fergal, Robin - G3S3 - PTUT S2S3\n\n\n";
 
-	//On instancie une nouvelle map, coeur du jeu.
-	Map map;
-	Player player("Time-Quest/Source/assets/soldatFrancais40.png", 500, map.getPlayerSpawn());
-	Cursor curseur("Time-Quest/Source/assets/curseur_tir.png");
+	//Initialisation du SceneManager
+	SceneManager sc = SceneManager();
+
 
 	bool pause = false, pauseJustActivated = false;
 

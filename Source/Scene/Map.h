@@ -19,7 +19,7 @@
 class Map : public sf::Drawable
 {
 public:
-	Map();
+	Map(std::string mapPath);
 	~Map();
 
 	void update(Player &player, Cursor &curseur, sf::View &view, float const& dt);
