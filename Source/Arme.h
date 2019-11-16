@@ -54,8 +54,8 @@ private:
 	int _capacite, _coolDown, _munRest, _reloadTime, _range, _impr;
 
 	std::string _soundPath, _ballePath;
-	sf::SoundBuffer _tirBuffer;
-	sf::Sound _tirSound;
+	sf::SoundBuffer _tirBuffer, _emptyBuffer, _reloadBuffer;
+	sf::Sound _tirSound, _reloadSound;
 	sf::Clock _timeSinceReload;
 	bool _readyState;
 };

@@ -61,6 +61,12 @@ Arme::Arme(std::string typeArme)
 				//Chemin de la texture de la balle de l'arme
 				_ballePath = listeArmeVect[i + 11];
 
+				//Chemin du son de rechargement
+				if (!_reloadBuffer.loadFromFile(listeArmeVect[i + 12]))
+				{
+					std::cout << "Erreur reload \n";
+				}
+
 				break;
 
 			}
@@ -81,6 +87,10 @@ Arme::Arme(std::string typeArme)
 	_hypo = 0;
 	_munRest = _capacite;
 	_readyState = true;
+	if (!_emptyBuffer.loadFromFile("Time-Quest/Source/assets/sound/clicpasboum.wav"))
+	{
+		std::cout << "Erreur empty \n";
+	}
 }
 
 Arme::Arme()
@@ -176,15 +186,15 @@ void Arme::playTir()
 {
 	if (_readyState)
 	{
-		//std::cout << "Statut du son avant : " << _tirSound.getStatus() << std::endl;
-		_tirSound.play();
-		//std::cout << "Statut du son apres : " << _tirSound.getStatus() << std::endl;
+		_tirSound.setBuffer(_tirBuffer);
 		_munRest--;
 	}
 	else
 	{
 		//clic pas boum
+		_tirSound.setBuffer(_emptyBuffer);
 	}
+	_tirSound.play();
 	std::cout << "\x1B[33m[Munitions]\x1B[0m : \x1B[35m " << _munRest << " \x1B[0m / " << _capacite << "\n";
 }
 
@@ -192,6 +202,8 @@ void Arme::recharger()
 {
 	if (_timeSinceReload.getElapsedTime() > sf::milliseconds(_reloadTime))
 	{
+		_reloadSound.setBuffer(_reloadBuffer);
+		_reloadSound.play();
 		std::cout << "\x1B[33m[Rechargement]\x1B[0m...\n";
 		_timeSinceReload.restart();
 		_readyState = false;

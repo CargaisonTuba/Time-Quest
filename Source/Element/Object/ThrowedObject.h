@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "../Tile.h"
 #include "Object.h"
+#include <SFML/Audio.hpp>
 
 class ThrowedObject : public Object
 {
@@ -15,6 +16,8 @@ public:
 	bool update(float const& dt, std::vector<Tile> const& _tiles);
 
 protected:
+	sf::SoundBuffer _impactBuffer;
+	sf::Sound _impactSound;
 	sf::Clock _clock;
 	float _damages;
 	int _range;

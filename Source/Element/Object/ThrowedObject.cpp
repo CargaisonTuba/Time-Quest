@@ -9,6 +9,10 @@ ThrowedObject::ThrowedObject(std::string texturePath, sf::Vector2f throwerPositi
 	this->_range = range;
 
 	_damages = damages;
+	if (!_impactBuffer.loadFromFile("Time-Quest/Source/assets/sound/impact.wav"))
+	{
+		std::cout << "Echec impact \n";
+	}
 }
 
 ThrowedObject::ThrowedObject()
@@ -43,6 +47,8 @@ bool ThrowedObject::update(float const& dt,  std::vector<Tile> const& _tiles)
 	{
 		if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall())
 		{
+			_impactSound.setBuffer(_impactBuffer);
+			_impactSound.play();
 			_objectSprite.move(sf::Vector2f(-(_direction.x * dt) / 5, -(_direction.y * dt) / 5));
 			return false;
 		}
