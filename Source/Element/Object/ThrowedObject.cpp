@@ -13,10 +13,6 @@ ThrowedObject::ThrowedObject(sf::Vector2f throwerPosition, sf::Vector2f directio
 	this->_range = range;
 
 	_damages = damages;
-	if (!_impactBuffer.loadFromFile("Time-Quest/Source/assets/sound/impact.wav"))
-	{
-		std::cout << "Echec impact \n";
-	}
 }
 
 ThrowedObject::ThrowedObject()
@@ -46,20 +42,6 @@ bool ThrowedObject::update(float const& dt)
 		return false;
 	}
 
-<<<<<<< Updated upstream
 	this->_body.move(sf::Vector2f((_direction.x * dt)/5, (_direction.y * dt)/5));
-=======
-	this->_objectSprite.move(sf::Vector2f((_direction.x * dt)/5, (_direction.y * dt)/5));
-	for (unsigned int i = 0; i < _tiles.size(); i++)
-	{
-		if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall())
-		{
-			_impactSound.setBuffer(_impactBuffer);
-			_impactSound.play();
-			_objectSprite.move(sf::Vector2f(-(_direction.x * dt) / 5, -(_direction.y * dt) / 5));
-			return false;
-		}
-	}
->>>>>>> Stashed changes
 	return true;
 }
