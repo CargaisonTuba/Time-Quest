@@ -71,20 +71,20 @@ Arme::Arme(std::string typeArme)
 		_capacite = 0;
 		_reloadTime = 0;
 	}
-	angle = 0;
-	longueurX = 0;
-	longueurY = 0;
-	hypo = 0;
+	_angle = 0;
+	_longueurX = 0;
+	_longueurY = 0;
+	_hypo = 0;
 	_munRest = _capacite;
 	_readyState = true;
 }
 
 Arme::Arme()
 {
-	angle = 0;
-	longueurX = 0;
-	longueurY = 0;
-	hypo = 0;
+	_angle = 0;
+	_longueurX = 0;
+	_longueurY = 0;
+	_hypo = 0;
 	_damages = 0;
 	_coolDown = 0;
 	_capacite = 0;
@@ -99,113 +99,32 @@ Arme::~Arme()
 
 }
 
+//Setters
 void Arme::setPosition(sf::Vector2f unePosition)
 {
 	_armeSprite.setPosition(unePosition);
+}
+
+//Getters
+sf::Vector2f Arme::getOrigin()
+{
+	return _armeSprite.getOrigin();
 }
 
 sf::Vector2f Arme::getPosition()
 {
 	return _armeSprite.getPosition();
 }
-sf::Vector2f Arme::getOrigin()
+
+sf::Sprite Arme::getSprite()
 {
-	return _armeSprite.getOrigin();
+	return this->_armeSprite;
 }
 
-int Arme::getCoolDown()
-{
-	return this->_coolDown;
-}
-
-//Update des armes
-void Arme::update(sf::Vector2f entityPos, sf::Vector2f shootPosition) 
-{
-	longueurX = abs((shootPosition.x) - (entityPos.x));
-	longueurY = abs((shootPosition.y) - (entityPos.y));
-	hypo = sqrt(longueurX * longueurX + longueurY * longueurY);
-
-	if (shootPosition.y < entityPos.y)
-	{
-		if (shootPosition.x < entityPos.x)
-		{
-			angle = (180.f + acos(longueurX / hypo) * 180.0f / (float)3.141592653589793);
-			_armeSprite.setScale(1.f / 6.f, -1.f / 6.f);
-			this->setPosition(sf::Vector2f(entityPos.x - 15, entityPos.y - 10));
-		}
-		else if (shootPosition.x > entityPos.x)
-		{
-			angle = 360.f - (acos(longueurX / hypo) * 180.0f / (float)3.141592653589793);
-			_armeSprite.setScale(1.f / 6.f, 1.f / 6.f);
-			this->setPosition(sf::Vector2f(entityPos.x - 12, entityPos.y - 10));
-		}
-
-	}
-	else if (shootPosition.y > entityPos.y)
-	{
-		if (shootPosition.x > entityPos.x)
-		{
-			angle = acos(longueurX / hypo) * 180.0f / (float)3.141592653589793;
-			_armeSprite.setScale(1.f / 6.f, 1.f / 6.f);
-			if (angle > 45 && angle < 135)
-			{
-				this->setPosition(sf::Vector2f(entityPos.x - 12, entityPos.y - 8));
-			}
-			else
-			{
-				this->setPosition(sf::Vector2f(entityPos.x - 12, entityPos.y - 10));
-			}
-		}
-		else if (shootPosition.x < entityPos.x)
-		{
-			angle = 180.f - (acos(longueurX / hypo) * 180.0f / (float)3.141592653589793);
-			_armeSprite.setScale(1.f / 6.f, -1.f / 6.f);
-			if (angle > 45 && angle < 135)
-			{
-				this->setPosition(sf::Vector2f(entityPos.x - 15, entityPos.y - 8));
-			}
-			else
-			{
-				this->setPosition(sf::Vector2f(entityPos.x - 15, entityPos.y - 10));
-			}
-		}
-
-	}
-	_armeSprite.setRotation(angle);
-	if (_timeSinceReload.getElapsedTime() > sf::milliseconds(_reloadTime))
-	{
-		this->_readyState = true;
-	}
-	if (this->_munRest == 0)
-	{
-		this->_readyState = false;
-	}
-}
-
-
-void Arme::playTir()
-{
-	_tirSound.setBuffer(_tirBuffer);
-	_tirSound.play();
-	_munRest--;
-}
-
-float Arme::getDamages() const {
-	return _damages;
-}
-
-void Arme::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	sf::Sprite s = _armeSprite;
-	s.setTexture(_armeText);
-
-	s.move(13, 13);	//on centre l'arme
-	target.draw(s);
-}
 
 float Arme::getAngle()
 {
-	return this->angle;
+	return this->_angle;
 }
 
 float Arme::getImpr()
@@ -213,9 +132,38 @@ float Arme::getImpr()
 	return this->_impr;
 }
 
+
+float Arme::getDamages() const {
+	return _damages;
+}
+
+int Arme::getCoolDown()
+{
+	return this->_coolDown;
+}
+
 int Arme::getMunRest()
 {
 	return this->_munRest;
+}
+
+int Arme::getRange()
+{
+	return this->_range;
+}
+
+bool Arme::getReady()
+{
+	//std::cout << _readyState <<"\n";
+	return this->_readyState;
+}
+
+//Méthodes
+void Arme::playTir()
+{
+	_tirSound.setBuffer(_tirBuffer);
+	_tirSound.play();
+	_munRest--;
 }
 
 void Arme::recharger()
@@ -227,20 +175,77 @@ void Arme::recharger()
 	this->_munRest = this->_capacite;
 }
 
-bool Arme::getReady()
+//Update des armes
+void Arme::update(sf::Vector2f entityPos, sf::Vector2f shootPosition)
 {
-	//std::cout << _readyState <<"\n";
-	return this->_readyState;
+	_longueurX = abs((shootPosition.x) - (entityPos.x));
+	_longueurY = abs((shootPosition.y) - (entityPos.y));
+	_hypo = sqrt(_longueurX * _longueurX + _longueurY * _longueurY);
+
+	if (shootPosition.y < entityPos.y)
+	{
+		if (shootPosition.x < entityPos.x)
+		{
+			_angle = (180.f + acos(_longueurX / _hypo) * 180.0f / (float)3.141592653589793);
+			_armeSprite.setScale(1.f / 6.f, -1.f / 6.f);
+			this->setPosition(sf::Vector2f(entityPos.x - 15, entityPos.y - 10));
+		}
+		else if (shootPosition.x > entityPos.x)
+		{
+			_angle = 360.f - (acos(_longueurX / _hypo) * 180.0f / (float)3.141592653589793);
+			_armeSprite.setScale(1.f / 6.f, 1.f / 6.f);
+			this->setPosition(sf::Vector2f(entityPos.x - 12, entityPos.y - 10));
+		}
+
+	}
+	else if (shootPosition.y > entityPos.y)
+	{
+		if (shootPosition.x > entityPos.x)
+		{
+			_angle = acos(_longueurX / _hypo) * 180.0f / (float)3.141592653589793;
+			_armeSprite.setScale(1.f / 6.f, 1.f / 6.f);
+			if (_angle > 45 && _angle < 135)
+			{
+				this->setPosition(sf::Vector2f(entityPos.x - 12, entityPos.y - 8));
+			}
+			else
+			{
+				this->setPosition(sf::Vector2f(entityPos.x - 12, entityPos.y - 10));
+			}
+		}
+		else if (shootPosition.x < entityPos.x)
+		{
+			_angle = 180.f - (acos(_longueurX / _hypo) * 180.0f / (float)3.141592653589793);
+			_armeSprite.setScale(1.f / 6.f, -1.f / 6.f);
+			if (_angle > 45 && _angle < 135)
+			{
+				this->setPosition(sf::Vector2f(entityPos.x - 15, entityPos.y - 8));
+			}
+			else
+			{
+				this->setPosition(sf::Vector2f(entityPos.x - 15, entityPos.y - 10));
+			}
+		}
+
+	}
+	_armeSprite.setRotation(_angle);
+	if (_timeSinceReload.getElapsedTime() > sf::milliseconds(_reloadTime))
+	{
+		this->_readyState = true;
+	}
+	if (this->_munRest == 0)
+	{
+		this->_readyState = false;
+	}
 }
 
-int Arme::getRange()
+void Arme::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	return this->_range;
-}
+	sf::Sprite s = _armeSprite;
+	s.setTexture(_armeText);
 
-sf::Sprite Arme::getSprite()
-{
-	return this->_armeSprite;
+	s.move(13, 13);	//on centre l'arme
+	target.draw(s);
 }
 
 sf::Vector2f Arme::imprecision(sf::Vector2f shootDirection)
