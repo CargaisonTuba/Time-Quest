@@ -68,25 +68,28 @@ sf::RectangleShape Entity::getLifebar() const {
 
 bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection, std::vector<Tile> const& _tiles)
 {
-	if (_timeSinceShot.getElapsedTime() > sf::milliseconds(_curWeapon.getCoolDown()) && _curWeapon.getReady()==true)
+	if (_timeSinceShot.getElapsedTime() > sf::milliseconds(_curWeapon.getCoolDown()))
 	{
 		this->_curWeapon.playTir();
 		_timeSinceShot.restart();
-		sf::Vector2f pos = this->getPosition();
-		sf::Vector2f shootImpr = this->_curWeapon.imprecision(shootDirection);
-		sf::Vector2f aim(shootImpr.x - pos.x, shootImpr.y - pos.y);
-		float lenAim = sqrt(aim.x * aim.x + aim.y * aim.y);
-		sf::Vector2f direction(aim.x / lenAim, aim.y / lenAim);
+		if (_curWeapon.getReady() == true)
+		{
+			sf::Vector2f pos = this->getPosition();
+			sf::Vector2f shootImpr = this->_curWeapon.imprecision(shootDirection);
+			sf::Vector2f aim(shootImpr.x - pos.x, shootImpr.y - pos.y);
+			float lenAim = sqrt(aim.x * aim.x + aim.y * aim.y);
+			sf::Vector2f direction(aim.x / lenAim, aim.y / lenAim);
 
-		sf::Vector2f posBalle;
-		posBalle.x = pos.x + aim.x - (aim.x * (lenAim - 21)) / lenAim;
-		posBalle.y = pos.y + aim.y - (aim.y * (lenAim - 21)) / lenAim;
-		this->_curWeapon.update(_entitySprite.getPosition(), shootImpr);
-		Bullet newBullet = Bullet(this->_curWeapon.getAngle(), this->_curWeapon.getBallePath(), posBalle, direction, _curWeapon.getRange(), _curWeapon.getDamages());
-		throwableObjectsList.push_back(newBullet);
-		_curWeapon.getSprite().move(sf::Vector2f(-direction.x * 5, -direction.y * 5));
+			sf::Vector2f posBalle;
+			posBalle.x = pos.x + aim.x - (aim.x * (lenAim - 21)) / lenAim;
+			posBalle.y = pos.y + aim.y - (aim.y * (lenAim - 21)) / lenAim;
+			this->_curWeapon.update(_entitySprite.getPosition(), shootImpr);
+			Bullet newBullet = Bullet(this->_curWeapon.getAngle(), this->_curWeapon.getBallePath(), posBalle, direction, _curWeapon.getRange(), _curWeapon.getDamages());
+			throwableObjectsList.push_back(newBullet);
+			_curWeapon.getSprite().move(sf::Vector2f(-direction.x * 5, -direction.y * 5));
+		}
 	}
-
+	
 	return true;
 }
 

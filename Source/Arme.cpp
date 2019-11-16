@@ -174,11 +174,18 @@ bool Arme::getReady()
 //Méthodes
 void Arme::playTir()
 {
+	if (_readyState)
+	{
+		sf::Sound t = _tirSound;
+		t.setBuffer(_tirBuffer);
+		t.play();
+		_munRest--;
+	}
+	else
+	{
+		//clic pas boum
+	}
 	std::cout << _munRest << "\n";
-	sf::Sound t = _tirSound;
-	t.setBuffer(_tirBuffer);
-	t.play();
-	_munRest--;
 }
 
 void Arme::recharger()
