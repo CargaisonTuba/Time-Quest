@@ -176,23 +176,23 @@ void Arme::playTir()
 {
 	if (_readyState)
 	{
-		sf::Sound t = _tirSound;
-		t.setBuffer(_tirBuffer);
-		t.play();
+		//std::cout << "Statut du son avant : " << _tirSound.getStatus() << std::endl;
+		_tirSound.play();
+		//std::cout << "Statut du son apres : " << _tirSound.getStatus() << std::endl;
 		_munRest--;
 	}
 	else
 	{
 		//clic pas boum
 	}
-	std::cout << _munRest << "\n";
+	std::cout << "\x1B[33m[Munitions]\x1B[0m : \x1B[35m " << _munRest << " \x1B[0m / " << _capacite << "\n";
 }
 
 void Arme::recharger()
 {
 	if (_timeSinceReload.getElapsedTime() > sf::milliseconds(_reloadTime))
 	{
-		std::cout << "recharchement...\n";
+		std::cout << "\x1B[33m[Rechargement]\x1B[0m...\n";
 		_timeSinceReload.restart();
 		_readyState = false;
 		this->_munRest = this->_capacite;
