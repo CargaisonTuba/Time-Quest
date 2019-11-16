@@ -22,7 +22,11 @@ public:
 	sf::Vector2f getPosition();
 
 	sf::Sprite getSprite();
-		
+
+	sf::Sound getTir();
+
+	std::string getBallePath();	
+	
 	float getAngle(); //renvoie l'angle d'inclinaison de l'arme (l'orientation de l'arme quoi)
 	float getImpr(); //renvoie la valeur de l'imprécision de l'arme
 	float getDamages() const;
@@ -49,7 +53,7 @@ private:
 	float _longueurX, _longueurY, _hypo, _angle, _damages;
 	int _capacite, _coolDown, _munRest, _reloadTime, _range, _impr;
 
-	std::string _soundPath;
+	std::string _soundPath, _ballePath;
 	sf::SoundBuffer _tirBuffer;
 	sf::Sound _tirSound;
 	sf::Clock _timeSinceReload;

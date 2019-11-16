@@ -2,6 +2,8 @@
 
 Ennemy::Ennemy(std::string texturePath, float defaultLife, sf::Vector2f initPosition) : NPC(texturePath, defaultLife, initPosition) {
 	this->setWeapon(Arme("mas36"));
+	//compteur++;
+	//this->_ID = compteur;
 }
 
 Ennemy::~Ennemy() {
@@ -53,6 +55,7 @@ bool Ennemy::update(sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std
 	for(unsigned int i = 0; i < throwableObjectsList.size(); i++)
 		if (getHitbox().intersects(throwableObjectsList[i].getHitbox())) {
 			_life -= throwableObjectsList[i].getDamages();
+			this->_entitySprite.move(sf::Vector2f(throwableObjectsList[i].getDirection().x * 2, throwableObjectsList[i].getDirection().y * 2));
 			throwableObjectsList.erase(throwableObjectsList.begin() + i);
 			if (_life <= 0) {
 				_life = 0;

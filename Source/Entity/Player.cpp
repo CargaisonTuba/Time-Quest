@@ -110,7 +110,7 @@ void Player::update(Cursor const &curseur, std::vector<Tile> const &_tiles, std:
 
 	//recharger l'arme
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
-		this->getWeapon().recharger();
+		this->_curWeapon.recharger();
 
 	//l'arme accompagne le joueur, logique
 	_curWeapon.update(this->getPosition(), curseur.getPosition());

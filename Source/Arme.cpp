@@ -55,7 +55,11 @@ Arme::Arme(std::string typeArme)
 				//Temps de rechargement
 				_reloadTime = std::stoi(listeArmeVect[i + 9]);
 
-				_impr = std::stof(listeArmeVect[i + 11]);
+				//Imprécision de l'arme
+				_impr = std::stof(listeArmeVect[i + 10]);
+
+				//Chemin de la texture de la balle de l'arme
+				_ballePath = listeArmeVect[i + 11];
 
 				break;
 
@@ -121,6 +125,15 @@ sf::Sprite Arme::getSprite()
 	return this->_armeSprite;
 }
 
+sf::Sound Arme::getTir()
+{
+	return this->_tirSound;
+}
+
+std::string Arme::getBallePath()
+{
+	return this->_ballePath;
+}
 
 float Arme::getAngle()
 {
@@ -161,18 +174,22 @@ bool Arme::getReady()
 //Méthodes
 void Arme::playTir()
 {
-	_tirSound.setBuffer(_tirBuffer);
-	_tirSound.play();
+	std::cout << _munRest << "\n";
+	sf::Sound t = _tirSound;
+	t.setBuffer(_tirBuffer);
+	t.play();
 	_munRest--;
 }
 
 void Arme::recharger()
 {
-	//std::cout << _readyState << " recharchement\n";
-	_timeSinceReload.restart();
-	_readyState = false;
-	//std::cout << _readyState << "\n";
-	this->_munRest = this->_capacite;
+	if (_timeSinceReload.getElapsedTime() > sf::milliseconds(_reloadTime))
+	{
+		std::cout << "recharchement...\n";
+		_timeSinceReload.restart();
+		_readyState = false;
+		this->_munRest = this->_capacite;
+	}
 }
 
 //Update des armes
@@ -229,11 +246,12 @@ void Arme::update(sf::Vector2f entityPos, sf::Vector2f shootPosition)
 
 	}
 	_armeSprite.setRotation(_angle);
-	if (_timeSinceReload.getElapsedTime() > sf::milliseconds(_reloadTime))
+	if (_timeSinceReload.getElapsedTime() > sf::milliseconds(_reloadTime) && this->_readyState == false && this->_munRest > 0)
 	{
 		this->_readyState = true;
+		std::cout << "Arme prete ! \n";
 	}
-	if (this->_munRest == 0)
+	if (this->_munRest == 0 && this->_readyState)
 	{
 		this->_readyState = false;
 	}
@@ -255,6 +273,5 @@ sf::Vector2f Arme::imprecision(sf::Vector2f shootDirection)
 	int b = _impr;
 	int imprX = rand() % (b - a) + a;
 	int imprY = rand() % (b - a) + a;
-	std::cout << "Imprévision vaut : " << _impr << " a vaut : " << a << " b vaut : " << b << " imprX vaut : " << imprX << " imprX vaut : " << imprY << "\n";
 	return sf::Vector2f(shootDirection.x + imprX, shootDirection.y + imprY);
 }

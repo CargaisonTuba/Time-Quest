@@ -11,7 +11,7 @@ Object::Object(std::string texturePath, sf::Vector2f throwerPosition, sf::Vector
 	_creationDate = (time_t)0;
 	if (!_objectText.loadFromFile(texturePath))
 	{
-		std::cout << "Erreur texture balle \n";
+		std::cout << "Erreur texture balle : " << texturePath << "\n";
 	}
 	_objectSprite.setTexture(_objectText);
 	this->_direction = direction;
@@ -34,12 +34,6 @@ bool Object::update()
 	return true;
 }
 
-/*sf::CircleShape& Object::getBody()
-{
-	//std::cout << "body";
-	return this->_body;
-}*/
-
 void Object::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	sf::Sprite s = _objectSprite;
@@ -49,10 +43,10 @@ void Object::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 sf::Vector2f Object::getDirection()
 {
-	//std::cout << "direction x: " << _direction.x << " y: " << _direction.y << "\n";
 	return _direction;
 }
 
-sf::FloatRect Object::getHitbox() const {
+sf::FloatRect Object::getHitbox() const 
+{
 	return _objectSprite.getGlobalBounds();
 }

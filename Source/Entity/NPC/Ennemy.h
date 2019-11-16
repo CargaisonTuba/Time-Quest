@@ -10,4 +10,8 @@ public:
 	~Ennemy();
 
 	bool update(sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, float const& dt);
+
+private:
+	//static int compteur;
+	//int _ID;
 };
