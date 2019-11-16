@@ -47,7 +47,12 @@ int main()
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
+			/*if (event.type == sf::Event::GainedFocus)
+				hasWindowFocus = true;
+			else if (event.type == sf::Event::LostFocus)
+				hasWindowFocus = false;*/
 		}
+		
 
 		//On efface la frame précédente
 		window.clear();
@@ -65,16 +70,16 @@ int main()
 				pause = !pause;
 				pauseJustActivated = !pauseJustActivated;
 				if (pause)
-					std::cout << "\x1B[33m[Info] : Jeu en pause\n\x1B[0m";
+					std::cout << "\x1B[33m[info] : Jeu en pause\n\x1B[0m";
 				else
-					std::cout << "\x1B[33m[Info] : Reprise du jeu\n\x1B[0m";
+					std::cout << "\x1B[33m[info] : Reprise du jeu\n\x1B[0m";
 			}
 		}
 		else
 			pauseJustActivated = false;
 
 		gameView.setSize(sf::Vector2f(400, 267));
-		if(!pause)
+		if(!pause && window.hasFocus())
 			map.update(player, curseur, gameView, dt);
 
 		curseur.update(window);

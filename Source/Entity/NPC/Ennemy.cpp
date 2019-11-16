@@ -48,13 +48,9 @@ bool Ennemy::update(sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std
 		{
 			_spritePosCount = 0;
 			if (_curWeapon.getReady())
-			{
 				fire(throwableObjectsList, playerPos, _tiles);
-			}
 			else
-			{
 				_curWeapon.recharger();
-			}
 		}
 	}
 
