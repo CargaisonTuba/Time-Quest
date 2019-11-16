@@ -113,7 +113,7 @@ void Player::update(Cursor const &curseur, std::vector<Tile> const &_tiles, std:
 		this->getWeapon().recharger();
 
 	//l'arme accompagne le joueur, logique
-	_curWeapon.update(this->getPosition(), curseur);
+	_curWeapon.update(this->getPosition(), curseur.getPosition());
 
 	//On fait en sorte que le joueur tire avec clic gauche.
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))

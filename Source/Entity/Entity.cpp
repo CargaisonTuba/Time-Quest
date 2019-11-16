@@ -73,16 +73,17 @@ bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f
 		this->getWeapon().playTir();
 		_timeSinceShot.restart();
 		sf::Vector2f pos = this->getPosition();
-
-		sf::Vector2f aim(shootDirection.x - pos.x, shootDirection.y - pos.y);
+		sf::Vector2f shootImpr = this->_curWeapon.imprecision(shootDirection);
+		sf::Vector2f aim(shootImpr.x - pos.x, shootImpr.y - pos.y);
 		float lenAim = sqrt(aim.x * aim.x + aim.y * aim.y);
 		sf::Vector2f direction(aim.x / lenAim, aim.y / lenAim);
 
 		sf::Vector2f posBalle;
-		posBalle.x = pos.x + aim.x - (aim.x * (lenAim - 25)) / lenAim;
-		posBalle.y = pos.y + aim.y - (aim.y * (lenAim - 25)) / lenAim;
+		posBalle.x = pos.x + aim.x - (aim.x * (lenAim - 21)) / lenAim;
+		posBalle.y = pos.y + aim.y - (aim.y * (lenAim - 21)) / lenAim;
+		this->_curWeapon.update(_entitySprite.getPosition(), shootImpr);
+		Bullet newBullet = Bullet(this->_curWeapon.getAngle(), "Time-Quest/Source/assets/balle.png", posBalle, direction, _curWeapon.getRange(), _curWeapon.getDamages());
 		
-		Bullet newBullet = Bullet(posBalle, direction, _curWeapon.getRange(), _curWeapon.getDamages());
 		_entitySprite.move(sf::Vector2f(-direction.x/2, -direction.y/2));
 		for (unsigned int i = 0; i < _tiles.size(); i++) {
 			if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
@@ -91,7 +92,7 @@ bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f
 		}
 
 		throwableObjectsList.push_back(newBullet);
-
+		_curWeapon.getSprite().move(sf::Vector2f(-direction.x * 5, -direction.y * 5));
 	}
 
 	return true;

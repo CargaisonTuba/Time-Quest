@@ -7,7 +7,7 @@
 class ThrowedObject : public Object
 {
 public:
-	ThrowedObject(sf::Vector2f throwerPosition, sf::Vector2f direction, int range, float damages = 0);
+	ThrowedObject(std::string texturePath, sf::Vector2f throwerPosition, sf::Vector2f direction, int range, float damages = 0);
 	ThrowedObject();
 	~ThrowedObject();
 
