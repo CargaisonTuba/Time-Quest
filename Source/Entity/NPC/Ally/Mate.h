@@ -7,7 +7,7 @@ public:
 	Mate(std::string texturePath, float defaultLife, sf::Vector2f initPosition);
 	~Mate();
 
-	bool update(std::vector<Ennemy> _ennemies, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, float const& dt);
+	bool update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, float const& dt);
 
 private:
 	//static int compteur;

@@ -13,8 +13,8 @@ Ennemy::~Ennemy() {
 
 }
 
-bool Ennemy::update(sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, float const& dt) {
-	_curWeapon.update(getPosition(), playerPos);
+bool Ennemy::update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, float const& dt) {
+	
 
 	//mise à jour de la barre de vie avec la vie et la position actuelle de l'ennemi
 	_lifeBar.setSize(sf::Vector2f((_life * 20) / _totalLife, 5));
@@ -23,10 +23,24 @@ bool Ennemy::update(sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std
 	_lifeBar.setOutlineColor(sf::Color::Transparent);
 
 	//si le joueur est proche, l'ennemi tire sur le joueur.
-	float playerX = playerPos.x, ennemyX = getPosition().x;
-	float playerY = playerPos.y, ennemyY = getPosition().y;
-	float dist = sqrt((playerX - ennemyX) * (playerX - ennemyX) + (playerY - ennemyY) * (playerY - ennemyY));
-	sf::Vector2f direction((playerX - ennemyX) / dist, (playerY - ennemyY) / dist);
+	float mateX = playerPos.x, ennemyX = getPosition().x;
+	float mateY = playerPos.y, ennemyY = getPosition().y;
+	sf::Vector2f targetPos = playerPos;
+	float dist = sqrt((mateX - ennemyX) * (mateX - ennemyX) + (mateY - ennemyY) * (mateY - ennemyY));
+	sf::Vector2f direction((mateX - ennemyX) / dist, (mateY - ennemyY) / dist);
+	/*for (unsigned int i = 0; i < _mates.size(); i++)
+	{
+		ennemyX = _mates[i].getPosition().x;
+		ennemyY = _mates[i].getPosition().y;
+		if ((mateX - ennemyX) * (mateX - ennemyX) + (mateY - ennemyY) * (mateY - ennemyY) < dist)
+		{
+			dist = (mateX - ennemyX) * (mateX - ennemyX) + (mateY - ennemyY) * (mateY - ennemyY);
+			direction = sf::Vector2f((ennemyX - mateX) / dist, (ennemyY - mateY) / dist);
+			targetPos = _mates[i].getPosition();
+		}
+	}*/
+	_curWeapon.update(getPosition(), targetPos);
+	
 
 	if (dist <= _detectRange) {
 		if (dist >= _curWeapon.getRange())
@@ -52,7 +66,7 @@ bool Ennemy::update(sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std
 			_spritePosCount = 0;
 			if (_curWeapon.getReady())
 			{
-				fire(throwableObjectsList, playerPos, _tiles);
+				fire(throwableObjectsList, targetPos, _tiles);
 			}
 			else
 			{
