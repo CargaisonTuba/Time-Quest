@@ -2,8 +2,11 @@
 
 Ennemy::Ennemy(std::string texturePath, float defaultLife, sf::Vector2f initPosition) : NPC(texturePath, defaultLife, initPosition) {
 	this->setWeapon(Arme("mas36"));
+	_lifeBar.setFillColor(sf::Color::Red);
+	_lifeBar.setOutlineThickness(1);
 	//compteur++;
 	//this->_ID = compteur;
+	_detectRange = 200;
 }
 
 Ennemy::~Ennemy() {
@@ -25,7 +28,7 @@ bool Ennemy::update(sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std
 	float dist = sqrt((playerX - ennemyX) * (playerX - ennemyX) + (playerY - ennemyY) * (playerY - ennemyY));
 	sf::Vector2f direction((playerX - ennemyX) / dist, (playerY - ennemyY) / dist);
 
-	if (dist <= MIN_DIST_PLAYER) {
+	if (dist <= _detectRange) {
 		if (dist >= _curWeapon.getRange())
 		{
 			_entitySprite.move(sf::Vector2f(direction.x/2, direction.y/2));

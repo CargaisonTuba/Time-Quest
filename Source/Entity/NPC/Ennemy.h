@@ -1,8 +1,6 @@
 #pragma once
 #include "NPC.h"
 
-#define MIN_DIST_PLAYER 200	//distance minimale pour attaquer le joueur
-
 class Ennemy : public NPC
 {
 public:
@@ -14,4 +12,5 @@ public:
 private:
 	//static int compteur;
 	//int _ID;
+	int _detectRange;
 };
