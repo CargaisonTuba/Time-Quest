@@ -3,11 +3,14 @@
 #include <iostream>
 #include <stdlib.h>
 #include <SFML/Audio.hpp>
+
 #include "../Element/Tile.h"
 #include "../Arme.h"
 #include "../HUD/Cursor.h"
 #include "../Element/Object/ThrowedObject.h"
 #include "../Element/Object/ThrowedObject/Bullet.h"
+#include "../Inventory/Inventory.h"
+#include "../Inventory/CollectedItem.h"
 
 
 class Entity : public sf::Drawable
@@ -39,6 +42,8 @@ protected:
 	float _life, _totalLife;
 	sf::Clock _timeSinceShot;
 
+	//Stuff
+	Inventory _inventory;
 	Arme _curWeapon;
 
 	//Barre de vie, assez simple pour le moment.
