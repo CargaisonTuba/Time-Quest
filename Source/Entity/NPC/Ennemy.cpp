@@ -15,7 +15,7 @@ bool Ennemy::update(sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std
 	_lifeBar.setSize(sf::Vector2f((_life * 20) / _totalLife, 5));
 	
 	_lifeBar.setPosition(sf::Vector2f(getPosition().x -10, getPosition().y -20));
-	_lifeBar.setOutlineColor(sf::Color::White);
+	_lifeBar.setOutlineColor(sf::Color::Transparent);
 
 	//si le joueur est proche, l'ennemi tire sur le joueur.
 	float playerX = playerPos.x, ennemyX = getPosition().x;

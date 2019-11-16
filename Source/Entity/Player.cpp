@@ -5,7 +5,7 @@ Player::Player(std::string texturePath, float defaultLife, sf::Vector2f initPosi
 	this->setWeapon(Arme("mas38"));
 
 	_lifeBar.setFillColor(sf::Color::Red);
-	_lifeBar.setOutlineColor(sf::Color::Magenta);
+	_lifeBar.setOutlineColor(sf::Color::White);
 	_lifeBar.setOutlineThickness(2);
 	_lifeBar.setPosition(sf::Vector2f(20, 680));
 
