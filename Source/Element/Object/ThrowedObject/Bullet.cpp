@@ -2,12 +2,11 @@
 #include "Bullet.h"
 #include <iostream>
 
-Bullet::Bullet(sf::Vector2f throwerPosition, sf::Vector2f direction, int range, float damages) :
-	ThrowedObject (throwerPosition, direction, range, damages)
+Bullet::Bullet(float angle, std::string texturePath, sf::Vector2f throwerPosition, sf::Vector2f direction, int range, float damages) :
+	ThrowedObject (texturePath, throwerPosition, direction, range, damages)
 {
-	_body.setFillColor(sf::Color::Black);
-	_body.setOutlineThickness(0);
-	_body.setRadius(2);
+	_objectSprite.setRotation(angle);
+	_objectSprite.setScale(0.5, 0.5);
 }
 
 Bullet::~Bullet()

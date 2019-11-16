@@ -29,6 +29,7 @@ public:
 
 	std::vector<ThrowedObject> getThrowableObjectsList();
 
+
 private:
 	//Entités
 	std::vector<Ennemy> _ennemies;

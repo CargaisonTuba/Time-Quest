@@ -2,6 +2,8 @@
 
 Ennemy::Ennemy(std::string texturePath, float defaultLife, sf::Vector2f initPosition) : NPC(texturePath, defaultLife, initPosition) {
 	this->setWeapon(Arme("mas36"));
+	//compteur++;
+	//this->_ID = compteur;
 }
 
 Ennemy::~Ennemy() {
@@ -26,9 +28,11 @@ bool Ennemy::update(sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std
 	if (dist <= MIN_DIST_PLAYER) {
 		if (dist >= _curWeapon.getRange())
 		{
-			_entitySprite.move(sf::Vector2f(direction.x/5, direction.y/5));
-			for (unsigned int i = 0; i < _tiles.size(); i++) {
-				if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
+			_entitySprite.move(sf::Vector2f(direction.x/2, direction.y/2));
+			for (unsigned int i = 0; i < _tiles.size(); i++) 
+			{
+				if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) 
+				{
 					_entitySprite.move(-direction);
 				}
 			}
@@ -43,7 +47,14 @@ bool Ennemy::update(sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std
 		else
 		{
 			_spritePosCount = 0;
-			fire(throwableObjectsList, playerPos);
+			if (_curWeapon.getReady())
+			{
+				fire(throwableObjectsList, playerPos, _tiles);
+			}
+			else
+			{
+				_curWeapon.recharger();
+			}
 		}
 	}
 
@@ -51,6 +62,7 @@ bool Ennemy::update(sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std
 	for(unsigned int i = 0; i < throwableObjectsList.size(); i++)
 		if (getHitbox().intersects(throwableObjectsList[i].getHitbox())) {
 			_life -= throwableObjectsList[i].getDamages();
+			this->_entitySprite.move(sf::Vector2f(throwableObjectsList[i].getDirection().x * 2, throwableObjectsList[i].getDirection().y * 2));
 			throwableObjectsList.erase(throwableObjectsList.begin() + i);
 			if (_life <= 0) {
 				_life = 0;

@@ -110,14 +110,14 @@ void Player::update(Cursor const &curseur, std::vector<Tile> const &_tiles, std:
 
 	//recharger l'arme
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
-		this->getWeapon().recharger();
+		this->_curWeapon.recharger();
 
 	//l'arme accompagne le joueur, logique
-	_curWeapon.update(this->getPosition(), curseur);
+	_curWeapon.update(this->getPosition(), curseur.getPosition());
 
 	//On fait en sorte que le joueur tire avec clic gauche.
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-		this->fire(throwableObjectsList, curseur.getPosition());
+		this->fire(throwableObjectsList, curseur.getPosition(), _tiles);
 
 	//Si le joueur se fait toucher, il perd de la vie
 	//l'ennemi perd de la vie s'il est touché par une balle

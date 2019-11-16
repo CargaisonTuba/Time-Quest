@@ -1,5 +1,5 @@
-mas36 Time-Quest/Source/assets/mas36.png Time-Quest/Source/assets/sound/mas36shoot.wav 1000 5 65 7 80 150 2000 125
-mas38 Time-Quest/Source/assets/mas38.png Time-Quest/Source/assets/sound/mas38shoot.wav 150 30 72 8 20 150 2000 78
-mp40 Time-Quest/Source/assets/mp40s.png Time-Quest/Source/assets/sound/mp40shoot.wav 200 30 20 8 10 150 2000
-fm2429 Time-Quest/Source/assets/fm2429.png Time-Quest/Source/assets/sound/fm2429shoot.wav 300 30 41 45 20 150 2000
-//typeArme, texturePath, soundPath, coolDown, capacite, origineX, origineY, damages, range, reloadTime, origine/canon
+mas36 Time-Quest/Source/assets/mas36.png Time-Quest/Source/assets/sound/mas36shoot.wav 1500 5 65 7 80 150 2000 5 Time-Quest/Source/assets/ballemas36.png Time-Quest/Source/assets/sound/mas36reload.wav
+mas38 Time-Quest/Source/assets/mas38.png Time-Quest/Source/assets/sound/mas38shoot.wav 150 30 72 8 20 150 2000 10 Time-Quest/Source/assets/ballemas38.png Time-Quest/Source/assets/sound/mas38reload.wav
+mp40 Time-Quest/Source/assets/mp40s.png Time-Quest/Source/assets/sound/mp40shoot.wav 200 30 20 8 10 150 2000 10 Time-Quest/Source/assets/ballemp40.png Time-Quest/Source/assets/sound/mp40reload.wav
+fm2429 Time-Quest/Source/assets/fm2429.png Time-Quest/Source/assets/sound/fm2429shoot.wav 300 30 41 45 20 150 2000 20 Time-Quest/Source/assets/ballefm2429.png Time-Quest/Source/assets/sound/fm2429reload.wav
+//typeArme, texturePath, soundPath, coolDown, capacite, origineX, origineY, damages, range, reloadTime, angleImprecision, ballePath
