@@ -35,7 +35,7 @@ Arme::Arme(std::string typeArme)
 				{
 					std::cout << "\x1B[31m[Erreur]\x1B[0m : SoundBuffer : impossible de charger " << listeArmeVect[i + 2] << std::endl;
 				}
-				_tirSound.setBuffer(_tirBuffer);
+				
 
 				//On attribue au cool down le 3è mot suivant (casté de string à int via stoi)
 				_coolDown = std::stoi(listeArmeVect[i+3]);
@@ -52,6 +52,24 @@ Arme::Arme(std::string typeArme)
 				//Idem pour la portée
 				_range = std::stoi(listeArmeVect[i + 8]);
 
+<<<<<<< Updated upstream
+=======
+				//Temps de rechargement
+				_reloadTime = std::stoi(listeArmeVect[i + 9]);
+
+				//Imprécision de l'arme
+				_impr = std::stof(listeArmeVect[i + 10]);
+
+				//Chemin de la texture de la balle de l'arme
+				_ballePath = listeArmeVect[i + 11];
+
+				//Chemin du son de rechargement
+				if (!_reloadBuffer.loadFromFile(listeArmeVect[i + 12]))
+				{
+					std::cout << "Erreur reload \n";
+				}
+
+>>>>>>> Stashed changes
 				break;
 
 			}
@@ -72,6 +90,10 @@ Arme::Arme(std::string typeArme)
 	hypo = 0;
 	_munRest = _capacite;
 	_readyState = true;
+	if (!_emptyBuffer.loadFromFile("Time-Quest/Source/assets/sound/clicpasboum.wav"))
+	{
+		std::cout << "Erreur empty \n";
+	}
 }
 
 Arme::Arme()
@@ -125,6 +147,7 @@ void Arme::update(sf::Vector2f entityPos, sf::Vector2f playerPos) {
 
 	if (playerPos.y < entityPos.y)
 	{
+<<<<<<< Updated upstream
 		if (playerPos.x < entityPos.x)
 		{
 			angle = (180.f + acos(longueurX / hypo) * 180.0f / (float)3.141592653589793);
@@ -138,9 +161,17 @@ void Arme::update(sf::Vector2f entityPos, sf::Vector2f playerPos) {
 			this->setPosition(sf::Vector2f(entityPos.x - 12, entityPos.y - 10));
 		}
 
+=======
+		//std::cout << "Statut du son avant : " << _tirSound.getStatus() << std::endl;
+		_tirSound.setBuffer(_tirBuffer);
+		
+		//std::cout << "Statut du son apres : " << _tirSound.getStatus() << std::endl;
+		_munRest--;
+>>>>>>> Stashed changes
 	}
 	else if (playerPos.y > entityPos.y)
 	{
+<<<<<<< Updated upstream
 		if (playerPos.x > entityPos.x)
 		{
 			angle = acos(longueurX / hypo) * 180.0f / (float)3.141592653589793;
@@ -167,16 +198,33 @@ void Arme::update(sf::Vector2f entityPos, sf::Vector2f playerPos) {
 				this->setPosition(sf::Vector2f(entityPos.x - 15, entityPos.y - 10));
 			}
 		}
+=======
+		//clic pas boum
+		_tirSound.setBuffer(_emptyBuffer);
+	}
+	_tirSound.play();
+	std::cout << "\x1B[33m[Munitions]\x1B[0m : \x1B[35m " << _munRest << " \x1B[0m / " << _capacite << "\n";
+}
+>>>>>>> Stashed changes
 
 	}
 	_armeSprite.setRotation(angle);
 	if (_timeSinceReload.getElapsedTime() > sf::milliseconds(_reloadTime))
 	{
+<<<<<<< Updated upstream
 		this->_readyState = true;
 	}
 	if (this->_munRest == 0)
 	{
 		this->_readyState = false;
+=======
+		_reloadSound.setBuffer(_reloadBuffer);
+		_reloadSound.play();
+		std::cout << "\x1B[33m[Rechargement]\x1B[0m...\n";
+		_timeSinceReload.restart();
+		_readyState = false;
+		this->_munRest = this->_capacite;
+>>>>>>> Stashed changes
 	}
 }
 

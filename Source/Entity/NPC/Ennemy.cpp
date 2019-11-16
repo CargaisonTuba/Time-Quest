@@ -43,7 +43,18 @@ bool Ennemy::update(sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std
 		else
 		{
 			_spritePosCount = 0;
+<<<<<<< Updated upstream
 			fire(throwableObjectsList, playerPos);
+=======
+			if (_curWeapon.getReady())
+			{
+				fire(throwableObjectsList, playerPos, _tiles);
+			}
+			else
+			{
+				_curWeapon.recharger();
+			}
+>>>>>>> Stashed changes
 		}
 	}
 
