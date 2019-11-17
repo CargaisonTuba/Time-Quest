@@ -14,7 +14,7 @@ Ennemy::~Ennemy() {
 }
 
 bool Ennemy::update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, float const& dt) {
-	
+	//std::vector<Mate>& _mates, 
 
 	//mise à jour de la barre de vie avec la vie et la position actuelle de l'ennemi
 	_lifeBar.setSize(sf::Vector2f((_life * 20) / _totalLife, 5));
@@ -22,23 +22,25 @@ bool Ennemy::update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vect
 	_lifeBar.setPosition(sf::Vector2f(getPosition().x -10, getPosition().y -20));
 	_lifeBar.setOutlineColor(sf::Color::Transparent);
 
-	//si le joueur est proche, l'ennemi tire sur le joueur.
+	//initialisation de la cible à la position du joueur
 	float mateX = playerPos.x, ennemyX = getPosition().x;
 	float mateY = playerPos.y, ennemyY = getPosition().y;
 	sf::Vector2f targetPos = playerPos;
 	float dist = sqrt((mateX - ennemyX) * (mateX - ennemyX) + (mateY - ennemyY) * (mateY - ennemyY));
 	sf::Vector2f direction((mateX - ennemyX) / dist, (mateY - ennemyY) / dist);
-	/*for (unsigned int i = 0; i < _mates.size(); i++)
+
+	//Chaque ennemi parcourt le tableau d'alliés
+	for (unsigned int i = 0; i < _mates.size(); i++)
 	{
-		ennemyX = _mates[i].getPosition().x;
-		ennemyY = _mates[i].getPosition().y;
-		if ((mateX - ennemyX) * (mateX - ennemyX) + (mateY - ennemyY) * (mateY - ennemyY) < dist)
+		mateX = _mates[i].getPosition().x;
+		mateY = _mates[i].getPosition().y;
+		if (sqrt((mateX - ennemyX) * (mateX - ennemyX) + (mateY - ennemyY) * (mateY - ennemyY)) < dist)
 		{
-			dist = (mateX - ennemyX) * (mateX - ennemyX) + (mateY - ennemyY) * (mateY - ennemyY);
-			direction = sf::Vector2f((ennemyX - mateX) / dist, (ennemyY - mateY) / dist);
+			dist = sqrt((mateX - ennemyX) * (mateX - ennemyX) + (mateY - ennemyY) * (mateY - ennemyY));
+			direction = sf::Vector2f((mateX - ennemyX) / dist, (mateY - ennemyY) / dist);
 			targetPos = _mates[i].getPosition();
 		}
-	}*/
+	}
 	_curWeapon.update(getPosition(), targetPos);
 	
 
