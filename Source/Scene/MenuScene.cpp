@@ -1,11 +1,7 @@
 #pragma once
-#include "Map.h"
+#include "MenuScene.h"
 
-class Scene
+MenuScene::MenuScene(Map background, Hud menu) : Scene(background, menu)
 {
-private:
-	/*Map gameplayLayer;
-	Overlay overlayer;
-	Overlay datalayer;*/
 
-};
+}

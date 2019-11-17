@@ -1,10 +1,7 @@
 #pragma once
-#include "Map.h"
-class Scene
-{
-private:
-	/*Map gameplayLayer;
-	Overlay overlayer;
-	Overlay datalayer;*/
+#include "GamingScene.h"
 
-};
+GamingScene::GamingScene(Map map, Hud hud) : Scene(map, hud)
+{
+
+}
