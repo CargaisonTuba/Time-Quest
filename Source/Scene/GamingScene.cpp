@@ -5,3 +5,8 @@ GamingScene::GamingScene(Map map, Hud hud) : Scene(map, hud)
 {
 
 }
+
+GamingScene::~GamingScene()
+{
+
+}

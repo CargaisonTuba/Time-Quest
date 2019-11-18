@@ -5,9 +5,6 @@
 
 class GamingScene : public Scene
 {
-private:
-	
-
 public:
 	GamingScene(Map map, Hud hud);
 	~GamingScene();

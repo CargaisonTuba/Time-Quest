@@ -10,11 +10,12 @@ private:
 	Cursor cursor;
 	sf::RenderWindow window;
 	sf::View gameView;
-	bool* run;
+	bool run;
 	bool pause;
 	bool pauseJustActivated;
 
 public:
+	SceneManager();
 	SceneManager(bool& run);
 	~SceneManager();
 	void update(Player& player, Cursor& curseur, sf::View& view, float const& dt, bool pause);
