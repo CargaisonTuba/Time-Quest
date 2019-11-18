@@ -4,7 +4,6 @@
 
 Arme::Arme(std::string typeArme)
 {
-	srand(time(NULL));
 	std::ifstream listeArme("Time-Quest/Source/arme.txt");
 	if (listeArme)
 	{
@@ -19,7 +18,7 @@ Arme::Arme(std::string typeArme)
 		}
 
 		//On parcourt le table et si on trouve dans le tableau le nom de l'arme (typeArme), alors :
-		for (int i = 0; i < listeArmeVect.size(); i++)
+		for (int i = 0; (unsigned)i < listeArmeVect.size(); i++)
 		{
 			if (listeArmeVect[i] == typeArme)
 			{
@@ -41,16 +40,16 @@ Arme::Arme(std::string typeArme)
 				_capacite = std::stoi(listeArmeVect[i + 4]);
 
 				//De la même façon paramètre l'origine de l'arme
-				_armeSprite.setOrigin(std::stoi(listeArmeVect[i + 5]), std::stoi(listeArmeVect[i + 6]));
+				_armeSprite.setOrigin(std::stof(listeArmeVect[i + 5]), std::stof(listeArmeVect[i + 6]));
 
 				//Idem pour dégâts de l'arme
 				_damages = std::stof(listeArmeVect[i + 7]);
 
 				//Idem pour la portée
-				_range = std::stoi(listeArmeVect[i + 8]);
+				_range = std::stof(listeArmeVect[i + 8]);
 
 				//Temps de rechargement
-				_reloadTime = std::stoi(listeArmeVect[i + 9]);
+				_reloadTime = std::stof(listeArmeVect[i + 9]);
 
 				//Imprécision de l'arme
 				_impr = std::stof(listeArmeVect[i + 10]);
@@ -75,14 +74,20 @@ Arme::Arme(std::string typeArme)
 		_capacite = 0;
 		_reloadTime = 0;
 	}
+
 	_angle = 0;
 	_longueurX = 0;
 	_longueurY = 0;
 	_hypo = 0;
 	_munRest = _capacite;
 	_readyState = true;
+
 	if (!_emptyBuffer.loadFromFile("Time-Quest/Source/assets/sound/clicpasboum.wav"))
 		std::cout << "\x1B[31m[Erreur]\x1B[0m : SoundBuffer : impossible de charger " << "Time-Quest/Source/assets/sound/clicpasboum.wav" << std::endl;
+}
+
+Arme::Arme(std::string typeArme, sf::Vector2f initPosition) : Arme(typeArme) {
+	_initPosition = initPosition;
 }
 
 Arme::Arme()
@@ -142,7 +147,7 @@ float Arme::getAngle()
 	return this->_angle;
 }
 
-float Arme::getImpr()
+float Arme::getImpr()	//imprécision de l'arme
 {
 	return this->_impr;
 }
@@ -162,7 +167,7 @@ int Arme::getMunRest()
 	return this->_munRest;
 }
 
-int Arme::getRange()
+float Arme::getRange()
 {
 	return this->_range;
 }
@@ -192,7 +197,7 @@ void Arme::playTir()
 
 void Arme::recharger()
 {
-	if (_timeSinceReload.getElapsedTime() > sf::milliseconds(_reloadTime))
+	if ((float)(_timeSinceReload.getElapsedTime().asMilliseconds()) > _reloadTime)
 	{
 		_reloadSound.setBuffer(_reloadBuffer);
 		_reloadSound.play();
@@ -257,7 +262,7 @@ void Arme::update(sf::Vector2f entityPos, sf::Vector2f shootPosition)
 
 	}
 	_armeSprite.setRotation(_angle);
-	if (_timeSinceReload.getElapsedTime() > sf::milliseconds(_reloadTime) && this->_readyState == false && this->_munRest > 0)
+	if ((float)(_timeSinceReload.getElapsedTime().asMilliseconds()) > _reloadTime && this->_readyState == false && this->_munRest > 0)
 	{
 		this->_readyState = true;
 		std::cout << "\x1B[32m[OK]\x1B[0m : Arme prete !" << std::endl;
@@ -280,9 +285,9 @@ void Arme::draw(sf::RenderTarget& target, sf::RenderStates states) const
 sf::Vector2f Arme::imprecision(sf::Vector2f shootDirection)
 {
 	
-	int a = -_impr;
-	int b = _impr;
-	int imprX = rand() % (b - a) + a;
-	int imprY = rand() % (b - a) + a;
+	float a = -_impr;
+	float b = _impr;
+	int imprX = rand() % (int)((b - a) + a);
+	int imprY = rand() % (int)((b - a) + a);
 	return sf::Vector2f(shootDirection.x + imprX, shootDirection.y + imprY);
 }

@@ -6,7 +6,7 @@
 #define NULL 0
 #endif
 
-Object::Object(std::string texturePath, sf::Vector2f throwerPosition, sf::Vector2f direction)
+Object::Object(std::string texturePath, sf::Vector2f initPosition)
 {
 	_creationDate = (time_t)0;
 	if (!_objectText.loadFromFile(texturePath))
@@ -14,9 +14,8 @@ Object::Object(std::string texturePath, sf::Vector2f throwerPosition, sf::Vector
 		std::cout << "Erreur texture balle : " << texturePath << "\n";
 	}
 	_objectSprite.setTexture(_objectText);
-	this->_direction = direction;
-	this->_objectSprite.setPosition(throwerPosition);
-	this->_posInit = throwerPosition;
+	this->_objectSprite.setPosition(initPosition);
+	this->_initPosition = initPosition;
 }
 
 Object::Object()
@@ -39,11 +38,6 @@ void Object::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	sf::Sprite s = _objectSprite;
 	s.setTexture(_objectText);
 	target.draw(s);
-}
-
-sf::Vector2f Object::getDirection()
-{
-	return _direction;
 }
 
 sf::FloatRect Object::getHitbox() const 

@@ -7,7 +7,7 @@
 class Bullet : public ThrowedObject
 {
 public:
-	Bullet(float angle, std::string texturePath, sf::Vector2f throwerPosition, sf::Vector2f direction, int range, float damages);
+	Bullet(float angle, std::string texturePath, sf::Vector2f throwerPosition, sf::Vector2f direction, float range, float damages);
 	~Bullet();
 
 private:

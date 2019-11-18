@@ -22,7 +22,7 @@ sf::Vector2f Player::getPosition() const {
 }
 
 //On met la position de la souris en paramètre pour pouvoir décider dans quelle direction pointe l'arme
-void Player::update(Cursor const &curseur, std::vector<Tile> const &_tiles, std::vector<ThrowedObject> &throwableObjectsList, float const& dt) 
+void Player::update(Cursor const &curseur, std::vector<Tile> const &_tiles, std::vector<ThrowedObject> &throwableObjectsList, std::vector<Object*>& droppedObjectsList, float const& dt)
 {
 	//changement d'arme (TEST)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
@@ -40,9 +40,8 @@ void Player::update(Cursor const &curseur, std::vector<Tile> const &_tiles, std:
 	//déplacement du joueur
 	float speed = 0.1f * dt;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
-	{
-		speed = speed * 1.5;
-	}
+		speed *= 1.5f;
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
 		
 		_entitySprite.move(sf::Vector2f(0, -speed));
@@ -132,7 +131,7 @@ void Player::update(Cursor const &curseur, std::vector<Tile> const &_tiles, std:
 				_life = _totalLife;
 			}
 		}
-
+	
 	//On met la barre de vie du joueur à jour
 	_lifeBar.setSize(sf::Vector2f((_life * 300) / _totalLife, 20));
 }
