@@ -21,12 +21,15 @@ public:
 
 	void setWeapon(Arme newWeapon);
 	Arme getWeapon();
+	void blast(sf::Vector2f source, float damage);
 	float getLife() const;
 	sf::RectangleShape getLifebar() const;
 
 	bool fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection, std::vector<Tile> const& _tiles);
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
+
 
 protected:
 	sf::Texture _entityText[11][4];

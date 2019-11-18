@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include <cmath>
 
 
 Entity::Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosition) //Constructeur par défaut, sans paramètre
@@ -56,6 +57,15 @@ void Entity::setWeapon(Arme newWeapon)
 Arme Entity::getWeapon()
 {
 	return this->_curWeapon;
+}
+
+void Entity::blast(sf::Vector2f source, float damage)
+{
+	
+	if (sqrt(pow(this->_initPos.x-source.x, 2)+pow(this->_initPos.y-source.y, 2)) < 3)
+	{
+		_life = _life - damage;
+	}
 }
 
 float Entity::getLife() const {
