@@ -18,5 +18,6 @@ private:
 	//int _ID;
 	float _detectRange, _distPlayer;
 	bool _follow;
+	bool _fPressed;
 };
 

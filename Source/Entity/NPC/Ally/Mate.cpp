@@ -10,6 +10,7 @@ Mate::Mate(std::string texturePath, float defaultLife, sf::Vector2f initPosition
 	_detectRange = 200;
 	_distPlayer = 50;
 	_follow = false;
+	_fPressed = false;
 }
 
 Mate::~Mate() {
@@ -26,9 +27,14 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 	_lifeBar.setOutlineColor(sf::Color::Transparent);
 
 	//si le joueur appuie sur F, on passe follow en true
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F) && _fPressed == false)
 	{
+		_fPressed = true;
 		_follow = !_follow;
+	}
+	else
+	{
+		_fPressed = false;
 	}
 
 	//si un ennemi est proche, l'allié lui tire dessus
