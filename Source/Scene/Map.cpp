@@ -37,6 +37,15 @@ Map::Map() {
 					_ennemies.push_back(Ennemy("Time-Quest/Source/assets/soldatAllemand40.png", eLife, ePos));
 				//}
 			}
+			else if (currentOperation == "#mate")
+			{
+				float eLife = 0;
+				sf::Vector2f ePos(0, 0);
+				mapFile >> eLife;
+				mapFile >> ePos.x;
+				mapFile >> ePos.y;
+				_mates.push_back(Mate("Time-Quest/Source/assets/soldatFrancais40.png", eLife, ePos));
+			}
 			else if (currentOperation == "#tiles") {
 				while (mapFile >> tileID)
 					level.push_back(tileID);
@@ -105,8 +114,14 @@ void Map::update(Player& player, Cursor &curseur, sf::View &view, float const& d
 	player.update(curseur, _tiles, _throwableObjectsList, dt);
 
 	for (unsigned int i = 0; i < _ennemies.size(); i++)
-		if (_ennemies[i].update(player.getPosition(), _tiles, _throwableObjectsList, dt))	//si l'ennemi est mort, on le retire de la liste
+		if (_ennemies[i].update(_mates, player.getPosition(), _tiles, _throwableObjectsList, dt))	//si l'ennemi est mort, on le retire de la liste
 			_ennemies.erase(_ennemies.begin() + i);
+
+	for (unsigned int i = 0; i < _mates.size(); i++)
+	{
+		if (_mates[i].update(_ennemies, player.getPosition(), _tiles, _throwableObjectsList, dt))	//si l'allié est mort, on le retire de la liste
+			_mates.erase(_mates.begin() + i);
+	}
   
 	for (unsigned int i = 0; i < _throwableObjectsList.size(); i++)
 	{
@@ -143,6 +158,9 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	//on dessine les pnjs
 	for (unsigned int i = 0; i < _ennemies.size(); i++)
 		target.draw(_ennemies[i]);
+
+	for (unsigned int i = 0; i < _mates.size(); i++)
+		target.draw(_mates[i]);//
   
 	//On dessines les throwableObjects
 	for (unsigned int i = 0; i < _throwableObjectsList.size(); i++)
