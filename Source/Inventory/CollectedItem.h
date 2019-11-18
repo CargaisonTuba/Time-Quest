@@ -3,9 +3,9 @@
 class ColletedItem
 {
 public:
-	ColletedItem();
+	ColletedItem(int id, std::string path);
 	~ColletedItem();
 
 private:
-
+	int _id;
 };

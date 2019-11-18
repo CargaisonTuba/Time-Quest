@@ -10,8 +10,6 @@
 #include "../Element/Object/ThrowedObject.h"
 #include "../Element/Object/ThrowedObject/Bullet.h"
 #include "../Inventory/Inventory.h"
-#include "../Inventory/CollectedItem.h"
-
 
 class Entity : public sf::Drawable
 {

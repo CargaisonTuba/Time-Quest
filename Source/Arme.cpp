@@ -81,8 +81,13 @@ Arme::Arme(std::string typeArme)
 	_hypo = 0;
 	_munRest = _capacite;
 	_readyState = true;
+
 	if (!_emptyBuffer.loadFromFile("Time-Quest/Source/assets/sound/clicpasboum.wav"))
 		std::cout << "\x1B[31m[Erreur]\x1B[0m : SoundBuffer : impossible de charger " << "Time-Quest/Source/assets/sound/clicpasboum.wav" << std::endl;
+}
+
+Arme::Arme(std::string typeArme, sf::Vector2f initPosition) : Arme(typeArme) {
+	_initPosition = initPosition;
 }
 
 Arme::Arme()

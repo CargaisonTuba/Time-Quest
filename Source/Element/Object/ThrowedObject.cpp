@@ -2,7 +2,7 @@
 #include "iostream"
 
 ThrowedObject::ThrowedObject(std::string texturePath, sf::Vector2f throwerPosition, sf::Vector2f direction, int range, float damages) :
-	Object(texturePath, throwerPosition, direction)
+	Object(texturePath, throwerPosition)
 {
 	_clock = sf::Clock();
 	this->_clock.restart();
@@ -13,6 +13,8 @@ ThrowedObject::ThrowedObject(std::string texturePath, sf::Vector2f throwerPositi
 	{
 		std::cout << "Echec impact \n";
 	}
+	
+	_direction = direction;
 }
 
 ThrowedObject::ThrowedObject()
@@ -26,6 +28,9 @@ ThrowedObject::~ThrowedObject()
 
 }
 
+sf::Vector2f ThrowedObject::getDirection() const {
+	return _direction;
+}
 
 float ThrowedObject::getDamages() const {
 	return _damages;
@@ -37,7 +42,7 @@ bool ThrowedObject::update(float const& dt,  std::vector<Tile> const& _tiles)
 	{
 		return false;
 	}
-	if (sqrt((_objectSprite.getPosition().x - _posInit.x) * (_objectSprite.getPosition().x - _posInit.x) + (_objectSprite.getPosition().y - _posInit.y) * (_objectSprite.getPosition().y - _posInit.y)) > _range)
+	if (sqrt((_objectSprite.getPosition().x - _initPosition.x) * (_objectSprite.getPosition().x - _initPosition.x) + (_objectSprite.getPosition().y - _initPosition.y) * (_objectSprite.getPosition().y - _initPosition.y)) > _range)
 	{
 		return false;
 	}

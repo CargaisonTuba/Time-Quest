@@ -87,7 +87,7 @@ Map::Map() {
 			if (tileNumber == 1)
 				status = WATER;
 
-			_tiles.push_back(Tile(sf::Vector2f((float)i * 30, (float)j * 30), status));
+			_tiles.push_back(Tile(sf::Vector2f((float)i * 30.f, (float)j * 30.f), status));
 		}
 
 	std::cout << "\x1B[32m[OK]\x1B[0m : " << _ennemies.size() << " entites chargees\n";
@@ -95,14 +95,20 @@ Map::Map() {
 
 	_mapSize.x = width;
 	_mapSize.y = height;
+
+	_droppedObjectsList.push_back(new Arme("mp40", sf::Vector2f(100, 100)));
+	//_droppedObjectsList.push_back(new Medkit());
 }
 
 Map::~Map() {
-
+	for (int i = 0; i < _droppedObjectsList.size(); i++) {
+		delete _droppedObjectsList[i];
+		_droppedObjectsList[i] = 0;
+	}
 }
 
 void Map::update(Player& player, Cursor &curseur, sf::View &view, float const& dt) {
-	player.update(curseur, _tiles, _throwableObjectsList, dt);
+	player.update(curseur, _tiles, _throwableObjectsList, _droppedObjectsList, dt);
 
 	for (unsigned int i = 0; i < _ennemies.size(); i++)
 		if (_ennemies[i].update(player.getPosition(), _tiles, _throwableObjectsList, dt))	//si l'ennemi est mort, on le retire de la liste
@@ -126,14 +132,18 @@ void Map::update(Player& player, Cursor &curseur, sf::View &view, float const& d
 	view.setCenter(player.getPosition());
 }
 
-std::vector<ThrowedObject> Map::getThrowableObjectsList()
+sf::Vector2f Map::getPlayerSpawn() const {
+	return _playerSpawn;
+}
+
+std::vector<ThrowedObject> Map::getThrowableObjectsList() const
 {
 	return this->_throwableObjectsList;
 }
 
-sf::Vector2f Map::getPlayerSpawn() const {
-	return _playerSpawn;
-}
+/*std::vector<Object> Map::getDroppedObjectsList() const {
+	return _droppedObjectsList;
+}*/
 
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	//On dessine la map
@@ -146,7 +156,12 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {
   
 	//On dessines les throwableObjects
 	for (unsigned int i = 0; i < _throwableObjectsList.size(); i++)
-		_throwableObjectsList[i].draw(target, states);
+		target.draw(_throwableObjectsList[i]);
+
+	//dessin des droppedObjects
+	for (unsigned int i = 0; i < _droppedObjectsList.size(); i++) {
+		target.draw(*_droppedObjectsList[i]);
+	}
 
 	//dessin de l'HUD
 	sf::View baseView = target.getView();

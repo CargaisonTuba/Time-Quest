@@ -16,6 +16,6 @@ bool Tile::isWall() const {
 
 sf::FloatRect Tile::getHitbox() const {
 	//std::cout << "tile at " << _coords.x << ";" << _coords.y << "\n";
-	sf::FloatRect hb(_coords, sf::Vector2f(30, 30));
+	sf::FloatRect hb(_coords, sf::Vector2f(30.f, 30.f));
 	return hb;
 }

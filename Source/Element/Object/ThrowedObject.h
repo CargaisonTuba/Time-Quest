@@ -12,6 +12,7 @@ public:
 	ThrowedObject();
 	~ThrowedObject();
 
+	sf::Vector2f getDirection() const;
 	float getDamages() const;
 	bool update(float const& dt, std::vector<Tile> const& _tiles);
 
@@ -21,5 +22,6 @@ protected:
 	sf::Clock _clock;
 	float _damages;
 	int _range;
+	sf::Vector2f _position, _direction;
 };
 
