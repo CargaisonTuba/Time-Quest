@@ -22,6 +22,7 @@ public:
 	void setWeapon(Arme newWeapon);
 	Arme getWeapon();
 	float getLife() const;
+	float getTotalLife() const;
 	sf::RectangleShape getLifebar() const;
 
 	bool fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection, std::vector<Tile> const& _tiles);
@@ -34,8 +35,8 @@ protected:
 	sf::Vector2f _initPos;
 	int _spritePosCount, _spritePosCountMax;
 	int _dir;	//Haut, bas, ...
+	
 	float _animation_tick;
-
 	float _life, _totalLife;
 	sf::Clock _timeSinceShot;
 

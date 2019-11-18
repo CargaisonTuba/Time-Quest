@@ -3,6 +3,7 @@
 #include "Scene/Map.h"
 #include "Entity/Player.h"
 #include "HUD/Cursor.h"
+#include "HUD/Hud.h"
 
 #define VERSION "\x1B[34mtimequest-\x1B[33m1.1-beta\x1B[0m"
 
@@ -15,7 +16,7 @@ int main()
 
 	//On désactive les erreurs SFML pour que ça ne pollue pas la console
 	//(enlever cette ligne s'il y a des erreurs inconnues
-	sf::err().rdbuf(NULL);
+	//sf::err().rdbuf(NULL);
 
 	std::cout <<  VERSION << std::endl;
 	std::cout << "\nHugo, Fergal, Robin - G3S3 - PTUT S2S3\n\n\n";
@@ -24,6 +25,7 @@ int main()
 	Map map;
 	Player player("Time-Quest/Source/assets/soldatFrancais40.png", 500, map.getPlayerSpawn());
 	Cursor curseur("Time-Quest/Source/assets/curseur_tir.png");
+	Hud hud(player, window);
 
 	bool pause = false, pauseJustActivated = false;
 
@@ -83,11 +85,13 @@ int main()
 			map.update(player, curseur, gameView, dt);
 
 		curseur.update(window);
+		hud.update(player, window);
 
 		window.setView(gameView);
 		
 		window.draw(map);
 		window.draw(player);
+		window.draw(hud);
 		window.draw(curseur);
 
 		//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante

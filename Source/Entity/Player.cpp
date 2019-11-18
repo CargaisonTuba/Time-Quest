@@ -4,10 +4,7 @@
 Player::Player(std::string texturePath, float defaultLife, sf::Vector2f initPosition) : Entity(texturePath, defaultLife, initPosition) {
 	this->setWeapon(Arme("mas38"));
 
-	_lifeBar.setFillColor(sf::Color::Red);
-	_lifeBar.setOutlineColor(sf::Color::White);
-	_lifeBar.setOutlineThickness(2);
-	_lifeBar.setPosition(sf::Vector2f(20, 680));
+
 
 	_justChanged = false;
 }
@@ -133,6 +130,5 @@ void Player::update(Cursor const &curseur, std::vector<Tile> const &_tiles, std:
 			}
 		}
 
-	//On met la barre de vie du joueur à jour
-	_lifeBar.setSize(sf::Vector2f((_life * 300) / _totalLife, 20));
+
 }

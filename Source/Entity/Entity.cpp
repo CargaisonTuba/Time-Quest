@@ -62,6 +62,11 @@ float Entity::getLife() const {
 	return _life;
 }
 
+float Entity::getTotalLife() const
+{
+	return _totalLife;
+}
+
 sf::RectangleShape Entity::getLifebar() const {
 	return _lifeBar;
 }
