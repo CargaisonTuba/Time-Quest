@@ -36,7 +36,7 @@ int main()
 	float dt = 0;
 
 	//seed pour l'aléatoire
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 
 	//Boucle principale
 	while (window.isOpen())
@@ -61,7 +61,7 @@ int main()
 
 		//deltaTime
 		deltaTime = deltaClock.restart();
-		dt = deltaTime.asMilliseconds();
+		dt = (float)deltaTime.asMilliseconds();
 
 		//std::cout << dt << std::endl;
 

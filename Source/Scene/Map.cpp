@@ -102,15 +102,15 @@ Map::Map() {
 	std::cout << "\x1B[32m[OK]\x1B[0m : " << _ennemies.size() << " entites chargees\n";
 	std::cout << "\x1B[32m[OK]\x1B[0m : Map chargee\n";
 
-	_mapSize.x = width;
-	_mapSize.y = height;
+	_mapSize.x = (float)width;
+	_mapSize.y = (float)height;
 
 	_droppedObjectsList.push_back(new Arme("mp40", sf::Vector2f(100, 100)));
 	//_droppedObjectsList.push_back(new Medkit());
 }
 
 Map::~Map() {
-	for (int i = 0; i < _droppedObjectsList.size(); i++) {
+	for (unsigned int i = 0; i < _droppedObjectsList.size(); i++) {
 		delete _droppedObjectsList[i];
 		_droppedObjectsList[i] = 0;
 	}

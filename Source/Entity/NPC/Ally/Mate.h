@@ -16,8 +16,7 @@ public:
 private:
 	//static int compteur;
 	//int _ID;
-	int _detectRange;
-	int _distPlayer;
+	float _detectRange, _distPlayer;
 	bool _follow;
 };
 
