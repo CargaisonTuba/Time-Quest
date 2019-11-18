@@ -1,10 +1,13 @@
 #include "Scene.h"
 
+
 Scene::Scene(Map gameplayLayer, Hud hud)
 {
 	this->gameplayLayer = gameplayLayer;
 	this->hud = hud;
 }
+
+
 
 Scene::~Scene()
 {

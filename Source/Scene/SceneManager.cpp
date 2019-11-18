@@ -10,10 +10,10 @@
 
 SceneManager::SceneManager(bool& run)
 {
-	currentScene = Scene(Map("Time-Quest/Source/map.txt"), Hud());
+	Scene currentScene(Map("Time-Quest/Source/map.txt"), Hud());
 
-	player = Player("Time-Quest/Source/assets/soldatFrancais40.png", 500, currentScene.getMap().getPlayerSpawn());
-	cursor = Cursor("Time-Quest/Source/assets/curseur_tir.png");
+	Player player("Time-Quest/Source/assets/soldatFrancais40.png", 500, currentScene.getMap().getPlayerSpawn());
+	Cursor cursor("Time-Quest/Source/assets/curseur_tir.png");
 	//Nouvelle fenêtre
 	sf::RenderWindow window(sf::VideoMode(1080, 720), "Time Quest");
 	window.setMouseCursorVisible(false);
