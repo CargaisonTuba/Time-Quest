@@ -42,7 +42,7 @@ void Hud::update(Player& player, sf::RenderWindow &window)
 	_mun.setPosition(window.mapPixelToCoords(sf::Vector2i(810, 560)));
 	_mun.setString(std::to_string((int)player.getLife()) + "\n" + std::to_string(player.getWeapon().getMunRest()) + " / 200 \n"  + "3");
 	//On met la barre de vie du joueur à jour
-	_lifeBar.setSize(sf::Vector2f((player.getLife() * 70) / player.getTotalLife(), 16));
+	_lifeBar.setSize(sf::Vector2f((player.getLife()*70) / player.getTotalLife(), 16));
 }
 
 void Hud::draw(sf::RenderTarget& target, sf::RenderStates states) const 

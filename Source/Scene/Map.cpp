@@ -34,7 +34,7 @@ Map::Map() {
 					mapFile >> eLife;
 					mapFile >> ePos.x;
 					mapFile >> ePos.y;
-					_ennemies.push_back(Ennemy("Time-Quest/Source/assets/soldatAllemand40.png", eLife, ePos));
+					_ennemies.push_back(Ennemy("Time-Quest/Source/assets/soldatAllemand402.png", eLife, ePos));
 				//}
 			}
 			else if (currentOperation == "#tiles") {

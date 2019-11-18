@@ -23,7 +23,7 @@ int main()
 
 	//On instancie une nouvelle map, coeur du jeu.
 	Map map;
-	Player player("Time-Quest/Source/assets/soldatFrancais40.png", 500, map.getPlayerSpawn());
+	Player player("Time-Quest/Source/assets/soldatFrancais402.png", 500, map.getPlayerSpawn());
 	Cursor curseur("Time-Quest/Source/assets/curseur_tir.png");
 	Hud hud(player, window);
 
