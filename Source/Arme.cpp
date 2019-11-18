@@ -25,17 +25,14 @@ Arme::Arme(std::string typeArme)
 			{
 				//On charge la texture via le chemin dans le mot suivant
 				if (!_armeText.loadFromFile(listeArmeVect[i + 1]))
-				{
-					std::cout << "\x1B[31m[Erreur]\x1B[0m : Texture Arme : impossible de charger " << listeArmeVect[i + 1] << std::endl;;
-				}
-				_armeSprite.setTexture(_armeText);
+					std::cout << "\x1B[31m[Erreur]\x1B[0m : Texture Arme : impossible de charger " << listeArmeVect[i + 1] << std::endl;
+				//_armeSprite.setTexture(_armeText);
 
 				//On charge le son via le chemin dans le 2è mot suivant
 				if (!_tirBuffer.loadFromFile(listeArmeVect[i + 2]))
-				{
 					std::cout << "\x1B[31m[Erreur]\x1B[0m : SoundBuffer : impossible de charger " << listeArmeVect[i + 2] << std::endl;
-				}
-				_tirSound.setBuffer(_tirBuffer);
+
+				//_tirSound.setBuffer(_tirBuffer);
 
 				//On attribue au cool down le 3è mot suivant (casté de string à int via stoi)
 				_coolDown = std::stoi(listeArmeVect[i+3]);
@@ -63,12 +60,9 @@ Arme::Arme(std::string typeArme)
 
 				//Chemin du son de rechargement
 				if (!_reloadBuffer.loadFromFile(listeArmeVect[i + 12]))
-				{
-					std::cout << "Erreur reload \n";
-				}
+					std::cout << "\x1B[31m[Erreur]\x1B[0m : SoundBuffer : impossible de charger " << listeArmeVect[i + 12] << std::endl;
 
 				break;
-
 			}
 		}
 	}
@@ -88,9 +82,7 @@ Arme::Arme(std::string typeArme)
 	_munRest = _capacite;
 	_readyState = true;
 	if (!_emptyBuffer.loadFromFile("Time-Quest/Source/assets/sound/clicpasboum.wav"))
-	{
-		std::cout << "Erreur empty \n";
-	}
+		std::cout << "\x1B[31m[Erreur]\x1B[0m : SoundBuffer : impossible de charger " << "Time-Quest/Source/assets/sound/clicpasboum.wav" << std::endl;
 }
 
 Arme::Arme()
@@ -184,18 +176,18 @@ bool Arme::getReady()
 //Méthodes
 void Arme::playTir()
 {
-	if (_readyState)
-	{
+	if (_readyState) {
 		_tirSound.setBuffer(_tirBuffer);
 		_munRest--;
 	}
-	else
-	{
+	else {
 		//clic pas boum
 		_tirSound.setBuffer(_emptyBuffer);
 	}
 	_tirSound.play();
-	std::cout << "\x1B[33m[Munitions]\x1B[0m : \x1B[35m " << _munRest << " \x1B[0m / " << _capacite << "\n";
+
+
+	std::cout << "\x1B[33m[info]\x1B[0m : Munitions : \x1B[35m " << _munRest << " \x1B[0m / " << _capacite << "\n";
 }
 
 void Arme::recharger()
@@ -204,7 +196,7 @@ void Arme::recharger()
 	{
 		_reloadSound.setBuffer(_reloadBuffer);
 		_reloadSound.play();
-		std::cout << "\x1B[33m[Rechargement]\x1B[0m...\n";
+		std::cout << "\x1B[33m[info]\x1B[0m : Rechargement ...\n";
 		_timeSinceReload.restart();
 		_readyState = false;
 		this->_munRest = this->_capacite;
@@ -268,7 +260,7 @@ void Arme::update(sf::Vector2f entityPos, sf::Vector2f shootPosition)
 	if (_timeSinceReload.getElapsedTime() > sf::milliseconds(_reloadTime) && this->_readyState == false && this->_munRest > 0)
 	{
 		this->_readyState = true;
-		std::cout << "Arme prete ! \n";
+		std::cout << "\x1B[32m[OK]\x1B[0m : Arme prete !" << std::endl;
 	}
 	if (this->_munRest == 0 && this->_readyState)
 	{
