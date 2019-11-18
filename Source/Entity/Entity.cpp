@@ -87,7 +87,7 @@ bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f
 
 			sf::Vector2f posBalle;
 			posBalle.x = pos.x + aim.x - (aim.x * (lenAim - 16)) / lenAim;
-			posBalle.y = pos.y + aim.y - (aim.y * (lenAim - 16)) / lenAim;
+			posBalle.y = pos.y + aim.y - (aim.y * (lenAim - 20)) / lenAim;
 			this->_curWeapon.update(_entitySprite.getPosition(), shootImpr);
 			Bullet newBullet = Bullet(this->_curWeapon.getAngle(), this->_curWeapon.getBallePath(), posBalle, direction, _curWeapon.getRange(), _curWeapon.getDamages());
 			throwableObjectsList.push_back(newBullet);

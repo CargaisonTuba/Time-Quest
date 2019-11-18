@@ -15,7 +15,7 @@ private:
 	sf::RectangleShape _bodyMun;
 	sf::RectangleShape _lifeBar;
 	sf::Font _font;
-	sf::Text _mun;
+	sf::Text _infos;
 	sf::Text _life;
 	sf::Text _grenade;
 	sf::Texture _healthText;

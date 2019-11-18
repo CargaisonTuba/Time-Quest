@@ -7,27 +7,35 @@ Hud::Hud(Player& player, sf::RenderWindow &window)
 	_bodyMun.setOutlineColor(sf::Color::Black);
 	_bodyMun.setOutlineThickness(1);
 	_bodyMun.setFillColor(sf::Color(255, 255, 255, 100));
-	_bodyMun.setSize(sf::Vector2f(100,50));
+	_bodyMun.setSize(sf::Vector2f(250,125));
+	_bodyMun.setPosition(800, 575);
 
 	_lifeBar.setFillColor(sf::Color::Red);
 	_lifeBar.setPosition(sf::Vector2f(20, 680));
+	_lifeBar.setPosition(_bodyMun.getPosition());
+	
 
 	if (!_font.loadFromFile("Time-Quest/Source/arial_narrow_7.ttf"))
 	{
 		std::cout << "Erreur de police \n";
 	}
-	_mun.setFont(_font);
-	_mun.setCharacterSize(15);
-	_mun.setFillColor(sf::Color::Black);
+	_infos.setFont(_font);
+	_infos.setCharacterSize(30);
+	_infos.setFillColor(sf::Color::Black);
+	_infos.setPosition(sf::Vector2f(_bodyMun.getPosition().x + 10, _bodyMun.getPosition().y - 5));
+	_infos.setLineSpacing(1.5);
 
-	_healthText.loadFromFile("Time-Quest/Source/assets/health.png");
+	_healthText.loadFromFile("Time-Quest/Source/assets/health2.png");
 	_healthSprite.setTexture(_healthText);
+	_healthSprite.setPosition(sf::Vector2f(_infos.getPosition().x + 208, _infos.getPosition().y + 5));
 
-	_smgAmmoText.loadFromFile("Time-Quest/Source/assets/smgammoico.png");
+	_smgAmmoText.loadFromFile("Time-Quest/Source/assets/smgammo.png");
 	_smgAmmoSprite.setTexture(_smgAmmoText);
+	_smgAmmoSprite.setPosition(sf::Vector2f(_healthSprite.getPosition().x, _healthSprite.getPosition().y + 48));
 
-	_grenadeText.loadFromFile("Time-Quest/Source/assets/grenadeico.png");
+	_grenadeText.loadFromFile("Time-Quest/Source/assets/grenade.png");
 	_grenadeSprite.setTexture(_grenadeText);
+	_grenadeSprite.setPosition(sf::Vector2f(_healthSprite.getPosition().x, _smgAmmoSprite.getPosition().y + 43));
 }
 
 Hud::~Hud() 
@@ -37,39 +45,30 @@ Hud::~Hud()
 
 void Hud::update(Player& player, sf::RenderWindow &window) 
 {
-	_bodyMun.setPosition(window.mapPixelToCoords(sf::Vector2i(800, 550)));
-	_lifeBar.setPosition(window.mapPixelToCoords(sf::Vector2i(800, 550)));
-	_mun.setPosition(window.mapPixelToCoords(sf::Vector2i(810, 560)));
-	_mun.setString(std::to_string((int)player.getLife()) + "\n" + std::to_string(player.getWeapon().getMunRest()) + " / 200 \n"  + "3");
+	
+	_infos.setString(std::to_string((int)player.getLife()) + "\n" + std::to_string(player.getWeapon().getMunRest()) + " / 200 \n"  + "3");
 	//On met la barre de vie du joueur à jour
-	_lifeBar.setSize(sf::Vector2f((player.getLife()*70) / player.getTotalLife(), 16));
+	_lifeBar.setSize(sf::Vector2f((player.getLife()*195) / player.getTotalLife(), 32));
 }
 
 void Hud::draw(sf::RenderTarget& target, sf::RenderStates states) const 
-{
+{	
+	sf::Text infos = _infos;
+	infos.setFont(_font);
 	
-	sf::Text mun = _mun;
-	mun.setFont(_font);
-	mun.setPosition(sf::Vector2f(_bodyMun.getPosition().x + 5, _bodyMun.getPosition().y-1));
-	
-	sf::Sprite health;
+	sf::Sprite health = _healthSprite;
 	health.setTexture(_healthText);
-	health.setPosition(sf::Vector2f(mun.getPosition().x + 65, mun.getPosition().y + 1));
 
-	sf::Sprite smgammo;
+	sf::Sprite smgammo = _smgAmmoSprite;
 	smgammo.setTexture(_smgAmmoText);
-	smgammo.setScale(0.9, 0.9);
-	smgammo.setPosition(sf::Vector2f(mun.getPosition().x + 65, mun.getPosition().y + 17));
-	
 
-	sf::Sprite grenade;
+	sf::Sprite grenade = _grenadeSprite;
 	grenade.setTexture(_grenadeText);
-	grenade.setScale(0.9, 0.9);
-	grenade.setPosition(sf::Vector2f(mun.getPosition().x + 65, mun.getPosition().y + 32));
+
 
 	target.draw(_bodyMun);
 	target.draw(_lifeBar);
-	target.draw(mun);
+	target.draw(infos);
 	target.draw(health);
 	target.draw(grenade);
 	target.draw(smgammo);

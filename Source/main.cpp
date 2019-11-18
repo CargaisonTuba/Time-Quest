@@ -91,7 +91,9 @@ int main()
 		
 		window.draw(map);
 		window.draw(player);
+		window.setView(window.getDefaultView());
 		window.draw(hud);
+		window.setView(gameView);
 		window.draw(curseur);
 
 		//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante
