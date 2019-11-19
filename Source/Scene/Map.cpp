@@ -105,8 +105,6 @@ Map::Map() {
 	_mapSize.x = (float)width;
 	_mapSize.y = (float)height;
 
-	_droppedObjectsList.push_back(new Arme("mp40", sf::Vector2f(100, 100)));
-	//_droppedObjectsList.push_back(new Medkit());
 }
 
 Map::~Map() {

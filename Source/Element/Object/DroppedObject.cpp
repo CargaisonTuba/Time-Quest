@@ -21,6 +21,7 @@ sf::FloatRect DroppedObject::getHitbox() {
 	return _sprite.getGlobalBounds();
 }
 
-void DroppedObject::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+void DroppedObject::draw(sf::RenderTarget& target, sf::RenderStates states) const 
+{
 
 }

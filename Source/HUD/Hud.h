@@ -12,6 +12,7 @@ public:
 	void update(Player& player, sf::RenderWindow& window);
 
 private:
+	int _totalAmmo;
 	sf::RectangleShape _bodyMun;
 	sf::RectangleShape _lifeBar;
 	sf::Font _font;

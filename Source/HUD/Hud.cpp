@@ -34,6 +34,7 @@ Hud::Hud(Player& player, sf::RenderWindow& window)
 	_grenadeText.loadFromFile("Time-Quest/Source/assets/grenade.png");
 	_grenadeSprite.setTexture(_grenadeText);
 	_grenadeSprite.setPosition(sf::Vector2f(_healthSprite.getPosition().x, _smgAmmoSprite.getPosition().y + 43));
+	_totalAmmo = 200;
 }
 
 Hud::~Hud() {
@@ -43,7 +44,7 @@ Hud::~Hud() {
 
 void Hud::update(Player& player, sf::RenderWindow& window)
 {
-	_infos.setString(std::to_string((int)player.getLife()) + "\n" + std::to_string(player.getWeapon()->getMunRest()) + " / 200 \n" + "3");
+	_infos.setString(std::to_string((int)player.getLife()) + "\n" + std::to_string(player.getWeapon()->getMunRest()) + " / " + std::to_string(_totalAmmo) +  "\n" + "3");
 	_lifeBar.setSize(sf::Vector2f((player.getLife() * 225) / player.getTotalLife(), 32));
 }
 
