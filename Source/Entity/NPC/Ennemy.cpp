@@ -1,6 +1,7 @@
 #include "Ennemy.h"
 
-Ennemy::Ennemy(std::string texturePath, float defaultLife, sf::Vector2f initPosition) : NPC(texturePath, defaultLife, initPosition) {
+Ennemy::Ennemy(std::string texturePath, float defaultLife, sf::Vector2f initPosition) : NPC(texturePath, defaultLife, initPosition) 
+{
 	this->setWeapon(Arme("mas36"));
 	_lifeBar.setFillColor(sf::Color::Red);
 	_lifeBar.setOutlineThickness(1);
@@ -9,27 +10,27 @@ Ennemy::Ennemy(std::string texturePath, float defaultLife, sf::Vector2f initPosi
 	_detectRange = 200;
 }
 
-Ennemy::~Ennemy() {
+Ennemy::~Ennemy() 
+{
 
 }
 
 bool Ennemy::update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*> &droppedObjects, float const& dt) {
-	//std::vector<Mate>& _mates, 
-
-	//mise à jour de la barre de vie avec la vie et la position actuelle de l'ennemi
+{
+	//mise Ã  jour de la barre de vie avec la vie et la position actuelle de l'ennemi
 	_lifeBar.setSize(sf::Vector2f((_life * 20) / _totalLife, 5));
 	
 	_lifeBar.setPosition(sf::Vector2f(getPosition().x -10, getPosition().y -20));
 	_lifeBar.setOutlineColor(sf::Color::Transparent);
 
-	//initialisation de la cible à la position du joueur
+	//initialisation de la cible Ã  la position du joueur
 	float mateX = playerPos.x, ennemyX = getPosition().x;
 	float mateY = playerPos.y, ennemyY = getPosition().y;
 	sf::Vector2f targetPos = playerPos;
 	float dist = sqrt((mateX - ennemyX) * (mateX - ennemyX) + (mateY - ennemyY) * (mateY - ennemyY));
 	sf::Vector2f direction((mateX - ennemyX) / dist, (mateY - ennemyY) / dist);
 
-	//Chaque ennemi parcourt le tableau d'alliés
+	//Chaque ennemi parcourt le tableau d'alliÃ©s
 	for (unsigned int i = 0; i < _mates.size(); i++)
 	{
 		mateX = _mates[i].getPosition().x;
@@ -73,7 +74,7 @@ bool Ennemy::update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vect
 		}
 	}
 
-	//l'ennemi perd de la vie s'il est touché par une balle
+	//l'ennemi perd de la vie s'il est touchÃ© par une balle
 	for(unsigned int i = 0; i < throwableObjectsList.size(); i++)
 		if (getHitbox().intersects(throwableObjectsList[i].getHitbox())) {
 			_life -= throwableObjectsList[i].getDamages();
@@ -90,6 +91,6 @@ bool Ennemy::update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vect
 		}
 
 	//On retourne true ou false, selon si l'ennemi n'a plus de vie ou non.
-	//Ainsi, s'il est mort, il sera supprimé de la liste des annemis de la map.
+	//Ainsi, s'il est mort, il sera supprimÃ© de la liste des annemis de la map.
 	return false;
 }

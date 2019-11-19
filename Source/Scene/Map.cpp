@@ -128,7 +128,6 @@ void Map::update(Player& player, Cursor& curseur, sf::View& view, float const& d
 		if (_mates[i].update(_ennemies, player.getPosition(), _tiles, _throwableObjectsList, _droppedObjectsList, dt))	//si l'allié est mort, on le retire de la liste
 			_mates.erase(_mates.begin() + i);
 	}
-
 	for (unsigned int i = 0; i < _throwableObjectsList.size(); i++)
 	{
 		bool cond = _throwableObjectsList[i].update(dt, _tiles);
@@ -171,7 +170,7 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
 	for (unsigned int i = 0; i < _mates.size(); i++)
 		target.draw(_mates[i]);
-
+  
 	//On dessines les throwableObjects
 	for (unsigned int i = 0; i < _throwableObjectsList.size(); i++)
 		target.draw(_throwableObjectsList[i]);

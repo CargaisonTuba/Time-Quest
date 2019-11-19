@@ -1,8 +1,7 @@
 #include "NPC.h"
 
 NPC::NPC(std::string texturePath, float defaultLife, sf::Vector2f initPosition) : Entity(texturePath, defaultLife, initPosition) {
-	_lifeBar.setFillColor(sf::Color::Red);
-	_lifeBar.setOutlineThickness(1);
+
 }
 
 NPC::~NPC() {

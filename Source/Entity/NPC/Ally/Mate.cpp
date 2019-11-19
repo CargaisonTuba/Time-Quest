@@ -10,6 +10,7 @@ Mate::Mate(std::string texturePath, float defaultLife, sf::Vector2f initPosition
 	_detectRange = 200;
 	_distPlayer = 50;
 	_follow = false;
+	_fPressed = false;
 }
 
 Mate::~Mate() {
@@ -19,19 +20,24 @@ Mate::~Mate() {
 bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*> &droppedObjectsList, float const& dt) {
 	//std::vector<Ennemy>& _ennemies, 
 
-	//mise à jour de la barre de vie avec la vie et la position actuelle de l'allié
+	//mise Ã  jour de la barre de vie avec la vie et la position actuelle de l'alliÃ©
 	_lifeBar.setSize(sf::Vector2f((_life * 20) / _totalLife, 5));
 
 	_lifeBar.setPosition(sf::Vector2f(getPosition().x - 10, getPosition().y - 20));
 	_lifeBar.setOutlineColor(sf::Color::Transparent);
 
 	//si le joueur appuie sur F, on passe follow en true
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F) && _fPressed == false)
 	{
+		_fPressed = true;
 		_follow = !_follow;
 	}
+	else
+	{
+		_fPressed = false;
+	}
 
-	//si un ennemi est proche, l'allié lui tire dessus
+	//si un ennemi est proche, l'alliÃ© lui tire dessus
 	float dist = _detectRange;
 	sf::Vector2f direction;
 	sf::Vector2f targetPos;
@@ -104,10 +110,10 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 			}
 		}
 	}
-
+  
 	_curWeapon->update(getPosition(), targetPos);
 	
-	//l'allié perd de la vie s'il est touché par une balle
+	//l'alliÃ© perd de la vie s'il est touchÃ© par une balle
 	for (unsigned int i = 0; i < throwableObjectsList.size(); i++)
 		if (getHitbox().intersects(throwableObjectsList[i].getHitbox())) {
 			_life -= throwableObjectsList[i].getDamages();
@@ -115,19 +121,19 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 			throwableObjectsList.erase(throwableObjectsList.begin() + i);
 			if (isDead()) {
 				killNPC(droppedObjectsList);
-				std::cout << "\x1B[33m[info]\x1B[0m : \x1B[35mmort\x1B[0m d'un allié !\n";
+				std::cout << "\x1B[33m[info]\x1B[0m : \x1B[35mmort\x1B[0m d'un alliÃ© !\n";
 				return true;
 			}
 		}
 
 	//On retourne true ou false, selon si l'ennemi n'a plus de vie ou non.
-	//Ainsi, s'il est mort, il sera supprimé de la liste des annemis de la map.
+	//Ainsi, s'il est mort, il sera supprimÃ© de la liste des annemis de la map.
 	return false;
 }
 
 void Mate::follow(sf::Vector2f playerPos, std::vector<Tile> const& _tiles)
 {
-	//initialisation de la cible à la position du joueur
+	//initialisation de la cible Ã  la position du joueur
 	float selfX = getPosition().x;
 	float selfY = getPosition().y;
 	sf::Vector2f targetPos = playerPos;

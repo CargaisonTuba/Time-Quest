@@ -27,31 +27,31 @@ Arme::Arme(std::string typeArme)
 					std::cout << "\x1B[31m[Erreur]\x1B[0m : Texture Arme : impossible de charger " << listeArmeVect[i + 1] << std::endl;
 				//_armeSprite.setTexture(_armeText);
 
-				//On charge le son via le chemin dans le 2è mot suivant
+				//On charge le son via le chemin dans le 2Ã¨ mot suivant
 				if (!_tirBuffer.loadFromFile(listeArmeVect[i + 2]))
 					std::cout << "\x1B[31m[Erreur]\x1B[0m : SoundBuffer : impossible de charger " << listeArmeVect[i + 2] << std::endl;
 
 				//_tirSound.setBuffer(_tirBuffer);
 
-				//On attribue au cool down le 3è mot suivant (casté de string à int via stoi)
+				//On attribue au cool down le 3Ã¨ mot suivant (castÃ© de string Ã  int via stoi)
 				_coolDown = std::stoi(listeArmeVect[i+3]);
 
-				//On attribue la capacité du chargeur au 4è mot suivant casté de string à int
+				//On attribue la capacitÃ© du chargeur au 4Ã¨ mot suivant castÃ© de string Ã  int
 				_capacite = std::stoi(listeArmeVect[i + 4]);
 
-				//De la même façon paramètre l'origine de l'arme
+				//De la mÃªme faÃ§on paramÃ¨tre l'origine de l'arme
 				_objectSprite.setOrigin(std::stof(listeArmeVect[i + 5]), std::stof(listeArmeVect[i + 6]));
 
-				//Idem pour dégâts de l'arme
+				//Idem pour dÃ©gÃ¢ts de l'arme
 				_damages = std::stof(listeArmeVect[i + 7]);
 
-				//Idem pour la portée
+				//Idem pour la portÃ©e
 				_range = std::stof(listeArmeVect[i + 8]);
 
 				//Temps de rechargement
 				_reloadTime = std::stof(listeArmeVect[i + 9]);
 
-				//Imprécision de l'arme
+				//ImprÃ©cision de l'arme
 				_impr = std::stof(listeArmeVect[i + 10]);
 
 				//Chemin de la texture de la balle de l'arme
@@ -153,7 +153,7 @@ float Arme::getAngle()
 	return this->_angle;
 }
 
-float Arme::getImpr()	//imprécision de l'arme
+float Arme::getImpr()	//imprÃ©cision de l'arme
 {
 	return this->_impr;
 }
@@ -184,7 +184,7 @@ bool Arme::getReady()
 	return this->_readyState;
 }
 
-//Méthodes
+//MÃ©thodes
 void Arme::playTir()
 {
 	if (_readyState) {
@@ -267,6 +267,7 @@ void Arme::update(sf::Vector2f entityPos, sf::Vector2f shootPosition)
 		}
 
 	}
+  
 	_objectSprite.setRotation(_angle);
 	if ((float)(_timeSinceReload.getElapsedTime().asMilliseconds()) > _reloadTime && this->_readyState == false && this->_munRest > 0)
 	{
@@ -296,4 +297,14 @@ void Arme::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 	s.move(13, 13);	//on centre l'arme
 	target.draw(s);
+}
+
+sf::Vector2f Arme::imprecision(sf::Vector2f shootDirection)
+{
+	
+	float a = -_impr;
+	float b = _impr;
+	int imprX = rand() % (int)((b - a) + a);
+	int imprY = rand() % (int)((b - a) + a);
+	return sf::Vector2f(shootDirection.x + imprX, shootDirection.y + imprY);
 }
