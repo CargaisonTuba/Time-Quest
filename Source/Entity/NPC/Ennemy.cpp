@@ -15,7 +15,7 @@ Ennemy::~Ennemy()
 
 }
 
-bool Ennemy::update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, float const& dt) 
+bool Ennemy::update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*> &droppedObjects, float const& dt)
 {
 	//mise à jour de la barre de vie avec la vie et la position actuelle de l'ennemi
 	_lifeBar.setSize(sf::Vector2f((_life * 20) / _totalLife, 5));
@@ -42,11 +42,11 @@ bool Ennemy::update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vect
 			targetPos = _mates[i].getPosition();
 		}
 	}
-	_curWeapon.update(getPosition(), targetPos);
+	_curWeapon->update(getPosition(), targetPos);
 	
 
 	if (dist <= _detectRange) {
-		if (dist >= _curWeapon.getRange())
+		if (dist >= _curWeapon->getRange())
 		{
 			_entitySprite.move(sf::Vector2f(direction.x/2, direction.y/2));
 			for (unsigned int i = 0; i < _tiles.size(); i++) 
@@ -67,10 +67,10 @@ bool Ennemy::update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vect
 		else
 		{
 			_spritePosCount = 0;
-			if (_curWeapon.getReady())
+			if (_curWeapon->getReady())
 				fire(throwableObjectsList, playerPos, _tiles);
 			else
-				_curWeapon.recharger();
+				_curWeapon->recharger();
 		}
 	}
 
@@ -80,9 +80,12 @@ bool Ennemy::update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vect
 			_life -= throwableObjectsList[i].getDamages();
 			this->_entitySprite.move(sf::Vector2f(throwableObjectsList[i].getDirection().x * 2, throwableObjectsList[i].getDirection().y * 2));
 			throwableObjectsList.erase(throwableObjectsList.begin() + i);
-			if (_life <= 0) {
-				_life = 0;
+			if (isDead()) {
 				std::cout << "\x1B[33m[info]\x1B[0m : \x1B[35mmort\x1B[0m d'un ennemi !\n";
+
+				//l'ennemi drop son stuff ce desco
+				killNPC(droppedObjects);
+
 				return true;
 			}
 		}

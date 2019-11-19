@@ -2,14 +2,21 @@
 #include <iostream>
 
 Player::Player(std::string texturePath, float defaultLife, sf::Vector2f initPosition) : Entity(texturePath, defaultLife, initPosition) {
-	this->setWeapon(Arme("mas38"));
-
 	_lifeBar.setFillColor(sf::Color::Red);
 	_lifeBar.setOutlineColor(sf::Color::White);
 	_lifeBar.setOutlineThickness(2);
 	_lifeBar.setPosition(sf::Vector2f(20, 680));
 
+	_justPressed = false;
 	_justChanged = false;
+
+	_inventory.push_back(new Arme("fm2429"));
+	_inventory.push_back(new Arme("mas36"));
+	_inventory.push_back(new Arme("mas38"));
+	_inventory.push_back(new Arme("mp40"));
+
+	_inventoryIndex = 0;
+	_curWeapon = (Arme*)(_inventory[_inventoryIndex]);
 }
 
 Player::~Player() {
@@ -24,19 +31,6 @@ sf::Vector2f Player::getPosition() const {
 //On met la position de la souris en paramètre pour pouvoir décider dans quelle direction pointe l'arme
 void Player::update(Cursor const &curseur, std::vector<Tile> const &_tiles, std::vector<ThrowedObject> &throwableObjectsList, std::vector<Object*>& droppedObjectsList, float const& dt)
 {
-	//changement d'arme (TEST)
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-		if (!_justChanged) {
-			_justChanged = true;
-			if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-				setWeapon(Arme("mas38"));
-			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-				setWeapon(Arme("mp40"));
-		}
-	}
-	else
-		_justChanged = false;
-
 	//déplacement du joueur
 	float speed = 0.1f * dt;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
@@ -94,12 +88,12 @@ void Player::update(Cursor const &curseur, std::vector<Tile> const &_tiles, std:
 	else
 		_spritePosCount = 0;
 
-	if (this->getWeapon().getAngle() > 45) {
-		if (this->getWeapon().getAngle() < 135)
+	if (this->getWeapon()->getAngle() > 45) {
+		if (this->getWeapon()->getAngle() < 135)
 			_dir = 0;
-		else if (this->getWeapon().getAngle() < 225)
+		else if (this->getWeapon()->getAngle() < 225)
 			_dir = 3;
-		else if (this->getWeapon().getAngle() < 315)
+		else if (this->getWeapon()->getAngle() < 315)
 			_dir = 2;
 		else
 			_dir = 1;
@@ -109,10 +103,37 @@ void Player::update(Cursor const &curseur, std::vector<Tile> const &_tiles, std:
 
 	//recharger l'arme
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
-		this->_curWeapon.recharger();
+		this->_curWeapon->recharger();
+
+	//Changer d'item dans l'inventaire
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+		if (!_justPressed) {
+			_justPressed = true;
+			_inventory[_inventoryIndex] = _curWeapon;
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+				if (_inventoryIndex > 0)
+					_inventoryIndex--;
+				else
+					_inventoryIndex = 0;
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+				if (_inventoryIndex < _inventory.size() - 1 && _inventory.size() > 0)
+					_inventoryIndex++;
+			}
+			std::cout << "\x1B[33m[info]\x1B[0m : index de l'inventaire : " << _inventoryIndex << "/" << _inventory.size() << std::endl;
+			_justChanged = true;
+		}
+	}
+	else
+		_justPressed = false;
+	
+	if (_inventory.size() > 0 && _justChanged) {
+		_curWeapon = (Arme*)(_inventory[_inventoryIndex]);
+		_justChanged = false;
+	}
 
 	//l'arme accompagne le joueur, logique
-	_curWeapon.update(this->getPosition(), curseur.getPosition());
+	_curWeapon->update(this->getPosition(), curseur.getPosition());
 
 	//On fait en sorte que le joueur tire avec clic gauche.
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))

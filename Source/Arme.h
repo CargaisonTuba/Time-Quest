@@ -13,7 +13,7 @@ class Arme : public Object
 public:
 	//Constructeurs 
 	Arme(std::string typeArme);
-	Arme(std::string typeArme, sf::Vector2f initPosition);
+	Arme(std::string typeArme, sf::Vector2f initPosition, bool dropped = false);
 	Arme();
 	~Arme();
 	
@@ -45,8 +45,6 @@ public:
 	sf::Vector2f imprecision(sf::Vector2f shootDirection);
 
 private:
-	sf::Texture _armeText;
-	sf::Sprite _armeSprite;
 	sf::Vector2i _position;
 
 	float _longueurX, _longueurY, _hypo, _angle, _damages, _reloadTime, _impr, _range;

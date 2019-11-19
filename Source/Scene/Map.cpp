@@ -14,7 +14,7 @@ Map::Map() {
 
 	//On remplit ce tableau avec les valeurs du fichier map.txt, sortit tout droit de l'éditeur
 	std::ifstream mapFile("Time-Quest/Source/map.txt");
-	if(!mapFile)
+	if (!mapFile)
 		std::cerr << "\x1B[31m[Erreur]\x1B[0m : impossible d'ouvrir map.txt\n";
 	else {
 		int tileID;
@@ -29,12 +29,12 @@ Map::Map() {
 			}
 			else if (currentOperation == "#ennemy") {
 				//while (currentOperation != "#tiles") {
-					float eLife = 0;
-					sf::Vector2f ePos(0, 0);
-					mapFile >> eLife;
-					mapFile >> ePos.x;
-					mapFile >> ePos.y;
-					_ennemies.push_back(Ennemy("Time-Quest/Source/assets/soldatAllemand40.png", eLife, ePos));
+				float eLife = 0;
+				sf::Vector2f ePos(0, 0);
+				mapFile >> eLife;
+				mapFile >> ePos.x;
+				mapFile >> ePos.y;
+				_ennemies.push_back(Ennemy("Time-Quest/Source/assets/soldatAllemand40.png", eLife, ePos));
 				//}
 			}
 			else if (currentOperation == "#mate")
@@ -54,7 +54,7 @@ Map::Map() {
 		}
 	}
 
-	if(width == 0 && height == 0)
+	if (width == 0 && height == 0)
 		std::cerr << "\x1B[31m[Erreur]\x1B[0m : map vide ou erreur de lecture\n";
 
 	std::cout << "\x1B[33m[Info]\x1B[0m : " << level.size() << " tiles en cours de chargement..." << std::endl;
@@ -69,7 +69,7 @@ Map::Map() {
 	_vertices.resize(width * height * 4);
 
 	//Remplissage du tableau
-	for(unsigned int i = 0; i < width; i++)
+	for (unsigned int i = 0; i < width; i++)
 		for (unsigned int j = 0; j < height; j++) {
 			int tileNumber = level[i + j * width];
 
@@ -116,19 +116,18 @@ Map::~Map() {
 	}
 }
 
-void Map::update(Player& player, Cursor &curseur, sf::View &view, float const& dt) {
+void Map::update(Player& player, Cursor& curseur, sf::View& view, float const& dt) {
 	player.update(curseur, _tiles, _throwableObjectsList, _droppedObjectsList, dt);
 
 	for (unsigned int i = 0; i < _ennemies.size(); i++)
-		if (_ennemies[i].update(_mates, player.getPosition(), _tiles, _throwableObjectsList, dt))	//si l'ennemi est mort, on le retire de la liste
+		if (_ennemies[i].update(_mates, player.getPosition(), _tiles, _throwableObjectsList, _droppedObjectsList, dt))	//si l'ennemi est mort, on le retire de la liste
 			_ennemies.erase(_ennemies.begin() + i);
 
 	for (unsigned int i = 0; i < _mates.size(); i++)
 	{
-		if (_mates[i].update(_ennemies, player.getPosition(), _tiles, _throwableObjectsList, dt))	//si l'allié est mort, on le retire de la liste
+		if (_mates[i].update(_ennemies, player.getPosition(), _tiles, _throwableObjectsList, _droppedObjectsList, dt))	//si l'allié est mort, on le retire de la liste
 			_mates.erase(_mates.begin() + i);
 	}
-  
 	for (unsigned int i = 0; i < _throwableObjectsList.size(); i++)
 	{
 		bool cond = _throwableObjectsList[i].update(dt, _tiles);
@@ -143,7 +142,7 @@ void Map::update(Player& player, Cursor &curseur, sf::View &view, float const& d
 		view.setCenter(player.getPosition());
 		view.setSize(sf::Vector2f(2000, 2000));
 	}
-  
+
 	view.setCenter(player.getPosition());
 }
 
@@ -170,7 +169,7 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 		target.draw(_ennemies[i]);
 
 	for (unsigned int i = 0; i < _mates.size(); i++)
-		target.draw(_mates[i]);//
+		target.draw(_mates[i]);
   
 	//On dessines les throwableObjects
 	for (unsigned int i = 0; i < _throwableObjectsList.size(); i++)

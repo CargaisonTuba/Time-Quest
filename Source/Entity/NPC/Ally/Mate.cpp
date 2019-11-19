@@ -17,10 +17,10 @@ Mate::~Mate() {
 
 }
 
-bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, float const& dt) {
+bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*> &droppedObjectsList, float const& dt) {
 	//std::vector<Ennemy>& _ennemies, 
 
-	//mise à jour de la barre de vie avec la vie et la position actuelle de l'allié
+	//mise Ã  jour de la barre de vie avec la vie et la position actuelle de l'alliÃ©
 	_lifeBar.setSize(sf::Vector2f((_life * 20) / _totalLife, 5));
 
 	_lifeBar.setPosition(sf::Vector2f(getPosition().x - 10, getPosition().y - 20));
@@ -37,7 +37,7 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 		_fPressed = false;
 	}
 
-	//si un ennemi est proche, l'allié lui tire dessus
+	//si un ennemi est proche, l'alliÃ© lui tire dessus
 	float dist = _detectRange;
 	sf::Vector2f direction;
 	sf::Vector2f targetPos;
@@ -58,7 +58,7 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 	
 	
 	if (dist <= _detectRange) {
-		if (dist >= _curWeapon.getRange())
+		if (dist >= _curWeapon->getRange())
 		{
 			if (_follow)
 			{
@@ -100,40 +100,40 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 			{
 				_spritePosCount = 0;
 			}
-			if (_curWeapon.getReady())
+			if (_curWeapon->getReady())
 			{
 				fire(throwableObjectsList, targetPos, _tiles);
 			}
 			else
 			{
-				_curWeapon.recharger();
+				_curWeapon->recharger();
 			}
 		}
 	}
-
-	_curWeapon.update(getPosition(), targetPos);
+  
+	_curWeapon->update(getPosition(), targetPos);
 	
-	//l'allié perd de la vie s'il est touché par une balle
+	//l'alliÃ© perd de la vie s'il est touchÃ© par une balle
 	for (unsigned int i = 0; i < throwableObjectsList.size(); i++)
 		if (getHitbox().intersects(throwableObjectsList[i].getHitbox())) {
 			_life -= throwableObjectsList[i].getDamages();
 			this->_entitySprite.move(sf::Vector2f(throwableObjectsList[i].getDirection().x * 2, throwableObjectsList[i].getDirection().y * 2));
 			throwableObjectsList.erase(throwableObjectsList.begin() + i);
-			if (_life <= 0) {
-				_life = 0;
-				std::cout << "\x1B[33m[info]\x1B[0m : \x1B[35mmort\x1B[0m d'un ennemi !\n";
+			if (isDead()) {
+				killNPC(droppedObjectsList);
+				std::cout << "\x1B[33m[info]\x1B[0m : \x1B[35mmort\x1B[0m d'un alliÃ© !\n";
 				return true;
 			}
 		}
 
 	//On retourne true ou false, selon si l'ennemi n'a plus de vie ou non.
-	//Ainsi, s'il est mort, il sera supprimé de la liste des annemis de la map.
+	//Ainsi, s'il est mort, il sera supprimÃ© de la liste des annemis de la map.
 	return false;
 }
 
 void Mate::follow(sf::Vector2f playerPos, std::vector<Tile> const& _tiles)
 {
-	//initialisation de la cible à la position du joueur
+	//initialisation de la cible Ã  la position du joueur
 	float selfX = getPosition().x;
 	float selfY = getPosition().y;
 	sf::Vector2f targetPos = playerPos;

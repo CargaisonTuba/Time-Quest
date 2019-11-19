@@ -16,11 +16,13 @@ Object::Object(std::string texturePath, sf::Vector2f initPosition)
 	_objectSprite.setTexture(_objectText);
 	this->_objectSprite.setPosition(initPosition);
 	this->_initPosition = initPosition;
+	_isDropped = false;
 }
 
 Object::Object()
 {
 	_creationDate = (time_t)0;
+	_isDropped = false;
 }
 
 Object::~Object()
@@ -31,6 +33,11 @@ Object::~Object()
 bool Object::update()
 {
 	return true;
+}
+
+void Object::setDropped(bool dropped) {
+	_isDropped = dropped;
+	_objectSprite.setScale(sf::Vector2f(0.1, 0.1));
 }
 
 void Object::draw(sf::RenderTarget& target, sf::RenderStates states) const
