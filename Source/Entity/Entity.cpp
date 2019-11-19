@@ -31,10 +31,13 @@ Entity::Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosi
 	_life = defaultLife;	//ca représentera la vie ACTUELLE du joueur
 	_totalLife = defaultLife;		//ca représente la vie TOTALE du joueur (c'est une sorte de constante, on y touchera plus après)
 	_timeSinceShot.restart();
+
+	_curWeapon = new Arme();
 }
 
 Entity::~Entity() {
-
+	//delete _curWeapon;
+	//_curWeapon = nullptr;
 }
 
 sf::Vector2f Entity::getPosition() const
@@ -47,13 +50,21 @@ sf::FloatRect Entity::getHitbox() {
 	return _entitySprite.getGlobalBounds();
 }
 
+bool Entity::isDead() const {
+	return (_life <= 0);
+}
+
+/*void Entity::killEntity(std::vector<Object*> &droppedObjects) {
+	droppedObjects.push_back(new Arme(_curWeapon));
+}*/
+
 void Entity::setWeapon(Arme newWeapon)
 {
 	std::cout << "\x1B[33m[info]\x1B[0m : changement d'arme\n";
-	_curWeapon = newWeapon;
+	_curWeapon = new Arme(newWeapon);
 }
 
-Arme Entity::getWeapon()
+Arme* Entity::getWeapon()
 {
 	return this->_curWeapon;
 }
@@ -68,14 +79,14 @@ sf::RectangleShape Entity::getLifebar() const {
 
 bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection, std::vector<Tile> const& _tiles)
 {
-	if (_timeSinceShot.getElapsedTime() > sf::milliseconds(_curWeapon.getCoolDown()))
+	if (_timeSinceShot.getElapsedTime() > sf::milliseconds(_curWeapon->getCoolDown()))
 	{
-		this->_curWeapon.playTir();
+		this->_curWeapon->playTir();
 		_timeSinceShot.restart();
-		if (_curWeapon.getReady() == true)
+		if (_curWeapon->getReady() == true)
 		{
 			sf::Vector2f pos = this->getPosition();
-			sf::Vector2f shootImpr = this->_curWeapon.imprecision(shootDirection);
+			sf::Vector2f shootImpr = this->_curWeapon->imprecision(shootDirection);
 			sf::Vector2f aim(shootImpr.x - pos.x, shootImpr.y - pos.y);
 			float lenAim = sqrt(aim.x * aim.x + aim.y * aim.y);
 			sf::Vector2f direction(aim.x / lenAim, aim.y / lenAim);
@@ -83,10 +94,10 @@ bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f
 			sf::Vector2f posBalle;
 			posBalle.x = pos.x + aim.x - (aim.x * (lenAim - 21)) / lenAim;
 			posBalle.y = pos.y + aim.y - (aim.y * (lenAim - 21)) / lenAim;
-			this->_curWeapon.update(_entitySprite.getPosition(), shootImpr);
-			Bullet newBullet = Bullet(this->_curWeapon.getAngle(), this->_curWeapon.getBallePath(), posBalle, direction, _curWeapon.getRange(), _curWeapon.getDamages());
+			this->_curWeapon->update(_entitySprite.getPosition(), shootImpr);
+			Bullet newBullet = Bullet(this->_curWeapon->getAngle(), this->_curWeapon->getBallePath(), posBalle, direction, _curWeapon->getRange(), _curWeapon->getDamages());
 			throwableObjectsList.push_back(newBullet);
-			_curWeapon.getSprite().move(sf::Vector2f(-direction.x * 5, -direction.y * 5));
+			_curWeapon->getSprite().move(sf::Vector2f(-direction.x * 5, -direction.y * 5));
 		}
 	}
 	
@@ -98,5 +109,5 @@ void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	s.setTexture(_entityText[_spritePosCount][_dir]);
 
 	target.draw(s);
-	target.draw(_curWeapon);
+	target.draw(*_curWeapon);
 }

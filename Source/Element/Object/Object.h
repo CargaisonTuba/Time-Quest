@@ -9,6 +9,7 @@ public:
 	~Object();
 
 	bool update();
+	void setDropped(bool dropped);
 	sf::FloatRect getHitbox() const;
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -18,5 +19,7 @@ protected:
 	sf::Vector2f _initPosition;
 	sf::Texture _objectText;
 	sf::Sprite _objectSprite;
+
+	bool _isDropped;
 };
 

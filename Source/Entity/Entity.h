@@ -9,7 +9,7 @@
 #include "../HUD/Cursor.h"
 #include "../Element/Object/ThrowedObject.h"
 #include "../Element/Object/ThrowedObject/Bullet.h"
-#include "../Inventory/Inventory.h"
+#include "../Element/Object/Medkit.h"
 
 class Entity : public sf::Drawable
 {
@@ -20,8 +20,10 @@ public:
 	sf::Vector2f getPosition() const;
 	sf::FloatRect getHitbox();
 
+	bool isDead() const;
+
 	void setWeapon(Arme newWeapon);
-	Arme getWeapon();
+	Arme* getWeapon();
 	float getLife() const;
 	sf::RectangleShape getLifebar() const;
 
@@ -41,8 +43,7 @@ protected:
 	sf::Clock _timeSinceShot;
 
 	//Stuff
-	Inventory _inventory;
-	Arme _curWeapon;
+	Arme *_curWeapon;
 
 	//Barre de vie, assez simple pour le moment.
 	sf::RectangleShape _lifeBar;

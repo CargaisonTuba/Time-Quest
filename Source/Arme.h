@@ -13,7 +13,7 @@ class Arme : public Object
 public:
 	//Constructeurs 
 	Arme(std::string typeArme);
-	Arme(std::string typeArme, sf::Vector2f initPosition);
+	Arme(std::string typeArme, sf::Vector2f initPosition, bool dropped = false);
 	Arme();
 	~Arme();
 	
@@ -31,7 +31,7 @@ public:
 	float getDamages() const;
 	int getCoolDown();
 	int getMunRest();
-	int getRange();
+	float getRange();
 	bool getReady(); //renvoie si l'arme est prêt à tirer ou pas
 	
 	//Méthodes	
@@ -45,12 +45,10 @@ public:
 	sf::Vector2f imprecision(sf::Vector2f shootDirection);
 
 private:
-	sf::Texture _armeText;
-	sf::Sprite _armeSprite;
 	sf::Vector2i _position;
 
-	float _longueurX, _longueurY, _hypo, _angle, _damages;
-	int _capacite, _coolDown, _munRest, _reloadTime, _range, _impr;
+	float _longueurX, _longueurY, _hypo, _angle, _damages, _reloadTime, _impr, _range;
+	int _capacite, _coolDown, _munRest;
 
 	std::string _soundPath, _ballePath;
 	sf::SoundBuffer _tirBuffer, _emptyBuffer, _reloadBuffer;

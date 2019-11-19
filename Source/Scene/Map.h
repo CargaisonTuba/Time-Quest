@@ -6,6 +6,7 @@
 
 #include "../Entity/Player.h"
 #include "../Entity/NPC/Ennemy.h"
+#include"../Entity/NPC/Ally/Mate.h"
 #include "../Arme.h"
 #include "../Element/Object/Medkit.h"
 
@@ -31,6 +32,7 @@ public:
 private:
 	//Entités
 	std::vector<Ennemy> _ennemies;
+	std::vector<Mate> _mates;
 
 	//TileMap
 	sf::VertexArray _vertices;

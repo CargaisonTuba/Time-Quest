@@ -1,7 +1,7 @@
 #include "ThrowedObject.h"
 #include "iostream"
 
-ThrowedObject::ThrowedObject(std::string texturePath, sf::Vector2f throwerPosition, sf::Vector2f direction, int range, float damages) :
+ThrowedObject::ThrowedObject(std::string texturePath, sf::Vector2f throwerPosition, sf::Vector2f direction, float range, float damages) :
 	Object(texturePath, throwerPosition)
 {
 	_clock = sf::Clock();

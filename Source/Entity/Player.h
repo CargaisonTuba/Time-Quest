@@ -12,5 +12,9 @@ public:
 	void update(Cursor const& curseur, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*> &droppedObjectsList, float const& dt);
 
 private:
+	bool _justPressed;	//pour savoir si on vient de changer l'item selectionné
 	bool _justChanged;	//pour savoir si on vient de change d'arme
+
+	std::vector<Object*> _inventory;
+	int _inventoryIndex;
 };

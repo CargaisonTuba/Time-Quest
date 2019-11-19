@@ -8,7 +8,7 @@
 class ThrowedObject : public Object
 {
 public:
-	ThrowedObject(std::string texturePath, sf::Vector2f throwerPosition, sf::Vector2f direction, int range, float damages = 0);
+	ThrowedObject(std::string texturePath, sf::Vector2f throwerPosition, sf::Vector2f direction, float range, float damages = 0);
 	ThrowedObject();
 	~ThrowedObject();
 
@@ -20,8 +20,7 @@ protected:
 	sf::SoundBuffer _impactBuffer;
 	sf::Sound _impactSound;
 	sf::Clock _clock;
-	float _damages;
-	int _range;
+	float _damages, _range;
 	sf::Vector2f _position, _direction;
 };
 
