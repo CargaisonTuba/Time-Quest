@@ -2,7 +2,7 @@
 
 Ennemy::Ennemy(std::string texturePath, float defaultLife, sf::Vector2f initPosition) : NPC(texturePath, defaultLife, initPosition) 
 {
-	this->setWeapon(Arme("mas36"));
+	this->setWeapon(Arme("kar98"));
 	_lifeBar.setFillColor(sf::Color::Red);
 	_lifeBar.setOutlineThickness(1);
 	//compteur++;

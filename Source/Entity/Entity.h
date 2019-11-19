@@ -28,7 +28,7 @@ public:
 	sf::RectangleShape getLifebar() const;
 
 	bool fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection, std::vector<Tile> const& _tiles);
-
+	float getTotalLife() const;
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 protected:

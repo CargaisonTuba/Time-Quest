@@ -2,10 +2,7 @@
 #include <iostream>
 
 Player::Player(std::string texturePath, float defaultLife, sf::Vector2f initPosition) : Entity(texturePath, defaultLife, initPosition) {
-	_lifeBar.setFillColor(sf::Color::Red);
-	_lifeBar.setOutlineColor(sf::Color::White);
-	_lifeBar.setOutlineThickness(2);
-	_lifeBar.setPosition(sf::Vector2f(20, 680));
+
 
 	_justPressed = false;
 	_justChanged = false;
@@ -29,7 +26,7 @@ sf::Vector2f Player::getPosition() const {
 }
 
 //On met la position de la souris en paramètre pour pouvoir décider dans quelle direction pointe l'arme
-void Player::update(Cursor const &curseur, std::vector<Tile> const &_tiles, std::vector<ThrowedObject> &throwableObjectsList, std::vector<Object*>& droppedObjectsList, float const& dt)
+void Player::update(Cursor const& curseur, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*>& droppedObjectsList, float const& dt)
 {
 	//déplacement du joueur
 	float speed = 0.1f * dt;
@@ -37,7 +34,7 @@ void Player::update(Cursor const &curseur, std::vector<Tile> const &_tiles, std:
 		speed *= 1.5f;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
-		
+
 		_entitySprite.move(sf::Vector2f(0, -speed));
 		for (unsigned int i = 0; i < _tiles.size(); i++) {
 			if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
@@ -46,7 +43,7 @@ void Player::update(Cursor const &curseur, std::vector<Tile> const &_tiles, std:
 		}
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-		
+
 		_entitySprite.move(sf::Vector2f(-speed, 0));
 		for (unsigned int i = 0; i < _tiles.size(); i++) {
 			if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
@@ -55,7 +52,7 @@ void Player::update(Cursor const &curseur, std::vector<Tile> const &_tiles, std:
 		}
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		
+
 		_entitySprite.move(sf::Vector2f(0, speed));
 		for (unsigned int i = 0; i < _tiles.size(); i++) {
 			if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
@@ -64,7 +61,7 @@ void Player::update(Cursor const &curseur, std::vector<Tile> const &_tiles, std:
 		}
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		
+
 		_entitySprite.move(sf::Vector2f(speed, 0));
 		for (unsigned int i = 0; i < _tiles.size(); i++) {
 			if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
@@ -126,7 +123,7 @@ void Player::update(Cursor const &curseur, std::vector<Tile> const &_tiles, std:
 	}
 	else
 		_justPressed = false;
-	
+
 	if (_inventory.size() > 0 && _justChanged) {
 		_curWeapon = (Arme*)(_inventory[_inventoryIndex]);
 		_justChanged = false;
@@ -152,7 +149,6 @@ void Player::update(Cursor const &curseur, std::vector<Tile> const &_tiles, std:
 				_life = _totalLife;
 			}
 		}
-	
-	//On met la barre de vie du joueur à jour
-	_lifeBar.setSize(sf::Vector2f((_life * 300) / _totalLife, 20));
+
+
 }
