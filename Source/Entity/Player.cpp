@@ -16,6 +16,7 @@ Player::Player(std::string texturePath, float defaultLife, sf::Vector2f initPosi
 	_inventory.push_back(new Arme("mp40"));
 
 	_inventoryIndex = 0;
+	_curWeapon = (Arme*)(_inventory[_inventoryIndex]);
 }
 
 Player::~Player() {
