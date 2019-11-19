@@ -15,7 +15,7 @@ Ennemy::~Ennemy()
 
 }
 
-bool Ennemy::update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*> &droppedObjects, float const& dt) {
+bool Ennemy::update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*> &droppedObjects, float const& dt)
 {
 	//mise à jour de la barre de vie avec la vie et la position actuelle de l'ennemi
 	_lifeBar.setSize(sf::Vector2f((_life * 20) / _totalLife, 5));

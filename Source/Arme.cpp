@@ -298,13 +298,3 @@ void Arme::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	s.move(13, 13);	//on centre l'arme
 	target.draw(s);
 }
-
-sf::Vector2f Arme::imprecision(sf::Vector2f shootDirection)
-{
-	
-	float a = -_impr;
-	float b = _impr;
-	int imprX = rand() % (int)((b - a) + a);
-	int imprY = rand() % (int)((b - a) + a);
-	return sf::Vector2f(shootDirection.x + imprX, shootDirection.y + imprY);
-}
