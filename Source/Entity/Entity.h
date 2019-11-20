@@ -44,7 +44,10 @@ protected:
 	int _spritePosCount, _spritePosCountMax;
 	int _dir;	//Haut, bas, ...
 	float _animation_tick;
+
 	bool _isPushed;
+	sf::Vector2f _pushingForce;
+	sf::Clock _timeSincePushed;
 
 	float _life, _totalLife;
 	sf::Clock _timeSinceShot;

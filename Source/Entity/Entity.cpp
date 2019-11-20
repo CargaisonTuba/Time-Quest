@@ -99,7 +99,9 @@ void Entity::blast(sf::Vector2f source, float distanceLimit, float damage)
 
 void Entity::pushBack(sf::Vector2f directionOfPush)
 {
-	_entitySprite.move(directionOfPush.x*0.5, directionOfPush.y*0.5);
+	_isPushed = true;
+	_pushingForce = directionOfPush;
+	_timeSincePushed.restart();
 }
 
 float Entity::getLife() const {

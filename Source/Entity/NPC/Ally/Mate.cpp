@@ -18,6 +18,23 @@ Mate::~Mate() {
 }
 
 bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*> &droppedObjectsList, float const& dt) {
+	if (_isPushed)
+	{
+		if (_timeSincePushed.getElapsedTime().asMilliseconds() > 500)
+		{
+			_isPushed = false;
+		}
+		else
+		{
+			_entitySprite.move(_pushingForce);
+			for (unsigned int i = 0; i < _tiles.size(); i++) {
+				if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
+					_entitySprite.move(-_pushingForce);
+				}
+			}
+		}
+	}
+	
 	//std::vector<Ennemy>& _ennemies, 
 
 	//mise à jour de la barre de vie avec la vie et la position actuelle de l'allié

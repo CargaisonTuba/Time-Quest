@@ -12,6 +12,8 @@ void NPC::killNPC(std::vector<Object*>& droppedObjects) {
 }
 
 void NPC::update(sf::Vector2f playerPos) {
+	
+	
 	_curWeapon->update(getPosition(), playerPos);
 
 	//mise à jour de la barre de vie avec la vie et la position actuelle de l'ennemi

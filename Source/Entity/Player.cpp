@@ -32,7 +32,19 @@ void Player::update(Cursor const& curseur, std::vector<Tile> const& _tiles, std:
 
 	if (_isPushed)
 	{
-
+		if (_timeSincePushed.getElapsedTime().asMilliseconds() > 500)
+		{
+			_isPushed = false;
+		}
+		else
+		{
+			_entitySprite.move(_pushingForce);
+			for (unsigned int i = 0; i < _tiles.size(); i++) {
+				if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
+					_entitySprite.move(-_pushingForce);
+				}
+			}
+		}
 	}
 
 

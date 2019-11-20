@@ -17,6 +17,24 @@ Ennemy::~Ennemy()
 
 bool Ennemy::update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*> &droppedObjects, float const& dt)
 {
+
+	if (_isPushed)
+	{
+		if (_timeSincePushed.getElapsedTime().asMilliseconds() > 500)
+		{
+			_isPushed = false;
+		}
+		else
+		{
+			_entitySprite.move(_pushingForce);
+			for (unsigned int i = 0; i < _tiles.size(); i++) {
+				if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
+					_entitySprite.move(-_pushingForce);
+				}
+			}
+		}
+	}
+
 	//mise à jour de la barre de vie avec la vie et la position actuelle de l'ennemi
 	_lifeBar.setSize(sf::Vector2f((_life * 20) / _totalLife, 5));
 	
