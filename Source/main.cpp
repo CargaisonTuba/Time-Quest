@@ -37,9 +37,11 @@ int main()
 	sf::Time deltaTime;
 	float dt = 0;
 
+	/*
 	//Test Blast
 	float timePassed = 0;
 	bool hasBlast = false;
+	*/
 
 	//seed pour l'aléatoire
 	srand((unsigned int)time(NULL));
@@ -69,7 +71,7 @@ int main()
 		deltaTime = deltaClock.restart();
 
 		dt = (float)deltaTime.asMilliseconds();
-		timePassed += dt;
+		/*timePassed += dt;
 
 		//Test du blast
 		if (timePassed > 5000)
@@ -80,7 +82,7 @@ int main()
 				hasBlast = !hasBlast;
 			}
 			
-		}
+		}*/
 
 		//std::cout << dt << std::endl;
 
