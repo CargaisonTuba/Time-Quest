@@ -1,16 +1,18 @@
 #include "NPC.h"
 
 NPC::NPC(std::string texturePath, float defaultLife, sf::Vector2f initPosition) : Entity(texturePath, defaultLife, initPosition) {
-	_lifeBar.setFillColor(sf::Color::Red);
-	_lifeBar.setOutlineThickness(1);
+
 }
 
 NPC::~NPC() {
 
 }
+void NPC::killNPC(std::vector<Object*>& droppedObjects) {
+	droppedObjects.push_back(new Arme(*_curWeapon));
+}
 
 void NPC::update(sf::Vector2f playerPos) {
-	_curWeapon.update(getPosition(), playerPos);
+	_curWeapon->update(getPosition(), playerPos);
 
 	//mise à jour de la barre de vie avec la vie et la position actuelle de l'ennemi
 	_lifeBar.setSize(sf::Vector2f(_totalLife, 5));
@@ -23,6 +25,6 @@ void NPC::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	s.setTexture(_entityText[_spritePosCount][_dir]);
 
 	target.draw(s);
-	target.draw(_curWeapon);
+	target.draw(*_curWeapon);
 	target.draw(_lifeBar);
 }

@@ -3,12 +3,13 @@
 #include <iostream>
 #include <stdlib.h>
 #include <SFML/Audio.hpp>
+
 #include "../Element/Tile.h"
 #include "../Arme.h"
 #include "../HUD/Cursor.h"
 #include "../Element/Object/ThrowedObject.h"
 #include "../Element/Object/ThrowedObject/Bullet.h"
-
+#include "../Element/Object/Medkit.h"
 
 class Entity : public sf::Drawable
 {
@@ -19,15 +20,19 @@ public:
 	sf::Vector2f getPosition() const;
 	sf::FloatRect getHitbox();
 
+	bool isDead() const;
+
 	void setWeapon(Arme newWeapon);
-	Arme getWeapon();
+
+	Arme* getWeapon();
 	void blast(sf::Vector2f source, float distanceLimit, float damage);
 	void pushBack(sf::Vector2f directionOfPush);
+
 	float getLife() const;
 	sf::RectangleShape getLifebar() const;
 
 	bool fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection, std::vector<Tile> const& _tiles);
-
+	float getTotalLife() const;
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 
@@ -44,7 +49,8 @@ protected:
 	float _life, _totalLife;
 	sf::Clock _timeSinceShot;
 
-	Arme _curWeapon;
+	//Stuff
+	Arme *_curWeapon;
 
 
 

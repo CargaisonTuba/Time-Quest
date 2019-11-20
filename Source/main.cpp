@@ -3,6 +3,7 @@
 #include "Scene/Map.h"
 #include "Entity/Player.h"
 #include "HUD/Cursor.h"
+#include "HUD/Hud.h"
 
 #define VERSION "\x1B[34mtimequest-\x1B[33m1.1-beta\x1B[0m"
 
@@ -24,6 +25,7 @@ int main()
 	Map map;
 	Player player("Time-Quest/Source/assets/soldatFrancais40.png", 500, map.getPlayerSpawn());
 	Cursor curseur("Time-Quest/Source/assets/curseur_tir.png");
+	Hud hud(player, window);
 
 	bool pause = false, pauseJustActivated = false;
 
@@ -40,7 +42,7 @@ int main()
 	bool hasBlast = false;
 
 	//seed pour l'aléatoire
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 
 	//Boucle principale
 	while (window.isOpen())
@@ -65,7 +67,8 @@ int main()
 
 		//deltaTime
 		deltaTime = deltaClock.restart();
-		dt = deltaTime.asMilliseconds();
+
+		dt = (float)deltaTime.asMilliseconds();
 		timePassed += dt;
 
 		//Test du blast
@@ -99,11 +102,15 @@ int main()
 			map.update(player, curseur, gameView, dt);
 
 		curseur.update(window);
+		hud.update(player, window);
 
 		window.setView(gameView);
 		
 		window.draw(map);
 		window.draw(player);
+		window.setView(window.getDefaultView());
+		window.draw(hud);
+		window.setView(gameView);
 		window.draw(curseur);
 
 		//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante

@@ -3,41 +3,45 @@
 #include <ctgmath>
 
 
-Entity::Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosition) //Constructeur par défaut, sans paramètre
+Entity::Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosition) //Constructeur par dï¿½faut, sans paramï¿½tre
 {
-	//A la création d'un nouveau Personnage, on lui attribue des caractéristiques:
+	//A la crï¿½ation d'un nouveau Personnage, on lui attribue des caractï¿½ristiques:
 
-	//Les 5 prochaines variables sont utilisées dans l'animation du personnage. Pas important, juste 1 animation
+	//Les 5 prochaines variables sont utilisï¿½es dans l'animation du personnage. Pas important, juste 1 animation
 	_spritePosCount = 0;
-	_spritePosCountMax = 11;
+	_spritePosCountMax = 10;
 	_dir = 0;	//0 = down / 1 = right / 2 = up / 3 = left
 	_animation_tick = 0;
 	_isPushed = false;
 
-	//On charge chaque position du personnage dans un tableau 2D :
-	//chaque ligne = le personnage qui va vers le haut / le bas / gauche / droite
-	//chaque colonne = l'animation du personnage qui cours dans cette direction
-	for (int i = 0; i < 11; i++)
+	//On charge chaque position de personnage dans un tableau 2D :
+	//chaque ligne = personnage qui va vers le haut / le bas / gauche / droite
+	//chaque colonne = l'animation de personnage qui cours dans cette direction
+	for (int i = 0; i < 10; i++)
+
 	{
 		for (int j = 0; j < 4; j++)
 		{
-			_entityText[i][j].loadFromFile(texturePath, sf::IntRect(i * 26, j * 26, 26, 26));
+			_entityText[i][j].loadFromFile(texturePath, sf::IntRect(i * 16, j * 26, 16, 26));
 		}
 	}
 
-	//Le sprite du personnage sera placé initialement dans le coin haut gauche de la map. (0, 0)
+	//Le sprite du personnage sera placï¿½ initialement dans le coin haut gauche de la map. (0, 0)
 	_entitySprite.setPosition(initPosition);
-	_entitySprite.setOrigin(13.f, 13.f);
+	_entitySprite.setOrigin(8.f, 13.f);
 	_initPos = initPosition;
 
 
-	_life = defaultLife;	//ca représentera la vie ACTUELLE du joueur
-	_totalLife = defaultLife;		//ca représente la vie TOTALE du joueur (c'est une sorte de constante, on y touchera plus après)
+	_life = defaultLife;	//ca reprï¿½sentera la vie ACTUELLE du joueur
+	_totalLife = defaultLife;		//ca reprï¿½sente la vie TOTALE du joueur (c'est une sorte de constante, on y touchera plus aprï¿½s)
 	_timeSinceShot.restart();
+
+	_curWeapon = new Arme();
 }
 
 Entity::~Entity() {
-
+	//delete _curWeapon;
+	//_curWeapon = nullptr;
 }
 
 sf::Vector2f Entity::getPosition() const
@@ -50,13 +54,21 @@ sf::FloatRect Entity::getHitbox() {
 	return _entitySprite.getGlobalBounds();
 }
 
+bool Entity::isDead() const {
+	return (_life <= 0);
+}
+
+/*void Entity::killEntity(std::vector<Object*> &droppedObjects) {
+	droppedObjects.push_back(new Arme(_curWeapon));
+}*/
+
 void Entity::setWeapon(Arme newWeapon)
 {
 	std::cout << "\x1B[33m[info]\x1B[0m : changement d'arme\n";
-	_curWeapon = newWeapon;
+	_curWeapon = new Arme(newWeapon);
 }
 
-Arme Entity::getWeapon()
+Arme* Entity::getWeapon()
 {
 	return this->_curWeapon;
 }
@@ -98,27 +110,32 @@ sf::RectangleShape Entity::getLifebar() const {
 	return _lifeBar;
 }
 
+float Entity::getTotalLife() const
+{
+	return _totalLife;
+}
+
 bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection, std::vector<Tile> const& _tiles)
 {
-	if (_timeSinceShot.getElapsedTime() > sf::milliseconds(_curWeapon.getCoolDown()))
+	if (_timeSinceShot.getElapsedTime() > sf::milliseconds(_curWeapon->getCoolDown()))
 	{
-		this->_curWeapon.playTir();
+		this->_curWeapon->playTir();
 		_timeSinceShot.restart();
-		if (_curWeapon.getReady() == true)
+		if (_curWeapon->getReady() == true)
 		{
 			sf::Vector2f pos = this->getPosition();
-			sf::Vector2f shootImpr = this->_curWeapon.imprecision(shootDirection);
+			sf::Vector2f shootImpr = this->_curWeapon->imprecision(shootDirection);
 			sf::Vector2f aim(shootImpr.x - pos.x, shootImpr.y - pos.y);
 			float lenAim = sqrt(aim.x * aim.x + aim.y * aim.y);
 			sf::Vector2f direction(aim.x / lenAim, aim.y / lenAim);
 
 			sf::Vector2f posBalle;
-			posBalle.x = pos.x + aim.x - (aim.x * (lenAim - 21)) / lenAim;
-			posBalle.y = pos.y + aim.y - (aim.y * (lenAim - 21)) / lenAim;
-			this->_curWeapon.update(_entitySprite.getPosition(), shootImpr);
-			Bullet newBullet = Bullet(this->_curWeapon.getAngle(), this->_curWeapon.getBallePath(), posBalle, direction, _curWeapon.getRange(), _curWeapon.getDamages());
+			posBalle.x = pos.x + aim.x - (aim.x * (lenAim - 16)) / lenAim;
+			posBalle.y = pos.y + aim.y - (aim.y * (lenAim - 20)) / lenAim;
+			this->_curWeapon->update(_entitySprite.getPosition(), shootImpr);
+			Bullet newBullet = Bullet(this->_curWeapon->getAngle(), this->_curWeapon->getBallePath(), posBalle, direction, _curWeapon->getRange(), _curWeapon->getDamages());
 			throwableObjectsList.push_back(newBullet);
-			_curWeapon.getSprite().move(sf::Vector2f(-direction.x * 5, -direction.y * 5));
+			_curWeapon->getSprite().move(sf::Vector2f(-direction.x * 5, -direction.y * 5));
 		}
 	}
 	
@@ -130,5 +147,5 @@ void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	s.setTexture(_entityText[_spritePosCount][_dir]);
 
 	target.draw(s);
-	target.draw(_curWeapon);
+	target.draw(*_curWeapon);
 }
