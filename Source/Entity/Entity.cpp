@@ -1,20 +1,21 @@
 #include "Entity.h"
 #include <cmath>
+#include <ctgmath>
 
 
 Entity::Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosition) //Constructeur par défaut, sans paramètre
 {
-	//A la création d'un nouveau joueur, on lui attribue des caractéristiques:
+	//A la création d'un nouveau Personnage, on lui attribue des caractéristiques:
 
-	//Les 5 prochaines variables sont utilisées dans l'animation du joueur. Pas important, juste 1 animation
+	//Les 5 prochaines variables sont utilisées dans l'animation du personnage. Pas important, juste 1 animation
 	_spritePosCount = 0;
 	_spritePosCountMax = 11;
 	_dir = 0;	//0 = down / 1 = right / 2 = up / 3 = left
 	_animation_tick = 0;
 
-	//On charge chaque position de Link dans un tableau 2D :
-	//chaque ligne = link qui va vers le haut / le bas / gauche / droite
-	//chaque colonne = l'animation de link qui cours dans cette direction
+	//On charge chaque position du personnage dans un tableau 2D :
+	//chaque ligne = le personnage qui va vers le haut / le bas / gauche / droite
+	//chaque colonne = l'animation du personnage qui cours dans cette direction
 	for (int i = 0; i < 11; i++)
 	{
 		for (int j = 0; j < 4; j++)
@@ -23,7 +24,7 @@ Entity::Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosi
 		}
 	}
 
-	//Le sprite de link sera placé initialement dans le coin haut gauche de la map. (0, 0)
+	//Le sprite du personnage sera placé initialement dans le coin haut gauche de la map. (0, 0)
 	_entitySprite.setPosition(initPosition);
 	_entitySprite.setOrigin(13.f, 13.f);
 	_initPos = initPosition;
@@ -61,10 +62,31 @@ Arme Entity::getWeapon()
 
 void Entity::blast(sf::Vector2f source, float distanceLimit, float damage)
 {
-	if (sqrt(pow(this->_initPos.x-source.x, 2)+pow(this->_initPos.y-source.y, 2)) < distanceLimit)
+	float lengthVectorOfBlastFromSource = sqrt(pow(_entitySprite.getPosition().x - source.x, 2) + pow(_entitySprite.getPosition().y - source.y, 2));
+
+	if (lengthVectorOfBlastFromSource < distanceLimit*30)
 	{
-		_life = _life - damage;
+		if (_life > damage)
+		{
+			_life = _life - damage;
+		}
+		else
+		{
+			_life = 0;
+		}
+		sf::Vector2f directionOfPush = sf::Vector2f(_entitySprite.getPosition().x - source.x / lengthVectorOfBlastFromSource,
+													_entitySprite.getPosition().y - source.y / lengthVectorOfBlastFromSource);
+		pushBack(directionOfPush);
+		std::cout << "Pushed\n";
 	}
+	std::cout << "afterCondition\n" << lengthVectorOfBlastFromSource << "\n";
+	
+	
+}
+
+void Entity::pushBack(sf::Vector2f directionOfPush)
+{
+	_entitySprite.move(directionOfPush.x*0.5, directionOfPush.y*0.5);
 }
 
 float Entity::getLife() const {

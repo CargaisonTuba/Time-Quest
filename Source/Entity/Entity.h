@@ -22,6 +22,7 @@ public:
 	void setWeapon(Arme newWeapon);
 	Arme getWeapon();
 	void blast(sf::Vector2f source, float distanceLimit, float damage);
+	void pushBack(sf::Vector2f directionOfPush);
 	float getLife() const;
 	sf::RectangleShape getLifebar() const;
 
