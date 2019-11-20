@@ -24,6 +24,10 @@ sf::Vector2f Player::getPosition() const {
 //On met la position de la souris en paramètre pour pouvoir décider dans quelle direction pointe l'arme
 void Player::update(Cursor const &curseur, std::vector<Tile> const &_tiles, std::vector<ThrowedObject> &throwableObjectsList, float const& dt) 
 {
+	if (_isPushed)
+	{
+
+	}
 	//changement d'arme (TEST)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 		if (!_justChanged) {

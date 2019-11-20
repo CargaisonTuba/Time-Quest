@@ -39,11 +39,14 @@ protected:
 	int _spritePosCount, _spritePosCountMax;
 	int _dir;	//Haut, bas, ...
 	float _animation_tick;
+	bool _isPushed;
 
 	float _life, _totalLife;
 	sf::Clock _timeSinceShot;
 
 	Arme _curWeapon;
+
+
 
 	//Barre de vie, assez simple pour le moment.
 	sf::RectangleShape _lifeBar;

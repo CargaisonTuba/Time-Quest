@@ -12,6 +12,7 @@ Entity::Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosi
 	_spritePosCountMax = 11;
 	_dir = 0;	//0 = down / 1 = right / 2 = up / 3 = left
 	_animation_tick = 0;
+	_isPushed = false;
 
 	//On charge chaque position du personnage dans un tableau 2D :
 	//chaque ligne = le personnage qui va vers le haut / le bas / gauche / droite
