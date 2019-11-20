@@ -10,6 +10,7 @@ public:
 
 	bool update();
 	void setDropped(bool dropped);
+	sf::Vector2f getPosition() const;
 	sf::FloatRect getHitbox() const;
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

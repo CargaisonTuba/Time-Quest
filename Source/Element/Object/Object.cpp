@@ -40,6 +40,10 @@ void Object::setDropped(bool dropped) {
 	_objectSprite.setScale(sf::Vector2f(0.1, 0.1));
 }
 
+sf::Vector2f Object::getPosition() const {
+	return _objectSprite.getPosition();
+}
+
 void Object::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	sf::Sprite s = _objectSprite;
@@ -49,5 +53,7 @@ void Object::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 sf::FloatRect Object::getHitbox() const 
 {
-	return _objectSprite.getGlobalBounds();
+	sf::Sprite s = _objectSprite;
+	s.setTexture(_objectText);
+	return s.getGlobalBounds();
 }

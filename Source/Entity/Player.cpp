@@ -6,6 +6,7 @@ Player::Player(std::string texturePath, float defaultLife, sf::Vector2f initPosi
 
 	_justPressed = false;
 	_justChanged = false;
+	_justLoot = false;
 
 	_inventory.push_back(new Arme("fm2429"));
 	_inventory.push_back(new Arme("mas36"));
@@ -97,6 +98,39 @@ void Player::update(Cursor const& curseur, std::vector<Tile> const& _tiles, std:
 	}
 	else
 		_dir = 1;
+
+	//le joueur peut récupérer un item au sol avec E
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
+		if (!_justLoot) {
+			_justLoot = true;
+			float minPos = 100;	//pour trouver l'objet le plus proche ET qui touche le joueur
+			int indexOK;
+			bool find = false;
+			for (int i = 0; i < droppedObjectsList.size(); i++) {
+				if (getHitbox().intersects(droppedObjectsList[i]->getHitbox())) {
+					sf::Vector2f objectpos = droppedObjectsList[i]->getPosition();
+					float dist = sqrt((objectpos.x - getPosition().x) * (objectpos.x - getPosition().x) + (objectpos.y - getPosition().y) * (objectpos.y - getPosition().y));
+					std::cout << dist << std::endl;
+					if (dist < minPos) {
+						minPos = dist;
+						indexOK = i;
+						find = true;
+					}
+				}
+			}
+			if (find) {
+				droppedObjectsList.push_back(new Arme(*_curWeapon));
+				_inventory[_inventoryIndex] = droppedObjectsList[indexOK];
+				//delete droppedObjectsList[indexOK];
+				//droppedObjectsList[indexOK] = 0;
+				droppedObjectsList.erase(droppedObjectsList.begin() + indexOK);
+				_curWeapon = (Arme*)_inventory[_inventoryIndex];
+			}
+
+		}
+	}
+	else
+		_justLoot = false;
 
 	//recharger l'arme
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
