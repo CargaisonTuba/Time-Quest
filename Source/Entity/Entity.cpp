@@ -59,10 +59,9 @@ Arme Entity::getWeapon()
 	return this->_curWeapon;
 }
 
-void Entity::blast(sf::Vector2f source, float damage)
+void Entity::blast(sf::Vector2f source, float distanceLimit, float damage)
 {
-	
-	if (sqrt(pow(this->_initPos.x-source.x, 2)+pow(this->_initPos.y-source.y, 2)) < 3)
+	if (sqrt(pow(this->_initPos.x-source.x, 2)+pow(this->_initPos.y-source.y, 2)) < distanceLimit)
 	{
 		_life = _life - damage;
 	}
