@@ -5,6 +5,8 @@
 #define WATER 1
 #define NORMAL 2
 
+#define TSIZE 30.f
+
 class Tile : public Element
 {
 public:
