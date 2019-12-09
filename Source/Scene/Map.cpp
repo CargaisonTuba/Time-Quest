@@ -96,7 +96,7 @@ Map::Map() {
 			if (tileNumber == 1)
 				status = WATER;
 
-			_tiles.push_back(Tile(sf::Vector2f((float)i * 30.f, (float)j * 30.f), status));
+			_tiles.push_back(Tile(sf::Vector2f((float)i * TSIZE, (float)j * TSIZE), status));
 		}
 
 	std::cout << "\x1B[32m[OK]\x1B[0m : " << _ennemies.size() << " entites chargees\n";
@@ -122,10 +122,9 @@ void Map::update(Player& player, Cursor& curseur, sf::View& view, float const& d
 			_ennemies.erase(_ennemies.begin() + i);
 
 	for (unsigned int i = 0; i < _mates.size(); i++)
-	{
-		if (_mates[i].update(_ennemies, player.getPosition(), _tiles, _throwableObjectsList, _droppedObjectsList, dt))	//si l'allié est mort, on le retire de la liste
+		if (_mates[i].update(_ennemies, player.getPosition(), _tiles, _throwableObjectsList, _droppedObjectsList, _mates, dt))	//si l'allié est mort, on le retire de la liste
 			_mates.erase(_mates.begin() + i);
-	}
+
 	for (unsigned int i = 0; i < _throwableObjectsList.size(); i++)
 	{
 		bool cond = _throwableObjectsList[i].update(dt, _tiles);
@@ -152,10 +151,6 @@ std::vector<ThrowedObject> Map::getThrowableObjectsList() const
 {
 	return this->_throwableObjectsList;
 }
-
-/*std::vector<Object> Map::getDroppedObjectsList() const {
-	return _droppedObjectsList;
-}*/
 
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	//On dessine la map

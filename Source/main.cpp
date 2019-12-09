@@ -5,7 +5,7 @@
 #include "HUD/Cursor.h"
 #include "HUD/Hud.h"
 
-#define VERSION "\x1B[34mtimequest-\x1B[33m1.1-beta\x1B[0m"
+#define VERSION "\x1B[34mtimequest-\x1B[33m1.2-pre-alpha\x1B[0m"
 
 int main()
 {

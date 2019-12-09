@@ -8,6 +8,7 @@ NPC::~NPC() {
 
 }
 void NPC::killNPC(std::vector<Object*>& droppedObjects) {
+	_curWeapon->resetAngle();
 	droppedObjects.push_back(new Arme(*_curWeapon));
 }
 

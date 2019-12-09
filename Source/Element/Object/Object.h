@@ -10,6 +10,7 @@ public:
 
 	bool update();
 	void setDropped(bool dropped);
+	void resetAngle();
 	sf::Vector2f getPosition() const;
 	sf::FloatRect getHitbox() const;
 

@@ -19,6 +19,7 @@ public:
 
 	sf::Vector2f getPosition() const;
 	sf::FloatRect getHitbox();
+	int getID() const;
 
 	bool isDead() const;
 
@@ -45,6 +46,8 @@ protected:
 	int _dir;	//Haut, bas, ...
 	float _animation_tick;
 
+	int _id;
+
 	bool _isPushed;
 	sf::Vector2f _pushingForce;
 	sf::Clock _timeSincePushed;
@@ -54,8 +57,6 @@ protected:
 
 	//Stuff
 	Arme *_curWeapon;
-
-
 
 	//Barre de vie, assez simple pour le moment.
 	sf::RectangleShape _lifeBar;
