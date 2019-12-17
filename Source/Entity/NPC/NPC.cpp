@@ -1,6 +1,6 @@
 #include "NPC.h"
 
-NPC::NPC(std::string texturePath, float defaultLife, sf::Vector2f initPosition) : Entity(texturePath, defaultLife, initPosition) {
+NPC::NPC(std::string texturePath, float defaultLife, sf::Vector2f initPosition, float id) : Entity(texturePath, defaultLife, initPosition, id) {
 
 }
 

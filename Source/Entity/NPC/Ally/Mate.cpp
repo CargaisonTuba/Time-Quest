@@ -1,7 +1,7 @@
 #include "Mate.h"
 
 
-Mate::Mate(std::string texturePath, float defaultLife, sf::Vector2f initPosition) : Ally(texturePath, defaultLife, initPosition) {
+Mate::Mate(std::string texturePath, float defaultLife, sf::Vector2f initPosition, float id) : Ally(texturePath, defaultLife, initPosition, id) {
 	this->setWeapon(Arme("mas36"));
 	_lifeBar.setFillColor(sf::Color::Blue);
 	_lifeBar.setOutlineThickness(1);

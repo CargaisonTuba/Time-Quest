@@ -28,23 +28,24 @@ Map::Map() {
 				mapFile >> _playerSpawn.y;
 			}
 			else if (currentOperation == "#ennemy") {
-				//while (currentOperation != "#tiles") {
 				float eLife = 0;
+				float eID = -2;
 				sf::Vector2f ePos(0, 0);
 				mapFile >> eLife;
 				mapFile >> ePos.x;
 				mapFile >> ePos.y;
-				_ennemies.push_back(Ennemy("Time-Quest/Source/assets/soldatAllemand40.png", eLife, ePos));
-				//}
+				mapFile >> eID;
+				_ennemies.push_back(Ennemy("Time-Quest/Source/assets/soldatAllemand40.png", eLife, ePos, eID));
 			}
 			else if (currentOperation == "#mate")
 			{
 				float eLife = 0;
+				float id = -2;
 				sf::Vector2f ePos(0, 0);
 				mapFile >> eLife;
 				mapFile >> ePos.x;
 				mapFile >> ePos.y;
-				_mates.push_back(Mate("Time-Quest/Source/assets/soldatFrancais40.png", eLife, ePos));
+				_mates.push_back(Mate("Time-Quest/Source/assets/soldatFrancais40.png", eLife, ePos, id));
 			}
 			else if (currentOperation == "#tiles") {
 				while (mapFile >> tileID)
@@ -105,6 +106,48 @@ Map::Map() {
 	_mapSize.x = (float)width;
 	_mapSize.y = (float)height;
 
+	//Quêtes
+	std::cout << "\x1B[33m[Info]\x1B[0m : Chargement des quetes..." << std::endl;
+
+	std::ifstream questFile("Time-Quest/Source/quest.txt");
+	if (!questFile)
+		std::cerr << "\x1B[31m[Erreur]\x1B[0m : impossible d'ouvrir quest.txt\n";
+	else {
+		while (questFile >> currentOperation) {	//on charge les infos de la map dans le jeu
+			if (currentOperation == "#quest") {
+				std::string sqName, sqType;
+				std::vector<std::string> sqList;
+				std::vector<int> qList;
+				int qType;
+
+				questFile >> sqName;
+				questFile >> sqType;
+				if (sqType == "kill")
+					qType = TYPE_KILL;
+				else
+					qType = TYPE_FIND;
+				
+				currentOperation = "";
+				while (questFile >> currentOperation) {
+					if (currentOperation != "#end")
+						sqList.push_back(currentOperation);
+					else
+						break;
+				}
+
+				for (int k = 0; k < sqList.size(); k++)
+					qList.push_back(std::stoi(sqList[k]));
+
+				_quests.push_back(Quest(sqName, qType, qList));
+				std::cout << "\n";
+			}
+
+			std::cout << currentOperation << std::endl;
+			currentOperation = "";
+		}
+	}
+	std::cout << "\x1B[32m[OK]\x1B[0m : " << _quests.size() << " quetes chargees\n";
+	std::cout << "\x1B[32m[lancement du jeu !]\x1B[0m\n";
 }
 
 Map::~Map() {
@@ -117,9 +160,17 @@ Map::~Map() {
 void Map::update(Player& player, Cursor& curseur, sf::View& view, float const& dt) {
 	player.update(curseur, _tiles, _throwableObjectsList, _droppedObjectsList, dt);
 
-	for (unsigned int i = 0; i < _ennemies.size(); i++)
-		if (_ennemies[i].update(_mates, player.getPosition(), _tiles, _throwableObjectsList, _droppedObjectsList, dt))	//si l'ennemi est mort, on le retire de la liste
+	for (unsigned int i = 0; i < _ennemies.size(); i++) {
+		int ennemyID = _ennemies[i].update(_mates, player.getPosition(), _tiles, _throwableObjectsList, _droppedObjectsList, dt);
+		if (ennemyID != -2) {	//si l'ennemi est mort, on le retire de la liste
+			//On regarde si l'ennemi que l'on vient d'exterminer est un ennemi à tuer dans la quête en cours.
+			if (_quests.size() > 0)
+				for (int j = 0; j < _quests[0].getList().size(); j++)
+					if (_quests[0].getList()[j] == ennemyID)
+						_quests[0].setDoneIndex(j);
 			_ennemies.erase(_ennemies.begin() + i);
+		}
+	}
 
 	for (unsigned int i = 0; i < _mates.size(); i++)
 		if (_mates[i].update(_ennemies, player.getPosition(), _tiles, _throwableObjectsList, _droppedObjectsList, _mates, dt))	//si l'allié est mort, on le retire de la liste
@@ -134,6 +185,17 @@ void Map::update(Player& player, Cursor& curseur, sf::View& view, float const& d
 	}
 
 	_playerLifebar = player.getLifebar();
+
+	//On regarde si la quête en cours est terminée
+	if (_quests.size() > 0)
+		if (_quests[0].getList().size() == 0) {
+			std::cout << "\x1B[35m[Quest Success]\x1B[0m : Vous venez de terminer la quete " << _quests[0].getName() << " ! " << std::endl;
+			if(_quests.size() > 1)
+				std::cout << "\x1B[33m[Info]\x1B[0m : Prochaine quete : " << _quests[1].getName() << std::endl;
+			else
+				std::cout << "\x1B[33m[Info]\x1B[0m : Il n'y a pas de nouvelle quete." << std::endl;
+			_quests.erase(_quests.begin());
+		}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::C)) {
 		view.setCenter(player.getPosition());

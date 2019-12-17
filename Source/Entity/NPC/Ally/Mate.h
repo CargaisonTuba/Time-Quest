@@ -7,7 +7,7 @@ class Ennemy;
 class Mate : public Ally
 {
 public:
-	Mate(std::string texturePath, float defaultLife, sf::Vector2f initPosition);
+	Mate(std::string texturePath, float defaultLife, sf::Vector2f initPosition, float id);
 	~Mate();
 
 	bool update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*>& droppedObjectsList, std::vector<Mate> &mates, float const& dt);

@@ -15,6 +15,8 @@
 #include "../Element/Tile.h"
 #include "../Element/Object/ThrowedObject.h"
 
+#include "../Quest.h"
+
 
 class Map : public sf::Drawable
 {
@@ -46,4 +48,7 @@ private:
 	std::vector<Object*> _droppedObjectsList;
 	
 	sf::RectangleShape _playerLifebar;	//sert de variable transitoire pour dessiner l'HUD
+
+	//Quetes
+	std::vector<Quest> _quests;
 };

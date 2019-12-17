@@ -3,7 +3,7 @@
 #include <ctgmath>
 
 
-Entity::Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosition) //Constructeur par d�faut, sans param�tre
+Entity::Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosition, float id) //Constructeur par d�faut, sans param�tre
 {
 	//A la cr�ation d'un nouveau Personnage, on lui attribue des caract�ristiques:
 
@@ -38,7 +38,7 @@ Entity::Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosi
 
 	_curWeapon = new Arme();
 
-	_id = rand() % 1000;
+	_id = id;
 }
 
 Entity::~Entity() {
