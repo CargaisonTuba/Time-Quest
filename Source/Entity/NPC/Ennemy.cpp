@@ -44,6 +44,7 @@ bool Ennemy::update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vect
 	//initialisation de la cible à la position du joueur
 	float mateX = playerPos.x, ennemyX = getPosition().x;
 	float mateY = playerPos.y, ennemyY = getPosition().y;
+	int a = 0;
 	sf::Vector2f targetPos = playerPos;
 	float dist = sqrt((mateX - ennemyX) * (mateX - ennemyX) + (mateY - ennemyY) * (mateY - ennemyY));
 	sf::Vector2f direction((mateX - ennemyX) / dist, (mateY - ennemyY) / dist);
@@ -53,17 +54,20 @@ bool Ennemy::update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vect
 	{
 		mateX = _mates[i].getPosition().x;
 		mateY = _mates[i].getPosition().y;
-		if (sqrt((mateX - ennemyX) * (mateX - ennemyX) + (mateY - ennemyY) * (mateY - ennemyY)) < dist)
+		a = sqrt((mateX - ennemyX) * (mateX - ennemyX) + (mateY - ennemyY) * (mateY - ennemyY));
+		if (a < dist)
 		{
-			dist = sqrt((mateX - ennemyX) * (mateX - ennemyX) + (mateY - ennemyY) * (mateY - ennemyY));
+			dist = a;
 			direction = sf::Vector2f((mateX - ennemyX) / dist, (mateY - ennemyY) / dist);
 			targetPos = _mates[i].getPosition();
 		}
 	}
-	_curWeapon->update(getPosition(), targetPos);
 	
-
-	if (dist <= _detectRange) {
+	
+	//Une fois la cible la plus proche trouvée, on vérifie si elle est dans la zone de détection de l'ennemi ou à portée de tir
+	if (dist <= _detectRange) 
+	{
+		_curWeapon->update(getPosition(), targetPos);
 		if (dist >= _curWeapon->getRange())
 		{
 			_entitySprite.move(sf::Vector2f(direction.x/2, direction.y/2));
@@ -91,6 +95,10 @@ bool Ennemy::update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vect
 				_curWeapon->recharger();
 		}
 	}
+	else
+	{
+		//_curWeapon->update(getPosition(), sf::VectgetPosition);
+	}
 
 	//l'ennemi perd de la vie s'il est touché par une balle
 	for(unsigned int i = 0; i < throwableObjectsList.size(); i++)
@@ -112,3 +120,4 @@ bool Ennemy::update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vect
 	//Ainsi, s'il est mort, il sera supprimé de la liste des annemis de la map.
 	return false;
 }
+
