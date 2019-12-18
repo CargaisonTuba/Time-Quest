@@ -40,6 +40,10 @@ void Object::setDropped(bool dropped) {
 	_objectSprite.setScale(sf::Vector2f(0.1, 0.1));
 }
 
+void Object::resetAngle() {
+	_objectSprite.setRotation(3.1415f);
+}
+
 sf::Vector2f Object::getPosition() const {
 	return _objectSprite.getPosition();
 }

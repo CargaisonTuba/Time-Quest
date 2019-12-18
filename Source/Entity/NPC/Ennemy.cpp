@@ -1,6 +1,6 @@
 #include "Ennemy.h"
 
-Ennemy::Ennemy(std::string texturePath, float defaultLife, sf::Vector2f initPosition) : NPC(texturePath, defaultLife, initPosition) 
+Ennemy::Ennemy(std::string texturePath, float defaultLife, sf::Vector2f initPosition, float id) : NPC(texturePath, defaultLife, initPosition, id)
 {
 	this->setWeapon(Arme("kar98"));
 	_lifeBar.setFillColor(sf::Color::Red);
@@ -15,7 +15,7 @@ Ennemy::~Ennemy()
 
 }
 
-bool Ennemy::update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*> &droppedObjects, float const& dt)
+int Ennemy::update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*> &droppedObjects, float const& dt)
 {
 
 	if (_isPushed)
@@ -112,12 +112,12 @@ bool Ennemy::update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vect
 				//l'ennemi drop son stuff ce desco
 				killNPC(droppedObjects);
 
-				return true;
+				return _id;
 			}
 		}
 
 	//On retourne true ou false, selon si l'ennemi n'a plus de vie ou non.
 	//Ainsi, s'il est mort, il sera supprimé de la liste des annemis de la map.
-	return false;
+	return -2;
 }
 

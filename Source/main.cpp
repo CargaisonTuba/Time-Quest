@@ -5,7 +5,7 @@
 #include "HUD/Cursor.h"
 #include "HUD/Hud.h"
 
-#define VERSION "\x1B[34mtimequest-\x1B[33m1.1-beta\x1B[0m"
+#define VERSION "\x1B[34mtimequest-\x1B[33m1.2-pre-alpha\x1B[0m"
 
 int main()
 {
@@ -36,13 +36,6 @@ int main()
 	sf::Clock deltaClock;
 	sf::Time deltaTime;
 	float dt = 0;
-
-	/*
-	//Test Blast
-	float timePassed = 0;
-	bool hasBlast = false;
-	*/
-
 	//seed pour l'aléatoire
 	srand((unsigned int)time(NULL));
 
@@ -55,10 +48,6 @@ int main()
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
-			/*if (event.type == sf::Event::GainedFocus)
-				hasWindowFocus = true;
-			else if (event.type == sf::Event::LostFocus)
-				hasWindowFocus = false;*/
 		}
 		
 
@@ -71,20 +60,6 @@ int main()
 		deltaTime = deltaClock.restart();
 
 		dt = (float)deltaTime.asMilliseconds();
-		/*timePassed += dt;
-
-		//Test du blast
-		if (timePassed > 5000)
-		{
-			if (!hasBlast)
-			{
-				player.blast(sf::Vector2f(0, 0), 5, 250);
-				hasBlast = !hasBlast;
-			}
-			
-		}*/
-
-		//std::cout << dt << std::endl;
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
 			if (!pauseJustActivated) {

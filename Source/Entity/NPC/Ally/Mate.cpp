@@ -1,7 +1,7 @@
 #include "Mate.h"
 
 
-Mate::Mate(std::string texturePath, float defaultLife, sf::Vector2f initPosition) : Ally(texturePath, defaultLife, initPosition) {
+Mate::Mate(std::string texturePath, float defaultLife, sf::Vector2f initPosition, float id) : Ally(texturePath, defaultLife, initPosition, id) {
 	this->setWeapon(Arme("mas36"));
 	_lifeBar.setFillColor(sf::Color::Blue);
 	_lifeBar.setOutlineThickness(1);
@@ -17,7 +17,7 @@ Mate::~Mate() {
 
 }
 
-bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*> &droppedObjectsList, float const& dt) {
+bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*> &droppedObjectsList, std::vector<Mate> &mates, float const& dt) {
 	if (_isPushed)
 	{
 		if (_timeSincePushed.getElapsedTime().asMilliseconds() > 500)
@@ -73,13 +73,12 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 		}
 	}
 	
-	
 	if (dist <= _detectRange) {
 		if (dist >= _curWeapon->getRange())
 		{
 			if (_follow)
 			{
-				follow(playerPos, _tiles);
+				follow(playerPos, _tiles, mates);
 			}
 			else
 			{
@@ -104,7 +103,7 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 		{
 			if (_follow)
 			{
-				follow(playerPos, _tiles);
+				follow(playerPos, _tiles, mates);
 				_animation_tick += dt;
 				if (_animation_tick >= 50) {
 					_animation_tick = 0;
@@ -148,7 +147,7 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 	return false;
 }
 
-void Mate::follow(sf::Vector2f playerPos, std::vector<Tile> const& _tiles)
+void Mate::follow(sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<Mate> &mates)
 {
 	//initialisation de la cible à la position du joueur
 	float selfX = getPosition().x;
@@ -160,13 +159,18 @@ void Mate::follow(sf::Vector2f playerPos, std::vector<Tile> const& _tiles)
 	if (dist <= _detectRange) {
 		if (dist >= _distPlayer)
 		{
-			_entitySprite.move(sf::Vector2f(direction.x / 2, direction.y / 2));
+			_entitySprite.move(direction);
 			for (unsigned int i = 0; i < _tiles.size(); i++)
 			{
 				if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall())
 				{
 					_entitySprite.move(-direction);
 				}
+			}
+			for (unsigned int i = 0; i < mates.size(); i++)
+			{
+				if (getHitbox().intersects(mates[i].getHitbox()) && mates[i].getID() != getID())
+					_entitySprite.move(-direction);
 			}
 		}
 	}

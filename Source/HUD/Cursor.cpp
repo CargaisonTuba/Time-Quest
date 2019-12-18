@@ -24,6 +24,9 @@ sf::Vector2f Cursor::getPosition() const
 void Cursor::update(sf::RenderWindow &window) 
 {
 	_cursorSprite.setPosition(window.mapPixelToCoords(sf::Mouse::getPosition(window)));
+	float x = _cursorText.getSize().x * _cursorSprite.getScale().x / 2;
+	float y = _cursorText.getSize().y * _cursorSprite.getScale().y / 2;
+	_cursorSprite.setOrigin(sf::Vector2f(-x, -y));
 }
 
 void Cursor::draw(sf::RenderTarget& target, sf::RenderStates states) const

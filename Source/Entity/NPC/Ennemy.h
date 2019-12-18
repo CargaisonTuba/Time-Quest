@@ -7,10 +7,10 @@ class Mate;
 class Ennemy : public NPC
 {
 public:
-	Ennemy(std::string texturePath, float defaultLife, sf::Vector2f initPosition);
+	Ennemy(std::string texturePath, float defaultLife, sf::Vector2f initPosition, float id);
 	~Ennemy();
 
-	bool update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*>& droppedObjects, float const& dt);
+	int update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*>& droppedObjects, float const& dt);
 	
 private:
 	//static int compteur;

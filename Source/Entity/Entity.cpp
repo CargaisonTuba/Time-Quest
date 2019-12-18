@@ -3,7 +3,7 @@
 #include <ctgmath>
 
 
-Entity::Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosition) //Constructeur par d�faut, sans param�tre
+Entity::Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosition, float id) //Constructeur par d�faut, sans param�tre
 {
 	//A la cr�ation d'un nouveau Personnage, on lui attribue des caract�ristiques:
 
@@ -37,6 +37,8 @@ Entity::Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosi
 	_timeSinceShot.restart();
 
 	_curWeapon = new Arme();
+
+	_id = id;
 }
 
 Entity::~Entity() {
@@ -52,6 +54,10 @@ sf::Vector2f Entity::getPosition() const
 sf::FloatRect Entity::getHitbox() {
 	_entitySprite.setTexture(_entityText[0][0]);
 	return _entitySprite.getGlobalBounds();
+}
+
+int Entity::getID() const {
+	return _id;
 }
 
 bool Entity::isDead() const {

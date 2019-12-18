@@ -1,0 +1,10 @@
+#quest
+testq
+kill
+2 3
+#end
+#quest
+testq2
+kill
+4
+#end
