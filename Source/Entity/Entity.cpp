@@ -123,7 +123,7 @@ float Entity::getTotalLife() const
 	return _totalLife;
 }
 
-bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection, std::vector<Tile> const& _tiles)
+bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection, std::vector<std::vector<Tile>> const& _tiles)
 {
 	if (_timeSinceShot.getElapsedTime() > sf::milliseconds(_curWeapon->getCoolDown()))
 	{
@@ -141,8 +141,14 @@ bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f
 			posBalle.x = pos.x + aim.x - (aim.x * (lenAim - 16)) / lenAim;
 			posBalle.y = pos.y + aim.y - (aim.y * (lenAim - 20)) / lenAim;
 			this->_curWeapon->update(_entitySprite.getPosition(), shootImpr);
-			Bullet newBullet = Bullet(this->_curWeapon->getAngle(), this->_curWeapon->getBallePath(), posBalle, direction, _curWeapon->getRange(), _curWeapon->getDamages());
-			throwableObjectsList.push_back(newBullet);
+			
+			GhostBullet newGhostBullet = GhostBullet(this->_curWeapon->getAngle(), posBalle, direction, shootDirection);
+			if (newGhostBullet.travel(_tiles))
+			{
+				Bullet newBullet = Bullet(this->_curWeapon->getAngle(), this->_curWeapon->getBallePath(), posBalle, direction, _curWeapon->getRange(), _curWeapon->getDamages());
+				throwableObjectsList.push_back(newBullet);
+			}
+			
 			_curWeapon->getSprite().move(sf::Vector2f(-direction.x * 5, -direction.y * 5));
 		}
 	}

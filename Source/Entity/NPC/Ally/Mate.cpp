@@ -17,7 +17,7 @@ Mate::~Mate() {
 
 }
 
-bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*> &droppedObjectsList, std::vector<Mate> &mates, float const& dt) {
+bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::vector<std::vector<Tile>> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*> &droppedObjectsList, std::vector<Mate> &mates, float const& dt) {
 
 		if (_timeSincePushed.getElapsedTime().asMilliseconds() > 500)
 		{
@@ -27,8 +27,12 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 		{
 			_entitySprite.move(_pushingForce);
 			for (unsigned int i = 0; i < _tiles.size(); i++) {
-				if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
-					_entitySprite.move(-_pushingForce);
+				for (unsigned int j = 0; j < _tiles[i].size(); j++)
+				{
+					if (getHitbox().intersects(_tiles[i][j].getHitbox()) && _tiles[i][j].isWall())
+					{
+						_entitySprite.move(-_pushingForce);
+					}
 				}
 			}
 		}
@@ -84,9 +88,12 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 			}
 			for (unsigned int i = 0; i < _tiles.size(); i++)
 			{
-				if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall())
+				for (unsigned int j = 0; j < _tiles[i].size(); j++)
 				{
-					_entitySprite.move(-direction);
+					if (getHitbox().intersects(_tiles[i][j].getHitbox()) && _tiles[i][j].isWall())
+					{
+						_entitySprite.move(-direction);
+					}
 				}
 			}
 			_animation_tick += dt;
@@ -145,7 +152,7 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 	return false;
 }
 
-void Mate::follow(sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<Mate> &mates)
+void Mate::follow(sf::Vector2f playerPos, std::vector<std::vector<Tile>> const& _tiles, std::vector<Mate> &mates)
 {
 	//initialisation de la cible à la position du joueur
 	float selfX = getPosition().x;
@@ -160,9 +167,12 @@ void Mate::follow(sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::
 			_entitySprite.move(direction);
 			for (unsigned int i = 0; i < _tiles.size(); i++)
 			{
-				if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall())
+				for (unsigned int j = 0; j < _tiles[i].size(); j++)
 				{
-					_entitySprite.move(-direction);
+					if (getHitbox().intersects(_tiles[i][j].getHitbox()) && _tiles[i][j].isWall())
+					{
+						_entitySprite.move(-direction);
+					}
 				}
 			}
 			for (unsigned int i = 0; i < mates.size(); i++)

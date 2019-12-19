@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 #include "Map.h"
 #include "../Element/Object/ThrowedObject/Bullet.h"
@@ -10,7 +11,7 @@ Map::Map() {
 	std::vector<int> level;	//contient tous les ID des tiles
 	std::string currentOperation = "";
 	sf::Vector2u tileSize(30, 30);
-	unsigned int width = 0, height = 0;	//Le niveau est découpé en 1 carré.
+	int width = 0, height = 0;	//Le niveau est découpé en 1 carré.
 
 	//On remplit ce tableau avec les valeurs du fichier map.txt, sortit tout droit de l'éditeur
 	std::ifstream mapFile("Time-Quest/Source/map.txt");
@@ -71,7 +72,10 @@ Map::Map() {
 	_vertices.resize(width * height * 4);
 
 	//Remplissage du tableau
+	
 	for (unsigned int i = 0; i < width; i++)
+	{
+		std::vector<Tile> row;
 		for (unsigned int j = 0; j < height; j++) {
 			int tileNumber = level[i + j * width];
 
@@ -98,8 +102,11 @@ Map::Map() {
 			if (tileNumber == 1)
 				status = WATER;
 
-			_tiles.push_back(Tile(sf::Vector2f((float)i * TSIZE, (float)j * TSIZE), status));
+			row.push_back(Tile(sf::Vector2f((float)i * TSIZE, (float)j * TSIZE), status));
+
 		}
+		_tiles.push_back(row);
+	}
 
 	std::cout << "\x1B[32m[OK]\x1B[0m : " << _ennemies.size() << " entites chargees\n";
 	std::cout << "\x1B[32m[OK]\x1B[0m : Map chargee\n";
