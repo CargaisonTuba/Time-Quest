@@ -161,21 +161,36 @@ Map::~Map() {
 void Map::update(Player& player, Cursor& curseur, sf::View& view, float const& dt) {
 	player.update(curseur, _tiles, _throwableObjectsList, _droppedObjectsList, dt);
 
+	float tx = view.getCenter().x;
+	float ty = view.getCenter().y;
+	float sizex = view.getSize().x / 2;
+	float sizey = view.getSize().y / 2;
+
 	for (unsigned int i = 0; i < _ennemies.size(); i++) {
-		int ennemyID = _ennemies[i].update(_mates, player.getPosition(), _tiles, _throwableObjectsList, _droppedObjectsList, dt);
-		if (ennemyID != -2) {	//si l'ennemi est mort, on le retire de la liste
-			//On regarde si l'ennemi que l'on vient d'exterminer est un ennemi à tuer dans la quête en cours.
-			if (_quests.size() > 0)
-				for (int j = 0; j < _quests[0].getList().size(); j++)
-					if (_quests[0].getList()[j] == ennemyID)
-						_quests[0].setDoneIndex(j);
-			_ennemies.erase(_ennemies.begin() + i);
+		float posX = _ennemies[i].getPosition().x;
+		float posY = _ennemies[i].getPosition().y;
+
+		if (posX >= tx - sizex && posX < tx + sizex && posY >= ty - sizey && posY < ty + sizey) {
+			int ennemyID = _ennemies[i].update(_mates, player.getPosition(), _tiles, _throwableObjectsList, _droppedObjectsList, dt);
+			if (ennemyID != -2) {	//si l'ennemi est mort, on le retire de la liste
+				//On regarde si l'ennemi que l'on vient d'exterminer est un ennemi à tuer dans la quête en cours.
+				if (_quests.size() > 0)
+					for (int j = 0; j < _quests[0].getList().size(); j++)
+						if (_quests[0].getList()[j] == ennemyID)
+							_quests[0].setDoneIndex(j);
+				_ennemies.erase(_ennemies.begin() + i);
+			}
 		}
 	}
 
-	for (unsigned int i = 0; i < _mates.size(); i++)
-		if (_mates[i].update(_ennemies, player.getPosition(), _tiles, _throwableObjectsList, _droppedObjectsList, _mates, dt))	//si l'allié est mort, on le retire de la liste
-			_mates.erase(_mates.begin() + i);
+	for (unsigned int i = 0; i < _mates.size(); i++) {
+		float posX = _mates[i].getPosition().x;
+		float posY = _mates[i].getPosition().y;
+
+		if (posX >= tx - sizex && posX < tx + sizex && posY >= ty - sizey && posY < ty + sizey)
+			if (_mates[i].update(_ennemies, player.getPosition(), _tiles, _throwableObjectsList, _droppedObjectsList, _mates, dt))	//si l'allié est mort, on le retire de la liste
+				_mates.erase(_mates.begin() + i);
+	}
 
 	for (unsigned int i = 0; i < _throwableObjectsList.size(); i++)
 	{
