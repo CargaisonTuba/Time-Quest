@@ -1,10 +1,5 @@
 #quest
-testq
+Tuez-tous-les-ennemis-mdr
 kill
-2 3
-#end
-#quest
-testq2
-kill
-4
+0 1 2 3 4 5 6
 #end

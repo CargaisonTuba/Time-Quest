@@ -45,6 +45,7 @@ Map::Map() {
 				mapFile >> eLife;
 				mapFile >> ePos.x;
 				mapFile >> ePos.y;
+				mapFile >> id;
 				_mates.push_back(Mate("Time-Quest/Source/assets/soldatFrancais40.png", eLife, ePos, id));
 			}
 			else if (currentOperation == "#tiles") {

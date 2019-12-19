@@ -50,7 +50,6 @@ int main()
 				window.close();
 		}
 		
-
 		//On efface la frame précédente
 		window.clear();
 

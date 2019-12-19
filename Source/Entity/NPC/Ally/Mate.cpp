@@ -18,8 +18,7 @@ Mate::~Mate() {
 }
 
 bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*> &droppedObjectsList, std::vector<Mate> &mates, float const& dt) {
-	if (_isPushed)
-	{
+
 		if (_timeSincePushed.getElapsedTime().asMilliseconds() > 500)
 		{
 			_isPushed = false;
@@ -33,7 +32,6 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 				}
 			}
 		}
-	}
 	
 	//std::vector<Ennemy>& _ennemies, 
 
