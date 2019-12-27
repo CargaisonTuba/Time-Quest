@@ -1,7 +1,7 @@
 #include "Mate.h"
 
 
-Mate::Mate(std::string texturePath, float defaultLife, sf::Vector2f initPosition, float id) : Ally(texturePath, defaultLife, initPosition, id) {
+Mate::Mate(std::string texturePath, float defaultLife, sf::Vector2f initPosition, float id, std::string msg) : Ally(texturePath, defaultLife, initPosition, id) {
 	this->setWeapon(Arme("mas36"));
 	_lifeBar.setFillColor(sf::Color::Blue);
 	_lifeBar.setOutlineThickness(1);
@@ -11,6 +11,7 @@ Mate::Mate(std::string texturePath, float defaultLife, sf::Vector2f initPosition
 	_distPlayer = 50;
 	_follow = false;
 	_fPressed = false;
+	_msg = msg;
 }
 
 Mate::~Mate() {
@@ -18,34 +19,19 @@ Mate::~Mate() {
 }
 
 bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*> &droppedObjectsList, std::vector<Mate> &mates, float const& dt) {
-
-		if (_timeSincePushed.getElapsedTime().asMilliseconds() > 500)
-		{
-			_isPushed = false;
-		}
-		else
-		{
-			_entitySprite.move(_pushingForce);
-			for (unsigned int i = 0; i < _tiles.size(); i++) {
-				if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
-					_entitySprite.move(-_pushingForce);
-				}
-			}
-		}
-	
-	//std::vector<Ennemy>& _ennemies, 
-
 	//mise à jour de la barre de vie avec la vie et la position actuelle de l'allié
 	_lifeBar.setSize(sf::Vector2f((_life * 20) / _totalLife, 5));
-
 	_lifeBar.setPosition(sf::Vector2f(getPosition().x - 10, getPosition().y - 20));
 	_lifeBar.setOutlineColor(sf::Color::Transparent);
 
 	//si le joueur appuie sur F, on passe follow en true
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F) && _fPressed == false)
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F))
 	{
-		_fPressed = true;
-		_follow = !_follow;
+		if (_fPressed == false)
+		{
+			_fPressed = true;
+			_follow = !_follow;
+		}
 	}
 	else
 	{
@@ -116,7 +102,8 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 			}
 			if (_curWeapon->getReady())
 			{
-				fire(throwableObjectsList, targetPos, _tiles);
+				if(_ennemies.size() > 0)
+					fire(throwableObjectsList, targetPos, _tiles);
 			}
 			else
 			{

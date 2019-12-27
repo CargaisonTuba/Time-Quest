@@ -42,7 +42,7 @@ Hud::~Hud() {
 }
 
 
-void Hud::update(Player& player, sf::RenderWindow& window)
+void Hud::update(Player& player, sf::RenderWindow& window, Map& map)
 {
 	_infos.setString(std::to_string((int)player.getLife()) + "\n" + std::to_string(player.getWeapon()->getMunRest()) + " / " + std::to_string(_totalAmmo) +  "\n" + "3");
 	_lifeBar.setSize(sf::Vector2f((player.getLife() * 225) / player.getTotalLife(), 32));

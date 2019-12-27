@@ -78,7 +78,7 @@ int main()
 			map.update(player, curseur, gameView, dt);
 
 		curseur.update(window);
-		hud.update(player, window);
+		hud.update(player, window, map);
 
 		window.setView(gameView);
 		

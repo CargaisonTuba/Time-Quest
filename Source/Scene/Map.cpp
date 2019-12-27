@@ -42,11 +42,15 @@ Map::Map() {
 				float eLife = 0;
 				float id = -2;
 				sf::Vector2f ePos(0, 0);
+				std::string mateMsg;
 				mapFile >> eLife;
 				mapFile >> ePos.x;
 				mapFile >> ePos.y;
 				mapFile >> id;
-				_mates.push_back(Mate("Time-Quest/Source/assets/soldatFrancais40.png", eLife, ePos, id));
+				mapFile.ignore();
+				std::getline(mapFile, mateMsg);
+				mapFile.ignore();
+				_mates.push_back(Mate("Time-Quest/Source/assets/soldatFrancais40.png", eLife, ePos, id, mateMsg));
 			}
 			else if (currentOperation == "#tiles") {
 				while (mapFile >> tileID)
@@ -101,7 +105,7 @@ Map::Map() {
 			_tiles.push_back(Tile(sf::Vector2f((float)i * TSIZE, (float)j * TSIZE), status));
 		}
 
-	std::cout << "\x1B[32m[OK]\x1B[0m : " << _ennemies.size() << " entites chargees\n";
+	std::cout << "\x1B[32m[OK]\x1B[0m : " << _ennemies.size() + _mates.size() << " entites chargees\n";
 	std::cout << "\x1B[32m[OK]\x1B[0m : Map chargee\n";
 
 	_mapSize.x = (float)width;
