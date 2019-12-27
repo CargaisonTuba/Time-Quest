@@ -12,6 +12,7 @@ int main()
 	//Nouvelle fenêtre
 	sf::RenderWindow window(sf::VideoMode(1080, 720), "Time Quest");
 	sf::View gameView(sf::Vector2f(0, 0), sf::Vector2f(400, 267));
+	gameView.setSize(sf::Vector2f(400, 267));
 	window.setMouseCursorVisible(false);
 
 	//On désactive les erreurs SFML pour que ça ne pollue pas la console
@@ -39,58 +40,135 @@ int main()
 	//seed pour l'aléatoire
 	srand((unsigned int)time(NULL));
 
+	//Attributs d'instances (Je sais pas quels noms y donner)
+	bool run = true;
+	bool play = false;
+	bool option = false;
+
 	//Boucle principale
-	while (window.isOpen())
+	while (window.isOpen() && run)
 	{
-		//On regarde si on ferme la fenêtre
-		sf::Event event;
-		while (window.pollEvent(event))
+		while (window.isOpen() && run && !play && !option)
 		{
-			if (event.type == sf::Event::Closed)
-				window.close();
+			//Menu principal
 		}
-		
-		//On efface la frame précédente
-		window.clear();
+		while (window.isOpen() && run && !play && option)
+		{
+			//Option dans le menu principal
+		}
+		while (window.isOpen() && run && play && !option)
+		{
+			//Déroulement du  jeu normal
+			//On regarde si on ferme la fenêtre
+			sf::Event event;
+			while (window.pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed)
+				{
+					window.close();
+					run = false;
+				}
 
-		//le code commence là
-
-		//deltaTime
-		deltaTime = deltaClock.restart();
-
-		dt = (float)deltaTime.asMilliseconds();
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
-			if (!pauseJustActivated) {
-				pause = !pause;
-				pauseJustActivated = !pauseJustActivated;
-				if (pause)
-					std::cout << "\x1B[33m[info] : Jeu en pause\n\x1B[0m";
-				else
-					std::cout << "\x1B[33m[info] : Reprise du jeu\n\x1B[0m";
 			}
+
+			//On efface la frame précédente
+			window.clear();
+
+			//le code commence là
+
+			//deltaTime
+			deltaTime = deltaClock.restart();
+
+			dt = (float)deltaTime.asMilliseconds();
+
+			//Ancienne Pause
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+				if (!pauseJustActivated) {
+					pause = !pause;
+					pauseJustActivated = !pauseJustActivated;
+					if (pause)
+						std::cout << "\x1B[33m[info] : Jeu en pause\n\x1B[0m";
+					else
+						std::cout << "\x1B[33m[info] : Reprise du jeu\n\x1B[0m";
+				}
+			}
+			else
+				pauseJustActivated = false;
+
+			//Nouvelle pause
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+			{
+				option = true;
+			}
+
+
+			//Ancienne pause partie 2
+			if (!pause && window.hasFocus())
+			{
+				map.update(player, curseur, gameView, dt);
+				hud.update(player, window);
+			}
+				
+			curseur.update(window);
+			window.setView(gameView);
+
+			window.draw(map);
+			window.draw(player);
+			window.setView(window.getDefaultView());
+			window.draw(hud);
+			window.setView(gameView);
+			window.draw(curseur);
+
+			//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante
+			window.display();
 		}
-		else
-			pauseJustActivated = false;
+		while (window.isOpen() && run && play && option)
+		{
+			//Menu pause
+			//On regarde si on ferme la fenêtre
+			sf::Event event;
+			while (window.pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed)
+				{
+					window.close();
+					run = false;
+				}
 
-		gameView.setSize(sf::Vector2f(400, 267));
-		if(!pause && window.hasFocus())
-			map.update(player, curseur, gameView, dt);
+			}
 
-		curseur.update(window);
-		hud.update(player, window);
+			//On efface la frame précédente
+			window.clear();
 
-		window.setView(gameView);
+			//le code commence là
+
+			//deltaTime
+			deltaTime = deltaClock.restart();
+
+			dt = (float)deltaTime.asMilliseconds();
+
+			//Retour au jeu
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+			{
+				option = false;
+			}
+
+			curseur.update(window);
+			window.setView(gameView);
+
+			window.draw(map);
+			window.draw(player);
+			window.setView(window.getDefaultView());
+			window.draw(hud);
+			window.setView(gameView);
+			window.draw(curseur);
+
+			//Il faut Drawn le  menu par dessus
+
+			//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante
+			window.display();
+		}
 		
-		window.draw(map);
-		window.draw(player);
-		window.setView(window.getDefaultView());
-		window.draw(hud);
-		window.setView(gameView);
-		window.draw(curseur);
-
-		//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante
-		window.display();
 	}
 
 	std::cout << "\x1B[31m[fin] : fermeture de " << VERSION << "\x1B[0m "<< std::endl;
