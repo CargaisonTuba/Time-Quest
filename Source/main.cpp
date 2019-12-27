@@ -50,11 +50,73 @@ int main()
 	{
 		while (window.isOpen() && run && !play && !option)
 		{
+			//On regarde si on ferme la fenêtre
+			sf::Event event;
+			while (window.pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed)
+				{
+					window.close();
+					run = false;
+				}
+
+			}
+
+			//On efface la frame précédente
+			window.clear();
+
+			//le code commence là
+
+			//deltaTime
+			deltaTime = deltaClock.restart();
+
+			dt = (float)deltaTime.asMilliseconds();
+
 			//Menu principal
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			{
+
+			}
+
+
+			//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante
+			window.display();
+
 		}
 		while (window.isOpen() && run && !play && option)
 		{
 			//Option dans le menu principal
+			//On regarde si on ferme la fenêtre
+			sf::Event event;
+			while (window.pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed)
+				{
+					window.close();
+					run = false;
+				}
+
+			}
+
+			//On efface la frame précédente
+			window.clear();
+
+			//le code commence là
+
+			//deltaTime
+			deltaTime = deltaClock.restart();
+
+			dt = (float)deltaTime.asMilliseconds();
+
+			//Menu principal
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			{
+
+			}
+
+			//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante
+			window.display();
+
 		}
 		while (window.isOpen() && run && play && !option)
 		{
@@ -163,7 +225,7 @@ int main()
 			window.setView(gameView);
 			window.draw(curseur);
 
-			//Il faut Drawn le  menu par dessus
+			//Il faut Draw le  menu par dessus
 
 			//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante
 			window.display();
