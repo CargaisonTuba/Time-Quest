@@ -34,9 +34,10 @@ public:
 
 	bool fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection, std::vector<Tile> const& _tiles);
 	float getTotalLife() const;
+	int getMunRest() const;
+	int getMunTotal() const;
+
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-
-
 
 protected:
 	sf::Texture _entityText[11][4];

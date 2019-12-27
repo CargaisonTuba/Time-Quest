@@ -2,8 +2,6 @@
 #include <iostream>
 
 Player::Player(std::string texturePath, float defaultLife, sf::Vector2f initPosition) : Entity(texturePath, defaultLife, initPosition, -1) {
-
-
 	_justPressed = false;
 	_justChanged = false;
 	_justLoot = false;
@@ -27,27 +25,8 @@ sf::Vector2f Player::getPosition() const {
 }
 
 //On met la position de la souris en paramètre pour pouvoir décider dans quelle direction pointe l'arme
-void Player::update(Cursor const& curseur, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*>& droppedObjectsList, float const& dt)
+int Player::update(Cursor const& curseur, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*>& droppedObjectsList, std::vector<Mate>& mates, Hud& hud, float const& dt)
 {
-
-	if (_isPushed)
-	{
-		if (_timeSincePushed.getElapsedTime().asMilliseconds() > 500)
-		{
-			_isPushed = false;
-		}
-		else
-		{
-			_entitySprite.move(_pushingForce);
-			for (unsigned int i = 0; i < _tiles.size(); i++) {
-				if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
-					_entitySprite.move(-_pushingForce);
-				}
-			}
-		}
-	}
-
-
 	//déplacement du joueur
 	float speed = 0.1f * dt;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
@@ -182,6 +161,33 @@ void Player::update(Cursor const& curseur, std::vector<Tile> const& _tiles, std:
 		_justChanged = false;
 	}
 
+	//Pour parler aux mates
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+		if (!_a_justPressed) {
+			_a_justPressed = true;
+
+			float dist = 100, curDist = 0;
+			int mateIDok = -1;
+			for (unsigned int i = 0; i < mates.size(); i++) {
+				float mateX = mates[i].getPosition().x;
+				float mateY = mates[i].getPosition().y;
+				curDist = sqrt((getPosition().x - mateX) * (getPosition().x - mateX) + (getPosition().y - mateY) * (getPosition().y - mateY));
+				if (curDist < dist) {
+					dist = curDist;
+					mateIDok = i;
+				}
+			}
+
+			if (dist < 30) {
+				hud.addMessage("Mate", mates[mateIDok].getMessage());
+				if (mates[mateIDok].isBoss())
+					return NEXT_MAP;
+			}
+		}
+	}
+	else
+		_a_justPressed = false;
+
 	//l'arme accompagne le joueur, logique
 	_curWeapon->update(this->getPosition(), curseur.getPosition());
 
@@ -203,5 +209,5 @@ void Player::update(Cursor const& curseur, std::vector<Tile> const& _tiles, std:
 			}
 		}
 
-
+	return 0;
 }

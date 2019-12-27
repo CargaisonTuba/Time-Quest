@@ -123,6 +123,14 @@ float Entity::getTotalLife() const
 	return _totalLife;
 }
 
+int Entity::getMunRest() const {
+	return _curWeapon->getMunRest();
+}
+int Entity::getMunTotal() const {
+	return _curWeapon->getMunTotal();
+}
+
+
 bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection, std::vector<Tile> const& _tiles)
 {
 	if (_timeSinceShot.getElapsedTime() > sf::milliseconds(_curWeapon->getCoolDown()))

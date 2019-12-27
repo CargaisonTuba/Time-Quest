@@ -1,7 +1,7 @@
 #include "Mate.h"
 
 
-Mate::Mate(std::string texturePath, float defaultLife, sf::Vector2f initPosition, float id, std::string msg) : Ally(texturePath, defaultLife, initPosition, id) {
+Mate::Mate(std::string texturePath, float defaultLife, sf::Vector2f initPosition, float id, std::string msg, bool isBoss) : Ally(texturePath, defaultLife, initPosition, id) {
 	this->setWeapon(Arme("mas36"));
 	_lifeBar.setFillColor(sf::Color::Blue);
 	_lifeBar.setOutlineThickness(1);
@@ -12,6 +12,7 @@ Mate::Mate(std::string texturePath, float defaultLife, sf::Vector2f initPosition
 	_follow = false;
 	_fPressed = false;
 	_msg = msg;
+	_isBoss = isBoss;
 }
 
 Mate::~Mate() {
@@ -159,4 +160,12 @@ void Mate::follow(sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::
 			}
 		}
 	}
+}
+
+std::string Mate::getMessage() const {
+	return _msg;
+}
+
+bool Mate::isBoss() const {
+	return _isBoss;
 }

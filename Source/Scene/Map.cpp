@@ -18,6 +18,7 @@ Map::Map() {
 		std::cerr << "\x1B[31m[Erreur]\x1B[0m : impossible d'ouvrir map.txt\n";
 	else {
 		int tileID;
+		int bossID = -1;
 		while (mapFile >> currentOperation) {	//on charge les infos de la map dans le jeu
 			if (currentOperation == "#mapsize") {
 				mapFile >> width;
@@ -26,6 +27,10 @@ Map::Map() {
 			else if (currentOperation == "#playerspawn") {
 				mapFile >> _playerSpawn.x;
 				mapFile >> _playerSpawn.y;
+			}
+			else if (currentOperation == "#bossID") {
+				mapFile >> bossID;
+				std::cout << bossID << std::endl;
 			}
 			else if (currentOperation == "#ennemy") {
 				float eLife = 0;
@@ -49,8 +54,10 @@ Map::Map() {
 				mapFile >> id;
 				mapFile.ignore();
 				std::getline(mapFile, mateMsg);
-				mapFile.ignore();
-				_mates.push_back(Mate("Time-Quest/Source/assets/soldatFrancais40.png", eLife, ePos, id, mateMsg));
+				bool isBoss = false;
+				if (id == bossID)
+					isBoss = true;
+				_mates.push_back(Mate("Time-Quest/Source/assets/soldatFrancais40.png", eLife, ePos, id, mateMsg, isBoss));
 			}
 			else if (currentOperation == "#tiles") {
 				while (mapFile >> tileID)
@@ -162,8 +169,11 @@ Map::~Map() {
 	}
 }
 
-void Map::update(Player& player, Cursor& curseur, sf::View& view, float const& dt) {
-	player.update(curseur, _tiles, _throwableObjectsList, _droppedObjectsList, dt);
+void Map::update(Player& player, Cursor& curseur, sf::View& view, Hud& hud, float const& dt) {
+	if (player.update(curseur, _tiles, _throwableObjectsList, _droppedObjectsList, _mates, hud, dt) == NEXT_MAP)
+	{
+		hud.addMessage("Jeu", "Il est temps de changer de monde...");
+	}
 
 	float tx = view.getCenter().x;
 	float ty = view.getCenter().y;

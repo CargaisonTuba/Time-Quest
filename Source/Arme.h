@@ -31,6 +31,7 @@ public:
 	float getDamages() const;
 	int getCoolDown();
 	int getMunRest();
+	int getMunTotal();
 	float getRange();
 	bool getReady(); //renvoie si l'arme est prêt à tirer ou pas
 	

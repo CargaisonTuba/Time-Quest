@@ -1,7 +1,7 @@
 #include "Hud.h"
 #include <stdlib.h>
 
-Hud::Hud(Player& player, sf::RenderWindow& window)
+Hud::Hud()
 {
 	_bodyMun.setFillColor(sf::Color::White);
 	_bodyMun.setOutlineColor(sf::Color::Black);
@@ -35,6 +35,12 @@ Hud::Hud(Player& player, sf::RenderWindow& window)
 	_grenadeSprite.setTexture(_grenadeText);
 	_grenadeSprite.setPosition(sf::Vector2f(_healthSprite.getPosition().x, _smgAmmoSprite.getPosition().y + 43));
 	_totalAmmo = 200;
+
+	_msgBorders.setPosition(sf::Vector2f(20, 600));
+	_msgBorders.setSize(sf::Vector2f(600, 100));
+	_msgBorders.setOutlineColor(sf::Color::Black);
+	_msgBorders.setFillColor(sf::Color(255, 255, 255, 128));
+	_msgBorders.setOutlineThickness(2);
 }
 
 Hud::~Hud() {
@@ -42,10 +48,27 @@ Hud::~Hud() {
 }
 
 
-void Hud::update(Player& player, sf::RenderWindow& window, Map& map)
+void Hud::update(float pLife, float pTotalLife, int pMunRest, int pMunTotal)
 {
-	_infos.setString(std::to_string((int)player.getLife()) + "\n" + std::to_string(player.getWeapon()->getMunRest()) + " / " + std::to_string(_totalAmmo) +  "\n" + "3");
-	_lifeBar.setSize(sf::Vector2f((player.getLife() * 225) / player.getTotalLife(), 32));
+	_infos.setString(std::to_string((int)pLife) + "\n" + std::to_string(pMunRest) + " / " + std::to_string(pMunTotal) +  "\n" + "3");
+	_lifeBar.setSize(sf::Vector2f((pLife * 225) / pTotalLife, 32));
+
+	if (_timerMsg.getElapsedTime().asSeconds() > 3 && !_messages.empty()) {
+		_messages.erase(_messages.begin());
+		_timerMsg.restart();
+	}
+}
+
+void Hud::addMessage(std::string who, std::string message) {
+	if (_messages.size() <= 0) {
+		_timerMsg.restart();
+	}
+	sf::Text msg;
+	msg.setFont(_font);
+	msg.setString(message);
+	msg.setFillColor(sf::Color::Red);
+	msg.setPosition(sf::Vector2f(30, 610));
+	_messages.push_back(msg);
 }
 
 void Hud::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -73,5 +96,10 @@ void Hud::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(health);
 	target.draw(grenade);
 	target.draw(smgammo);
+
+	if (_messages.size() > 0) {
+		target.draw(_msgBorders);
+		target.draw(_messages[0]);
+	}
 }
 

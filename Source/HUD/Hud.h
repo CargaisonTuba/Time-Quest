@@ -1,16 +1,17 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "../Entity/Player.h"
-#include "../Scene/Map.h"
+#include <iostream>
 
 class Hud : public sf::Drawable
 {
 public:
-	Hud(Player& player, sf::RenderWindow& window);
+	Hud();
 	~Hud();
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	void update(Player& player, sf::RenderWindow& window, Map& map);
+	void update(float pLife, float pTotalLife, int pMunRest, int pMunTotal);
+	void addMessage(std::string who, std::string message);
+	//void addMessage(std::string &who, std::vector<std::string> &message);
 
 private:
 	int _totalAmmo;
@@ -20,6 +21,9 @@ private:
 	sf::Text _infos;
 	sf::Text _life;
 	sf::Text _grenade;
+	std::vector<sf::Text> _messages;
+	sf::RectangleShape _msgBorders;
+	sf::Clock _timerMsg;
 	sf::Text _currentQuestName, _currentQuestDescription;
 	sf::Texture _healthText;
 	sf::Texture _smgAmmoText;

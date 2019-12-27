@@ -173,6 +173,11 @@ int Arme::getMunRest()
 	return this->_munRest;
 }
 
+int Arme::getMunTotal()
+{
+	return this->_capacite;
+}
+
 float Arme::getRange()
 {
 	return this->_range;

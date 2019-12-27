@@ -25,9 +25,9 @@ int main()
 	Map map;
 	Player player("Time-Quest/Source/assets/soldatFrancais40.png", 500, map.getPlayerSpawn());
 	Cursor curseur("Time-Quest/Source/assets/curseur_tir.png");
-	Hud hud(player, window);
+	Hud hud;
 
-	bool pause = false, pauseJustActivated = false;
+	bool pause = false, pauseJustActivated = false, mapChanged = false;
 
 	//Delta-time
 	//Cela nous permet d'avoir un jeu qui n'est pas en fonction des fps
@@ -73,12 +73,21 @@ int main()
 		else
 			pauseJustActivated = false;
 
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)) {
+			if (!mapChanged) {
+				mapChanged = true;
+				map = Map();
+			}
+		}
+		else
+			mapChanged = false;
+
 		gameView.setSize(sf::Vector2f(400, 267));
 		if(!pause && window.hasFocus())
-			map.update(player, curseur, gameView, dt);
+			map.update(player, curseur, gameView, hud, dt);
 
 		curseur.update(window);
-		hud.update(player, window, map);
+		hud.update(player.getLife(), player.getTotalLife(), player.getMunRest(), player.getMunTotal());
 
 		window.setView(gameView);
 		
