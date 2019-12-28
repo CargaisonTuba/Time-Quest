@@ -58,7 +58,7 @@ Hud::Hud(sf::RenderWindow &window)
 	initMsg.setFont(_font);
 	initMsg.setFillColor(sf::Color::Black);
 	initMsg.setPosition(sf::Vector2f(window.getSize().x / 4 , window.getSize().y / 4));
-	initMsg.setString("time quest ecran de démarrage yo");
+	initMsg.setString("time quest ecran de démarrage yo\n\nHugo, Fergal, Robin\n\nSi quelqu'un est motivé go il change le design mdr");
 	_initMessages.push_back(initMsg);
 	initMsg.setString("Vous etes un gendarme du temps blabla");
 	_initMessages.push_back(initMsg);
@@ -107,7 +107,7 @@ void Hud::update(float pLife, float pTotalLife, int pMunRest, int pMunTotal)
 
 	if (_gameInit) {
 		if (_initMessages.size() > 0) {
-			if (_clockInit.getElapsedTime().asSeconds() > 0) {
+			if (_clockInit.getElapsedTime().asSeconds() > 5) {
 				_clockInit.restart();
 				_initMessages.erase(_initMessages.begin());
 			}
