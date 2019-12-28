@@ -24,6 +24,8 @@ public:
 	Map();
 	~Map();
 
+	void load(std::string mapPath);
+
 	void update(Player &player, Cursor &curseur, sf::View &view, Hud &hud, float const& dt);
 	sf::Vector2f getPlayerSpawn() const;
 	std::vector<ThrowedObject> getThrowableObjectsList() const;
@@ -52,4 +54,7 @@ private:
 
 	//Quetes
 	std::vector<Quest> _quests;
+
+	std::string _nextMapPath;
+	bool _waitingToChangeMap;
 };

@@ -41,6 +41,8 @@ Hud::Hud()
 	_msgBorders.setOutlineColor(sf::Color::Black);
 	_msgBorders.setFillColor(sf::Color(255, 255, 255, 128));
 	_msgBorders.setOutlineThickness(2);
+
+	_canAddMessages = true;
 }
 
 Hud::~Hud() {
@@ -60,15 +62,25 @@ void Hud::update(float pLife, float pTotalLife, int pMunRest, int pMunTotal)
 }
 
 void Hud::addMessage(std::string who, std::string message) {
-	if (_messages.size() <= 0) {
-		_timerMsg.restart();
+	if (_canAddMessages) {
+		if (_messages.size() <= 0) {
+			_timerMsg.restart();
+		}
+		sf::Text msg;
+		msg.setFont(_font);
+		msg.setString(message);
+		msg.setFillColor(sf::Color::Red);
+		msg.setPosition(sf::Vector2f(30, 610));
+		_messages.push_back(msg);
 	}
-	sf::Text msg;
-	msg.setFont(_font);
-	msg.setString(message);
-	msg.setFillColor(sf::Color::Red);
-	msg.setPosition(sf::Vector2f(30, 610));
-	_messages.push_back(msg);
+}
+
+int Hud::getMessagesNumber() const {
+	return _messages.size();
+}
+
+void Hud::lockMessages(bool cond) {
+	_canAddMessages = !cond;	//issou
 }
 
 void Hud::draw(sf::RenderTarget& target, sf::RenderStates states) const

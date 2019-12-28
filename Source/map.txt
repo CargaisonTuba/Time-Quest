@@ -1,19 +1,40 @@
+-----Textures-----
+
+#tilesheet
+tilesheet_war.png
+
+#matetexture
+soldatFrancais40.png
+
+#ennemytexture
+soldatAllemand40.png
+
+-----Map infos----- 
+
 #mapsize
 30 12
+
 #playerspawn
 90 120
+
 #bossID
 0
+
+#nextmap
+map9.txt
+
+-----Entities-----
+
 #mate
 100 180 60 0
-super tu m'a retrouvé maintenant on se tp ailleurs mdr
+Trop cool tu m'a retrouve !\nMaintenant go dans le present
 #mate
 500 60 120 2
 pas le bon, malaise
 #ennemy
 200 30 120 1
-#nextmap
-map9.txt
+
+-----Tiles disposition-----
 
 #tiles
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 0 0 0 5 5 5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 2 2 0 0 0 0 0 5 7 5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 2 2 0 0 0 0 0 5 5 5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 

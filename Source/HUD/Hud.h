@@ -11,6 +11,8 @@ public:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void update(float pLife, float pTotalLife, int pMunRest, int pMunTotal);
 	void addMessage(std::string who, std::string message);
+	int getMessagesNumber() const;
+	void lockMessages(bool cond = true);
 	//void addMessage(std::string &who, std::vector<std::string> &message);
 
 private:
@@ -21,6 +23,7 @@ private:
 	sf::Text _infos;
 	sf::Text _life;
 	sf::Text _grenade;
+	bool _canAddMessages;
 	std::vector<sf::Text> _messages;
 	sf::RectangleShape _msgBorders;
 	sf::Clock _timerMsg;

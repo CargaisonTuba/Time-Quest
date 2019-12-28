@@ -4,23 +4,54 @@
 #include "../Element/Object/ThrowedObject/Bullet.h"
 
 Map::Map() {
-	//On charge la map depuis le fichier
-	std::cout << "\x1B[33m[Info]\x1B[0m : Chargement de la map...\n";
+	load("map.txt");
+}
+
+Map::~Map() {
+	for (unsigned int i = 0; i < _droppedObjectsList.size(); i++) {
+		delete _droppedObjectsList[i];
+		_droppedObjectsList[i] = 0;
+	}
+}
+
+void Map::load(std::string mapPath) {
+	//On charge la map depuis le fichier spécifié
+	std::cout << "\x1B[33m[Info]\x1B[0m : Chargement de la map \x1B[33m" << mapPath << "\x1B[0m...\n";
+
+	_waitingToChangeMap = false;
+	_ennemies.clear();
+	_mates.clear();
+	_tiles.clear();
+	_vertices.clear();
+	_throwableObjectsList.clear();
+	_droppedObjectsList.clear();
 
 	std::vector<int> level;	//contient tous les ID des tiles
-	std::string currentOperation = "";
 	sf::Vector2u tileSize(30, 30);
 	unsigned int width = 0, height = 0;	//Le niveau est découpé en 1 carré.
 
+	std::string currentOperation = "";
+	std::string tilesheet_path = "", mate_texture = "", ennemy_texture = "";
+	_nextMapPath = "no-next-map";
+
 	//On remplit ce tableau avec les valeurs du fichier map.txt, sortit tout droit de l'éditeur
-	std::ifstream mapFile("Time-Quest/Source/map.txt");
+	std::ifstream mapFile("Time-Quest/Source/" + mapPath);
 	if (!mapFile)
-		std::cerr << "\x1B[31m[Erreur]\x1B[0m : impossible d'ouvrir map.txt\n";
+		std::cerr << "\x1B[31m[Erreur]\x1B[0m : impossible d'ouvrir \x1B[31m" << mapPath << "\x1B[0m...\n";
 	else {
 		int tileID;
 		int bossID = -1;
 		while (mapFile >> currentOperation) {	//on charge les infos de la map dans le jeu
-			if (currentOperation == "#mapsize") {
+			if (currentOperation == "#tilesheet")
+				mapFile >> tilesheet_path;
+
+			else if (currentOperation == "#matetexture")
+				mapFile >> mate_texture;
+
+			else if (currentOperation == "#ennemytexture")
+				mapFile >> ennemy_texture;
+
+			else if (currentOperation == "#mapsize") {
 				mapFile >> width;
 				mapFile >> height;
 			}
@@ -32,6 +63,9 @@ Map::Map() {
 				mapFile >> bossID;
 				std::cout << bossID << std::endl;
 			}
+			else if (currentOperation == "#nextmap") {
+				mapFile >> _nextMapPath;
+			}
 			else if (currentOperation == "#ennemy") {
 				float eLife = 0;
 				float eID = -2;
@@ -40,7 +74,7 @@ Map::Map() {
 				mapFile >> ePos.x;
 				mapFile >> ePos.y;
 				mapFile >> eID;
-				_ennemies.push_back(Ennemy("Time-Quest/Source/assets/soldatAllemand40.png", eLife, ePos, eID));
+				_ennemies.push_back(Ennemy("Time-Quest/Source/assets/" + ennemy_texture, eLife, ePos, eID));
 			}
 			else if (currentOperation == "#mate")
 			{
@@ -57,8 +91,9 @@ Map::Map() {
 				bool isBoss = false;
 				if (id == bossID)
 					isBoss = true;
-				_mates.push_back(Mate("Time-Quest/Source/assets/soldatFrancais40.png", eLife, ePos, id, mateMsg, isBoss));
+				_mates.push_back(Mate("Time-Quest/Source/assets/" + mate_texture, eLife, ePos, id, mateMsg, isBoss));
 			}
+			
 			else if (currentOperation == "#tiles") {
 				while (mapFile >> tileID)
 					level.push_back(tileID);
@@ -72,7 +107,7 @@ Map::Map() {
 
 	std::cout << "\x1B[33m[Info]\x1B[0m : " << level.size() << " tiles en cours de chargement..." << std::endl;
 
-	const std::string path = "Time-Quest/Source/assets/tilesheet.png";
+	const std::string path = "Time-Quest/Source/assets/" + tilesheet_path;
 
 	//on charge les textures
 	if (!_tileset.loadFromFile(path))
@@ -138,7 +173,7 @@ Map::Map() {
 					qType = TYPE_KILL;
 				else
 					qType = TYPE_FIND;
-				
+
 				currentOperation = "";
 				while (questFile >> currentOperation) {
 					if (currentOperation != "#end")
@@ -162,17 +197,12 @@ Map::Map() {
 	std::cout << "\x1B[32m[lancement du jeu !]\x1B[0m\n";
 }
 
-Map::~Map() {
-	for (unsigned int i = 0; i < _droppedObjectsList.size(); i++) {
-		delete _droppedObjectsList[i];
-		_droppedObjectsList[i] = 0;
-	}
-}
-
 void Map::update(Player& player, Cursor& curseur, sf::View& view, Hud& hud, float const& dt) {
 	if (player.update(curseur, _tiles, _throwableObjectsList, _droppedObjectsList, _mates, hud, dt) == NEXT_MAP)
 	{
 		hud.addMessage("Jeu", "Il est temps de changer de monde...");
+		//hud.lockMessages(true);
+		_waitingToChangeMap = true;
 	}
 
 	float tx = view.getCenter().x;
@@ -233,6 +263,10 @@ void Map::update(Player& player, Cursor& curseur, sf::View& view, Hud& hud, floa
 	}
 
 	view.setCenter(player.getPosition());
+
+	if (_waitingToChangeMap)
+		if (hud.getMessagesNumber() <= 0)
+			load(_nextMapPath);
 }
 
 sf::Vector2f Map::getPlayerSpawn() const {
