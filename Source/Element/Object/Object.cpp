@@ -17,6 +17,8 @@ Object::Object(std::string texturePath, sf::Vector2f initPosition)
 	this->_objectSprite.setPosition(initPosition);
 	this->_initPosition = initPosition;
 	_isDropped = false;
+
+	_type = 0;
 }
 
 Object::Object()
@@ -60,4 +62,8 @@ sf::FloatRect Object::getHitbox() const
 	sf::Sprite s = _objectSprite;
 	s.setTexture(_objectText);
 	return s.getGlobalBounds();
+}
+
+int Object::getType() const {
+	return _type;
 }

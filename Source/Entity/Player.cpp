@@ -117,14 +117,19 @@ int Player::update(Cursor const& curseur, std::vector<Tile> const& _tiles, std::
 				}
 			}
 			if (find) {
-				droppedObjectsList.push_back(new Arme(*_curWeapon));
-				_inventory[_inventoryIndex] = droppedObjectsList[indexOK];
-				//delete droppedObjectsList[indexOK];
-				//droppedObjectsList[indexOK] = 0;
-				droppedObjectsList.erase(droppedObjectsList.begin() + indexOK);
-				_curWeapon = (Arme*)_inventory[_inventoryIndex];
+				if (droppedObjectsList[indexOK]->getType() == 0) {
+					droppedObjectsList.push_back(new Arme(*_curWeapon));
+					_inventory[_inventoryIndex] = droppedObjectsList[indexOK];
+					droppedObjectsList.erase(droppedObjectsList.begin() + indexOK);
+					_curWeapon = (Arme*)_inventory[_inventoryIndex];
+				}
+				else {
+					_life += 100;
+					delete droppedObjectsList[indexOK];
+					droppedObjectsList[indexOK] = 0;
+					droppedObjectsList.erase(droppedObjectsList.begin() + indexOK);
+				}
 			}
-
 		}
 	}
 	else

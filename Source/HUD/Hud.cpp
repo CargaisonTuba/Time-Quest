@@ -200,7 +200,6 @@ void Hud::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	sf::Sprite grenade = _grenadeSprite;
 	grenade.setTexture(_grenadeText);
 	grenade.setScale(0.9, 0.9);
-
 	target.draw(_bodyMun);
 	target.draw(_lifeBar);
 	target.draw(infos);

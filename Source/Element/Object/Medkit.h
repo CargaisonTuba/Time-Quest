@@ -5,7 +5,7 @@
 class Medkit : public Object
 {
 public:
-	Medkit();
+	Medkit(sf::Vector2f pos);
 	~Medkit();
 
 private:

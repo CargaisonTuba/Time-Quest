@@ -203,6 +203,12 @@ void Map::load(std::string mapPath) {
 		}
 	}
 	std::cout << "\x1B[32m[OK]\x1B[0m : " << _quests.size() << " quetes chargees\n";
+
+	std::cout << "\x1B[33m[Info]\x1B[0m : Chargement des objets..." << std::endl;
+	_droppedObjectsList.push_back(new Medkit(sf::Vector2f(100, 100)));
+	_droppedObjectsList.push_back(new Medkit(sf::Vector2f(1000, 100)));
+	std::cout << "\x1B[32m[OK]\x1B[0m : " << _droppedObjectsList.size() << " objets charges\n";
+
 	std::cout << "\x1B[32m[lancement du jeu !]\x1B[0m\n";
 }
 
