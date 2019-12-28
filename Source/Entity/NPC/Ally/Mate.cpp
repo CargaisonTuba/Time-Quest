@@ -103,7 +103,7 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 			}
 			if (_curWeapon->getReady())
 			{
-				if(_ennemies.size() > 0)
+				if(targetPos != sf::Vector2f(0, 0))
 					fire(throwableObjectsList, targetPos, _tiles);
 			}
 			else

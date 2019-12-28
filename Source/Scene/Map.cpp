@@ -31,7 +31,7 @@ void Map::load(std::string mapPath) {
 	unsigned int width = 0, height = 0;	//Le niveau est découpé en 1 carré.
 
 	std::string currentOperation = "";
-	std::string tilesheet_path = "", mate_texture = "", ennemy_texture = "";
+	std::string tilesheet_path = "", mate_texture = "", ennemy_texture = "", quest_path = "";
 	_nextMapPath = "no-next-map";
 
 	//On remplit ce tableau avec les valeurs du fichier map.txt, sortit tout droit de l'éditeur
@@ -65,6 +65,9 @@ void Map::load(std::string mapPath) {
 			}
 			else if (currentOperation == "#nextmap") {
 				mapFile >> _nextMapPath;
+			}
+			else if (currentOperation == "#quest") {
+				mapFile >> quest_path;
 			}
 			else if (currentOperation == "#ennemy") {
 				float eLife = 0;
@@ -156,7 +159,7 @@ void Map::load(std::string mapPath) {
 	//Quêtes
 	std::cout << "\x1B[33m[Info]\x1B[0m : Chargement des quetes..." << std::endl;
 
-	std::ifstream questFile("Time-Quest/Source/quest.txt");
+	std::ifstream questFile("Time-Quest/Source/" + quest_path);
 	if (!questFile)
 		std::cerr << "\x1B[31m[Erreur]\x1B[0m : impossible d'ouvrir quest.txt\n";
 	else {

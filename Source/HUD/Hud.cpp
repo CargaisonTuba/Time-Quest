@@ -68,9 +68,21 @@ void Hud::addMessage(std::string who, std::string message) {
 		}
 		sf::Text msg;
 		msg.setFont(_font);
-		msg.setString(message);
 		msg.setFillColor(sf::Color::Red);
 		msg.setPosition(sf::Vector2f(30, 610));
+
+		//Pour que le message ne dépasse pas du cadre on fait des retours à la ligne
+		if (msg.getCharacterSize() * message.size() > 580) {
+			int i = 30;
+			while (message[i] != ' ' && i < message.size()) {
+				i++;
+				std::cout << message[i] << ";";
+			}
+			message.insert(i, "\n");
+		}
+
+		msg.setString(message);
+
 		_messages.push_back(msg);
 	}
 }
