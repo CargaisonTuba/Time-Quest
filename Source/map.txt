@@ -30,7 +30,7 @@ quest-war.txt
 
 #mate
 100 180 60 0
-Trop cool tu m'a retrouve ! Maintenant go dans le present
+Trop cool tu m'a retrouvé ! Maintenant go dans le présent
 #mate
 500 60 120 2
 pas le bon, malaise

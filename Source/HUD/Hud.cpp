@@ -1,7 +1,7 @@
 #include "Hud.h"
 #include <stdlib.h>
 
-Hud::Hud()
+Hud::Hud(sf::RenderWindow &window)
 {
 	_bodyMun.setFillColor(sf::Color::White);
 	_bodyMun.setOutlineColor(sf::Color::Black);
@@ -43,6 +43,13 @@ Hud::Hud()
 	_msgBorders.setOutlineThickness(2);
 
 	_canAddMessages = true;
+
+	_textPause.setFont(_font);
+	_textPause.setString("pause");
+	_textPause.setPosition(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2));
+	
+	_greyScreenPause.setSize((sf::Vector2f)window.getSize());
+	_greyScreenPause.setFillColor(sf::Color(0, 0, 0, 128));
 }
 
 Hud::~Hud() {
@@ -55,8 +62,13 @@ void Hud::update(float pLife, float pTotalLife, int pMunRest, int pMunTotal)
 	_infos.setString(std::to_string((int)pLife) + "\n" + std::to_string(pMunRest) + " / " + std::to_string(pMunTotal) +  "\n" + "3");
 	_lifeBar.setSize(sf::Vector2f((pLife * 225) / pTotalLife, 32));
 
-	if (_timerMsg.getElapsedTime().asSeconds() > 3 && !_messages.empty()) {
-		_messages.erase(_messages.begin());
+	if (!_gamePause) {
+		if (_timerMsg.getElapsedTime().asSeconds() > 3 && !_messages.empty()) {
+			_messages.erase(_messages.begin());
+			_timerMsg.restart();
+		}
+	}
+	else {
 		_timerMsg.restart();
 	}
 }
@@ -95,6 +107,10 @@ void Hud::lockMessages(bool cond) {
 	_canAddMessages = !cond;	//issou
 }
 
+void Hud::setGamePaused(bool pause) {
+	_gamePause = pause;
+}
+
 void Hud::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 
@@ -124,6 +140,11 @@ void Hud::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	if (_messages.size() > 0) {
 		target.draw(_msgBorders);
 		target.draw(_messages[0]);
+	}
+
+	if (_gamePause) {
+		target.draw(_greyScreenPause);
+		target.draw(_textPause);
 	}
 }
 

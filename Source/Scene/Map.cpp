@@ -25,6 +25,7 @@ void Map::load(std::string mapPath) {
 	_vertices.clear();
 	_throwableObjectsList.clear();
 	_droppedObjectsList.clear();
+	_playerSpawn = sf::Vector2f(0, 0);
 
 	std::vector<int> level;	//contient tous les ID des tiles
 	sf::Vector2u tileSize(30, 30);

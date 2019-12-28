@@ -5,7 +5,7 @@
 class Hud : public sf::Drawable
 {
 public:
-	Hud();
+	Hud(sf::RenderWindow& window);
 	~Hud();
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -13,6 +13,7 @@ public:
 	void addMessage(std::string who, std::string message);
 	int getMessagesNumber() const;
 	void lockMessages(bool cond = true);
+	void setGamePaused(bool pause);
 	//void addMessage(std::string &who, std::vector<std::string> &message);
 
 private:
@@ -23,6 +24,10 @@ private:
 	sf::Text _infos;
 	sf::Text _life;
 	sf::Text _grenade;
+
+	sf::Text _textPause;
+	sf::RectangleShape _greyScreenPause;
+
 	bool _canAddMessages;
 	std::vector<sf::Text> _messages;
 	sf::RectangleShape _msgBorders;
@@ -34,4 +39,5 @@ private:
 	sf::Sprite _healthSprite;
 	sf::Sprite _smgAmmoSprite;
 	sf::Sprite _grenadeSprite;
+	bool _gamePause;
 };
