@@ -14,17 +14,7 @@ Entity::Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosi
 	_animation_tick = 0;
 	_isPushed = false;
 
-	//On charge chaque position de personnage dans un tableau 2D :
-	//chaque ligne = personnage qui va vers le haut / le bas / gauche / droite
-	//chaque colonne = l'animation de personnage qui cours dans cette direction
-	for (int i = 0; i < 10; i++)
-
-	{
-		for (int j = 0; j < 4; j++)
-		{
-			_entityText[i][j].loadFromFile(texturePath, sf::IntRect(i * 16, j * 26, 16, 26));
-		}
-	}
+	setTexture(texturePath);
 
 	//Le sprite du personnage sera plac� initialement dans le coin haut gauche de la map. (0, 0)
 	_entitySprite.setPosition(initPosition);
@@ -159,6 +149,20 @@ bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f
 
 void Entity::setPosition(sf::Vector2f newPos) {
 	_entitySprite.setPosition(newPos);
+}
+
+void Entity::setTexture(std::string texturePath) {
+	//On charge chaque position de personnage dans un tableau 2D :
+	//chaque ligne = personnage qui va vers le haut / le bas / gauche / droite
+	//chaque colonne = l'animation de personnage qui cours dans cette direction
+	for (int i = 0; i < 10; i++)
+
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			_entityText[i][j].loadFromFile("Time-Quest/Source/assets/" + texturePath, sf::IntRect(i * 16, j * 26, 16, 26));
+		}
+	}
 }
 
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {

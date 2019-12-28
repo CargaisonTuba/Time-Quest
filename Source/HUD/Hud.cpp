@@ -72,7 +72,7 @@ Hud::Hud(sf::RenderWindow &window)
 
 	_questBorder.setPosition(sf::Vector2f(50, 80));
 	_questBorder.setFillColor(sf::Color(255, 255, 255, 128));
-	_questBorder.setSize(sf::Vector2f(600, 60));
+	_questBorder.setSize(sf::Vector2f(1000, 60));
 
 	_currentQuest.setFont(_font);
 	_currentQuest.setPosition(sf::Vector2f(60, 90));

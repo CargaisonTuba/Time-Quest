@@ -26,6 +26,7 @@ void Map::load(std::string mapPath) {
 	_vertices.clear();
 	_throwableObjectsList.clear();
 	_droppedObjectsList.clear();
+	_quests.clear();
 
 	std::vector<int> level;	//contient tous les ID des tiles
 	sf::Vector2u tileSize(30, 30);
@@ -45,6 +46,9 @@ void Map::load(std::string mapPath) {
 		while (mapFile >> currentOperation) {	//on charge les infos de la map dans le jeu
 			if (currentOperation == "#tilesheet")
 				mapFile >> tilesheet_path;
+
+			else if (currentOperation == "#playertexture")
+				mapFile >> _playerTextPath;
 
 			else if (currentOperation == "#matetexture")
 				mapFile >> mate_texture;
@@ -78,7 +82,7 @@ void Map::load(std::string mapPath) {
 				mapFile >> ePos.x;
 				mapFile >> ePos.y;
 				mapFile >> eID;
-				_ennemies.push_back(Ennemy("Time-Quest/Source/assets/" + ennemy_texture, eLife, ePos, eID));
+				_ennemies.push_back(Ennemy(ennemy_texture, eLife, ePos, eID));
 			}
 			else if (currentOperation == "#mate")
 			{
@@ -95,7 +99,25 @@ void Map::load(std::string mapPath) {
 				bool isBoss = false;
 				if (id == bossID)
 					isBoss = true;
-				_mates.push_back(Mate("Time-Quest/Source/assets/" + mate_texture, eLife, ePos, id, mateMsg, isBoss));
+				_mates.push_back(Mate(mate_texture, eLife, ePos, id, mateMsg, isBoss));
+			}
+
+			else if (currentOperation == "#gun")
+			{
+				sf::Vector2f pos;
+				std::string type;
+				mapFile >> type;
+				mapFile >> pos.x;
+				mapFile >> pos.y;
+				_droppedObjectsList.push_back(new Arme(type, pos, true));
+			}
+
+			else if (currentOperation == "#medkit")
+			{
+				sf::Vector2f pos;
+				mapFile >> pos.x;
+				mapFile >> pos.y;
+				_droppedObjectsList.push_back(new Medkit(pos));
 			}
 			
 			else if (currentOperation == "#tiles") {
@@ -152,6 +174,7 @@ void Map::load(std::string mapPath) {
 		}
 
 	std::cout << "\x1B[32m[OK]\x1B[0m : " << _ennemies.size() + _mates.size() << " entites chargees\n";
+	std::cout << "\x1B[32m[OK]\x1B[0m : " << _droppedObjectsList.size() << " objets charges\n";
 	std::cout << "\x1B[32m[OK]\x1B[0m : Map chargee\n";
 
 	_mapSize.x = (float)width;
@@ -204,11 +227,6 @@ void Map::load(std::string mapPath) {
 	}
 	std::cout << "\x1B[32m[OK]\x1B[0m : " << _quests.size() << " quetes chargees\n";
 
-	std::cout << "\x1B[33m[Info]\x1B[0m : Chargement des objets..." << std::endl;
-	_droppedObjectsList.push_back(new Medkit(sf::Vector2f(100, 100)));
-	_droppedObjectsList.push_back(new Medkit(sf::Vector2f(1000, 100)));
-	std::cout << "\x1B[32m[OK]\x1B[0m : " << _droppedObjectsList.size() << " objets charges\n";
-
 	std::cout << "\x1B[32m[lancement du jeu !]\x1B[0m\n";
 }
 
@@ -219,6 +237,7 @@ void Map::loadNext() {
 void Map::update(Player& player, Cursor& curseur, sf::View& view, Hud& hud, float const& dt) {
 	if (_justLoaded) {
 		player.setPosition(_playerSpawn);
+		player.setTexture(_playerTextPath);
 		_justLoaded = false;
 	}
 

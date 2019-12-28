@@ -39,6 +39,7 @@ private:
 	//Entités
 	std::vector<Ennemy> _ennemies;
 	std::vector<Mate> _mates;
+	std::string _playerTextPath;	//Utilisée provisoirement
 
 	//TileMap
 	sf::VertexArray _vertices;

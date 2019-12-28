@@ -6,13 +6,15 @@ Player::Player(std::string texturePath, float defaultLife, sf::Vector2f initPosi
 	_justChanged = false;
 	_justLoot = false;
 
-	_inventory.push_back(new Arme("fm2429"));
+	/*_inventory.push_back(new Arme("fm2429"));
 	_inventory.push_back(new Arme("mas36"));
 	_inventory.push_back(new Arme("mas38"));
-	_inventory.push_back(new Arme("mp40"));
+	_inventory.push_back(new Arme("mp40"));*/
 
-	_inventoryIndex = 0;
-	_curWeapon = (Arme*)(_inventory[_inventoryIndex]);
+	if (_inventory.size() > 0) {
+		_inventoryIndex = 0;
+		_curWeapon = (Arme*)(_inventory[_inventoryIndex]);
+	}
 }
 
 Player::~Player() {
@@ -118,16 +120,18 @@ int Player::update(Cursor const& curseur, std::vector<Tile> const& _tiles, std::
 			}
 			if (find) {
 				if (droppedObjectsList[indexOK]->getType() == 0) {
-					droppedObjectsList.push_back(new Arme(*_curWeapon));
-					_inventory[_inventoryIndex] = droppedObjectsList[indexOK];
+					//droppedObjectsList.push_back(new Arme(*_curWeapon));
+					_inventory.push_back((Arme*)droppedObjectsList[indexOK]);
 					droppedObjectsList.erase(droppedObjectsList.begin() + indexOK);
 					_curWeapon = (Arme*)_inventory[_inventoryIndex];
 				}
 				else {
-					_life += 100;
-					delete droppedObjectsList[indexOK];
-					droppedObjectsList[indexOK] = 0;
-					droppedObjectsList.erase(droppedObjectsList.begin() + indexOK);
+					if (_life <= _totalLife - 100) {
+						_life += 100;
+						delete droppedObjectsList[indexOK];
+						droppedObjectsList[indexOK] = 0;
+						droppedObjectsList.erase(droppedObjectsList.begin() + indexOK);
+					}
 				}
 			}
 		}
@@ -135,35 +139,37 @@ int Player::update(Cursor const& curseur, std::vector<Tile> const& _tiles, std::
 	else
 		_justLoot = false;
 
-	//recharger l'arme
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
-		this->_curWeapon->recharger();
+	if (_inventory.size() > 0) {
+		//recharger l'arme
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+			this->_curWeapon->recharger();
 
-	//Changer d'item dans l'inventaire
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-		if (!_justPressed) {
-			_justPressed = true;
-			_inventory[_inventoryIndex] = _curWeapon;
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-				if (_inventoryIndex > 0)
-					_inventoryIndex--;
-				else
-					_inventoryIndex = 0;
+		//Changer d'item dans l'inventaire
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+			if (!_justPressed) {
+				_justPressed = true;
+				_inventory[_inventoryIndex] = _curWeapon;
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+					if (_inventoryIndex > 0)
+						_inventoryIndex--;
+					else
+						_inventoryIndex = 0;
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+					if (_inventoryIndex < _inventory.size() - 1 && _inventory.size() > 0)
+						_inventoryIndex++;
+				}
+				std::cout << "\x1B[33m[info]\x1B[0m : index de l'inventaire : " << _inventoryIndex << "/" << _inventory.size() << std::endl;
+				_justChanged = true;
 			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-				if (_inventoryIndex < _inventory.size() - 1 && _inventory.size() > 0)
-					_inventoryIndex++;
-			}
-			std::cout << "\x1B[33m[info]\x1B[0m : index de l'inventaire : " << _inventoryIndex << "/" << _inventory.size() << std::endl;
-			_justChanged = true;
 		}
-	}
-	else
-		_justPressed = false;
+		else
+			_justPressed = false;
 
-	if (_inventory.size() > 0 && _justChanged) {
-		_curWeapon = (Arme*)(_inventory[_inventoryIndex]);
-		_justChanged = false;
+		if (_justChanged) {
+			_curWeapon = (Arme*)(_inventory[_inventoryIndex]);
+			_justChanged = false;
+		}
 	}
 
 	//Pour parler aux mates

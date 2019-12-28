@@ -5,7 +5,7 @@
 #include "HUD/Cursor.h"
 #include "HUD/Hud.h"
 
-#define VERSION "\x1B[34mtimequest-\x1B[33m2.0-pre-alpha\x1B[0m"
+#define VERSION "\x1B[34mtimequest-\x1B[33m1.0\x1B[0m"
 
 int main()
 {
@@ -24,9 +24,9 @@ int main()
 
 	//On instancie une nouvelle map, coeur du jeu.
 	Map map;
-	map.load("map.txt");
+	map.load("map_debut.txt");
 
-	Player player("Time-Quest/Source/assets/soldatFrancais40.png", 500, map.getPlayerSpawn());
+	Player player("soldatFrancais40.png", 500, map.getPlayerSpawn());
 	Cursor curseur("Time-Quest/Source/assets/curseur_tir.png");
 	Hud hud(window);
 	hud.setGameInit(true);
