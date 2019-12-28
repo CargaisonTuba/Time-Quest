@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 
+#include <SFML/Graphics/Texture.hpp>
 #include "Scene/Map.h"
 #include "Entity/Player.h"
 #include "HUD/Cursor.h"
@@ -45,11 +46,32 @@ int main()
 	bool play = false;
 	bool option = false;
 
+	//Menu principal
+	sf::Texture playButton;
+	sf::Texture optionsButton;
+	sf::Texture quitButton;
+
+	sf::Sprite playSprite;
+	sf::Sprite optionsSprite;
+	sf::Sprite quitSprite;
+
+	if (!playButton.loadFromFile("Time-Quest/Source/assets/playButton.png"))
+		std::cout << "couldn't load playButton";
+	if (!optionsButton.loadFromFile("Time-Quest/Source/assets/optionsButton.png"))
+		std::cout << "couldn't load optionsButton";
+	if (!quitButton.loadFromFile("Time-Quest/Source/assets/quitButton.png"))
+		std::cout << "couldn't load quitButton";
+
+	playSprite.setTexture(playButton);
+	optionsSprite.setTexture(optionsButton);
+	quitSprite.setTexture(quitButton);
+
 	//Boucle principale
 	while (window.isOpen() && run)
 	{
 		while (window.isOpen() && run && !play && !option)
 		{
+			//Menu principal
 			//On regarde si on ferme la fenêtre
 			sf::Event event;
 			while (window.pollEvent(event))
@@ -75,9 +97,36 @@ int main()
 			//Menu principal
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
-
+				sf::Vector2f mousePos = curseur.getPosition();
+				if (mousePos.x > window.getSize().x / 2 - 150 && mousePos.x < window.getSize().x / 2 + 150)
+				{
+					if (mousePos.y > window.getSize().y / 4 - 25 && mousePos.y < window.getSize().y / 4 + 25)
+					{
+						//playButton
+						play = true;
+					}
+					if (mousePos.y > 2 * window.getSize().y / 4 - 25 && mousePos.y < 2 * window.getSize().y / 4 + 25)
+					{
+						//optionsButton
+					}
+					if (mousePos.y > 3 * window.getSize().y / 4 - 25 && mousePos.y < 3 * window.getSize().y / 4 + 25)
+					{
+						//quitButton
+						run = false;
+						window.close();
+					}
+				}
 			}
+			
+			playSprite.setPosition(window.getSize().x / 2 - 150, window.getSize().y / 4 - 25);
+			optionsSprite.setPosition(window.getSize().x / 2 - 150, 2*window.getSize().y / 4 - 25);
+			quitSprite.setPosition(window.getSize().x / 2 - 150, 3*window.getSize().y / 4 - 25);
+			window.draw(playSprite);
+			window.draw(optionsSprite);
+			window.draw(quitSprite);
 
+			curseur.update(window);
+			window.draw(curseur);
 
 			//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante
 			window.display();
