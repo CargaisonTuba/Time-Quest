@@ -14,6 +14,10 @@ public:
 	int getMessagesNumber() const;
 	void lockMessages(bool cond = true);
 	void setGamePaused(bool pause);
+	bool isGameInit() const;
+	void setGameInit(bool init);
+	void setCurrentQuest(std::string curQuestName);
+	void setQuestActive(bool quest);
 	//void addMessage(std::string &who, std::vector<std::string> &message);
 
 private:
@@ -29,7 +33,7 @@ private:
 	sf::RectangleShape _greyScreenPause;
 
 	bool _canAddMessages;
-	std::vector<sf::Text> _messages;
+	std::vector<sf::Text> _messages, _messagesAuthors;
 	sf::RectangleShape _msgBorders;
 	sf::Clock _timerMsg;
 	sf::Text _currentQuestName, _currentQuestDescription;
@@ -40,4 +44,14 @@ private:
 	sf::Sprite _smgAmmoSprite;
 	sf::Sprite _grenadeSprite;
 	bool _gamePause;
+
+	bool _gameInit;
+	sf::Clock _clockInit;
+	std::vector<sf::Text> _initMessages;
+	sf::RectangleShape _initBg;
+
+	sf::RectangleShape _questBorder;
+	sf::Text _questName;
+	sf::Text _currentQuest;
+	bool _questExist, _showNoMoreQuest;
 };

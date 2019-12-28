@@ -31,11 +31,8 @@ quest-war.txt
 #mate
 100 180 60 0
 Trop cool tu m'a retrouvé ! Maintenant go dans le présent
-#mate
-500 60 120 2
-pas le bon, malaise
 #ennemy
-200 30 120 1
+200 50 120 2
 
 -----Tiles disposition-----
 

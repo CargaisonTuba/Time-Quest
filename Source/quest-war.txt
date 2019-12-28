@@ -1,5 +1,4 @@
 #quest
-Tuez-tous-les-ennemis-mdr
+Tuez l'ennemi !
 kill
 2
-#end

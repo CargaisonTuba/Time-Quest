@@ -4,7 +4,7 @@
 #include "../Element/Object/ThrowedObject/Bullet.h"
 
 Map::Map() {
-	load("map.txt");
+
 }
 
 Map::~Map() {
@@ -19,13 +19,13 @@ void Map::load(std::string mapPath) {
 	std::cout << "\x1B[33m[Info]\x1B[0m : Chargement de la map \x1B[33m" << mapPath << "\x1B[0m...\n";
 
 	_waitingToChangeMap = false;
+	_justLoaded = true;
 	_ennemies.clear();
 	_mates.clear();
 	_tiles.clear();
 	_vertices.clear();
 	_throwableObjectsList.clear();
 	_droppedObjectsList.clear();
-	_playerSpawn = sf::Vector2f(0, 0);
 
 	std::vector<int> level;	//contient tous les ID des tiles
 	sf::Vector2u tileSize(30, 30);
@@ -166,28 +166,33 @@ void Map::load(std::string mapPath) {
 	else {
 		while (questFile >> currentOperation) {	//on charge les infos de la map dans le jeu
 			if (currentOperation == "#quest") {
-				std::string sqName, sqType;
+				std::string sqName = "e", sqType;
 				std::vector<std::string> sqList;
 				std::vector<int> qList;
 				int qType;
 
-				questFile >> sqName;
+				questFile.ignore();
+				std::getline(questFile, sqName);
+
 				questFile >> sqType;
 				if (sqType == "kill")
 					qType = TYPE_KILL;
 				else
 					qType = TYPE_FIND;
 
+
 				currentOperation = "";
 				while (questFile >> currentOperation) {
-					if (currentOperation != "#end")
+					if (currentOperation != "\n")
 						sqList.push_back(currentOperation);
 					else
 						break;
 				}
-
+				
 				for (int k = 0; k < sqList.size(); k++)
 					qList.push_back(std::stoi(sqList[k]));
+
+				std::cout << "->" << sqName << std::endl;
 
 				_quests.push_back(Quest(sqName, qType, qList));
 				std::cout << "\n";
@@ -201,7 +206,16 @@ void Map::load(std::string mapPath) {
 	std::cout << "\x1B[32m[lancement du jeu !]\x1B[0m\n";
 }
 
+void Map::loadNext() {
+	load(_nextMapPath);
+}
+
 void Map::update(Player& player, Cursor& curseur, sf::View& view, Hud& hud, float const& dt) {
+	if (_justLoaded) {
+		player.setPosition(_playerSpawn);
+		_justLoaded = false;
+	}
+
 	if (player.update(curseur, _tiles, _throwableObjectsList, _droppedObjectsList, _mates, hud, dt) == NEXT_MAP)
 	{
 		hud.addMessage("Jeu", "Il est temps de changer de monde...");
@@ -260,6 +274,13 @@ void Map::update(Player& player, Cursor& curseur, sf::View& view, Hud& hud, floa
 				std::cout << "\x1B[33m[Info]\x1B[0m : Il n'y a pas de nouvelle quete." << std::endl;
 			_quests.erase(_quests.begin());
 		}
+
+	if (_quests.size() > 0) {
+		hud.setQuestActive(true);
+		hud.setCurrentQuest(_quests[0].getName());
+	}
+	else
+		hud.setQuestActive(false);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::C)) {
 		view.setCenter(player.getPosition());

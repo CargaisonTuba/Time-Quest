@@ -130,7 +130,6 @@ int Entity::getMunTotal() const {
 	return _curWeapon->getMunTotal();
 }
 
-
 bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection, std::vector<Tile> const& _tiles)
 {
 	if (_timeSinceShot.getElapsedTime() > sf::milliseconds(_curWeapon->getCoolDown()))
@@ -156,6 +155,10 @@ bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f
 	}
 	
 	return true;
+}
+
+void Entity::setPosition(sf::Vector2f newPos) {
+	_entitySprite.setPosition(newPos);
 }
 
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {

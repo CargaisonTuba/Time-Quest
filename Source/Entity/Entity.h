@@ -37,6 +37,8 @@ public:
 	int getMunRest() const;
 	int getMunTotal() const;
 
+	void setPosition(sf::Vector2f newPos);
+
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 protected:

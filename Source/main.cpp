@@ -10,8 +10,9 @@
 int main()
 {
 	//Nouvelle fenêtre
-	sf::RenderWindow window(sf::VideoMode(1080, 720), "Time Quest");
-	sf::View gameView(sf::Vector2f(0, 0), sf::Vector2f(400, 267));
+	sf::RenderWindow window(sf::VideoMode(1920, 1080), "Time Quest", sf::Style::Fullscreen);
+	//sf::RenderWindow window(sf::VideoMode(500, 500), "Time Quest");
+	sf::View gameView(sf::Vector2f(0, 0), sf::Vector2f(960, 540));
 	window.setMouseCursorVisible(false);
 
 	//On désactive les erreurs SFML pour que ça ne pollue pas la console
@@ -23,9 +24,12 @@ int main()
 
 	//On instancie une nouvelle map, coeur du jeu.
 	Map map;
+	map.load("map.txt");
+
 	Player player("Time-Quest/Source/assets/soldatFrancais40.png", 500, map.getPlayerSpawn());
 	Cursor curseur("Time-Quest/Source/assets/curseur_tir.png");
 	Hud hud(window);
+	hud.setGameInit(true);
 
 	bool pause = false, pauseJustActivated = false, mapChanged = false;
 
@@ -70,17 +74,8 @@ int main()
 		else
 			pauseJustActivated = false;
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)) {
-			if (!mapChanged) {
-				mapChanged = true;
-				map = Map();
-			}
-		}
-		else
-			mapChanged = false;
-
-		gameView.setSize(sf::Vector2f(400, 267));
-		if(!pause && window.hasFocus())
+		gameView.setSize(sf::Vector2f(768, 432));
+		if(!pause && window.hasFocus() && !hud.isGameInit())
 			map.update(player, curseur, gameView, hud, dt);
 
 		curseur.update(window);
@@ -88,12 +83,16 @@ int main()
 
 		window.setView(gameView);
 		
-		window.draw(map);
-		window.draw(player);
+		if (!hud.isGameInit()) {
+			window.draw(map);
+			window.draw(player);
+		}
+
 		window.setView(window.getDefaultView());
 		window.draw(hud);
 		window.setView(gameView);
-		window.draw(curseur);
+		if (!hud.isGameInit())
+			window.draw(curseur);
 
 		//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante
 		window.display();
@@ -101,6 +100,6 @@ int main()
 
 	std::cout << "\x1B[31m[fin] : fermeture de " << VERSION << "\x1B[0m "<< std::endl;
 
-	//Tout s'est bien passé, on retourne la valeur 0.
+	//Tout s'est bien passé (on espère), on retourne la valeur 0.
 	return 0;
 }
