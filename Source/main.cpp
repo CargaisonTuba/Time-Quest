@@ -245,7 +245,7 @@ int main()
 
 			dt = (float)deltaTime.asMilliseconds();
 
-			//Ancienne Pause
+			//Pause
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
 				if (!pauseJustActivated) {
 					pause = !pause;
@@ -259,14 +259,9 @@ int main()
 			else
 				pauseJustActivated = false;
 
-			//Nouvelle pause
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-			{
-				option = true;
-			}
 
 
-			//Ancienne pause partie 2
+			//pause partie 2
 			if (!pause && window.hasFocus())
 			{
 				map.update(player, curseur, gameView, dt);
@@ -286,6 +281,7 @@ int main()
 			//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante
 			window.display();
 		}
+		/*
 		while (window.isOpen() && run && play && option)
 		{
 			//Menu pause
@@ -362,7 +358,7 @@ int main()
 			window.draw(curseur);
 			//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante
 			window.display();
-		}
+		}*/
 		
 	}
 
