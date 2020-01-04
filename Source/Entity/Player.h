@@ -10,6 +10,8 @@ public:
 	sf::Vector2f getPosition() const;
 
 	void update(Cursor const& curseur, std::vector<std::vector<Tile>> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*> &droppedObjectsList, float const& dt);
+	bool fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f shootDirection, std::vector<std::vector<Tile>> const& _tiles);
+
 
 private:
 	bool _justPressed;	//pour savoir si on vient de changer l'item selectionné

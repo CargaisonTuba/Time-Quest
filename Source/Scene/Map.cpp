@@ -169,7 +169,7 @@ void Map::update(Player& player, Cursor& curseur, sf::View& view, float const& d
 	player.update(curseur, _tiles, _throwableObjectsList, _droppedObjectsList, dt);
 
 	for (unsigned int i = 0; i < _ennemies.size(); i++) {
-		int ennemyID = _ennemies[i].update(_mates, player.getPosition(), _tiles, _throwableObjectsList, _droppedObjectsList, dt);
+		int ennemyID = _ennemies[i].update(_mates, player, _tiles, _throwableObjectsList, _droppedObjectsList, dt);
 		if (ennemyID != -2) {	//si l'ennemi est mort, on le retire de la liste
 			//On regarde si l'ennemi que l'on vient d'exterminer est un ennemi à tuer dans la quête en cours.
 			if (_quests.size() > 0)

@@ -147,7 +147,7 @@ bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, Entity cible
 			posBalle.y = pos.y + aim.y - (aim.y * (lenAim - 20)) / lenAim;
 			this->_curWeapon->update(_entitySprite.getPosition(), shootImpr);
 			
-			GhostBullet newGhostBullet = GhostBullet(this->_curWeapon->getAngle(), posBalle, direction, cible);
+			GhostBullet newGhostBullet = GhostBullet(this->_curWeapon->getAngle(), posBalle, direction, this->getHitbox(), cible.getPosition());
 			if (newGhostBullet.travel(_tiles))
 			{
 				Bullet newBullet = Bullet(this->_curWeapon->getAngle(), this->_curWeapon->getBallePath(), posBalle, direction, _curWeapon->getRange(), _curWeapon->getDamages());

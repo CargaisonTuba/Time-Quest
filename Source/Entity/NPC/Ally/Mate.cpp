@@ -58,6 +58,7 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 
 	//si un ennemi est proche, l'allié lui tire dessus
 	float dist = _detectRange;
+	Entity targetEnt;
 	sf::Vector2f direction;
 	sf::Vector2f targetPos;
 	float mateY = getPosition().y;
@@ -72,6 +73,7 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 			dist = sqrt((ennemyX - mateX) * (ennemyX - mateX) + (ennemyY - mateY) * (ennemyY - mateY));
 			direction = sf::Vector2f((ennemyX - mateX) / dist, (ennemyY - mateY) / dist);
 			targetPos = _ennemies[i].getPosition();
+			targetEnt = _ennemies[i];
 		}
 	}
 	
@@ -123,7 +125,7 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 			}
 			if (_curWeapon->getReady())
 			{
-				fire(throwableObjectsList, targetPos, _tiles);
+				fire(throwableObjectsList, targetEnt, _tiles);
 			}
 			else
 			{
