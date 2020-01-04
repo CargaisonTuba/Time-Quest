@@ -168,6 +168,11 @@ Map::~Map() {
 void Map::update(Player& player, Cursor& curseur, sf::View& view, float const& dt) {
 	player.update(curseur, _tiles, _throwableObjectsList, _droppedObjectsList, dt);
 
+	float tx = view.getCenter().x;
+	float ty = view.getCenter().y;
+	float sizex = view.getSize().x / 2;
+	float sizey = view.getSize().y / 2;
+
 	for (unsigned int i = 0; i < _ennemies.size(); i++) {
 		int ennemyID = _ennemies[i].update(_mates, player, _tiles, _throwableObjectsList, _droppedObjectsList, dt);
 		if (ennemyID != -2) {	//si l'ennemi est mort, on le retire de la liste
@@ -180,9 +185,14 @@ void Map::update(Player& player, Cursor& curseur, sf::View& view, float const& d
 		}
 	}
 
-	for (unsigned int i = 0; i < _mates.size(); i++)
-		if (_mates[i].update(_ennemies, player.getPosition(), _tiles, _throwableObjectsList, _droppedObjectsList, _mates, dt))	//si l'allié est mort, on le retire de la liste
-			_mates.erase(_mates.begin() + i);
+	for (unsigned int i = 0; i < _mates.size(); i++) {
+		float posX = _mates[i].getPosition().x;
+		float posY = _mates[i].getPosition().y;
+
+		if (posX >= tx - sizex && posX < tx + sizex && posY >= ty - sizey && posY < ty + sizey)
+			if (_mates[i].update(_ennemies, player.getPosition(), _tiles, _throwableObjectsList, _droppedObjectsList, _mates, dt))	//si l'allié est mort, on le retire de la liste
+				_mates.erase(_mates.begin() + i);
+	}
 
 	for (unsigned int i = 0; i < _throwableObjectsList.size(); i++)
 	{

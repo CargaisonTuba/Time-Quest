@@ -47,7 +47,7 @@ bool ThrowedObject::update(float const& dt,  std::vector<std::vector<Tile>> cons
 		return false;
 	}
 
-	this->_objectSprite.move(sf::Vector2f((_direction.x * dt)/5, (_direction.y * dt)/5));
+	this->_objectSprite.move(sf::Vector2f((_direction.x * dt)/2, (_direction.y * dt)/2));
 	for (unsigned int i = 0; i < _tiles.size(); i++)
 	{
 		for (unsigned int j = 0; j < _tiles[i].size(); j++)
