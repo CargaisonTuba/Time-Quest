@@ -20,4 +20,6 @@ private:
 
 	std::vector<Object*> _inventory;
 	int _inventoryIndex;
+	int tempX;
+	int tempY;
 };

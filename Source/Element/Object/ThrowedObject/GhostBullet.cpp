@@ -28,11 +28,11 @@ bool GhostBullet::travel(std::vector<std::vector<Tile>> _tiles)
 {
 	bool a = true;
 	//std::cout << "Cible X : " << _cible.getPosition().x << " Y : " << _cible.getPosition().y << std::endl;
-	while (a)
+	/*while (a)
 	{
 		_ghostSprite.move(sf::Vector2f(_direction.x, _direction.y));
 		std::cout << "Position X : " << _ghostSprite.getPosition().x << " Y : " << _ghostSprite.getPosition().y << std::endl;
-		for (int i = fmin(floor(_initPos.x/30)+1, floor(_ciblePos.x/30)+1); i < fmax(floor(_initPos.x/30)+1,floor(_ciblePos.x/30)+1); i++)
+		for (int i = fmin(floor(_initPos.x/30), floor(_ciblePos.x/30)); i < fmax(floor(_initPos.x/30)+1,floor(_ciblePos.x/30)+1); i++)
 		{
 			for (int j = fmin(floor(_initPos.y / 30) + 1, floor(_ciblePos.y / 30) + 1); j < fmax(floor(_initPos.y / 30) + 1, floor(_ciblePos.y / 30) + 1); j++)
 			{
@@ -50,6 +50,6 @@ bool GhostBullet::travel(std::vector<std::vector<Tile>> _tiles)
 		{
 			return true;
 		}
-	}
+	}*/
 	return a;
 }

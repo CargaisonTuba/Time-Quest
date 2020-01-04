@@ -88,16 +88,18 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 			{
 				_entitySprite.move(sf::Vector2f(direction.x / 2, direction.y / 2));
 			}
-			for (unsigned int i = 0; i < _tiles.size(); i++)
+			int i = floor(getPosition().x / 30) + 1;
+			int j = floor(getPosition().y / 30) + 1;
+			/*for (unsigned int i = 0; i < _tiles.size(); i++)
 			{
 				for (unsigned int j = 0; j < _tiles[i].size(); j++)
-				{
-					if (getHitbox().intersects(_tiles[i][j].getHitbox()) && _tiles[i][j].isWall())
-					{
-						_entitySprite.move(-direction);
-					}
-				}
-			}
+				{*/
+			if (getHitbox().intersects(_tiles[i][j].getHitbox()) && _tiles[i][j].isWall())
+			{
+				_entitySprite.move(-direction);
+			}/*
+		}
+	}*/
 			_animation_tick += dt;
 			if (_animation_tick >= 50) {
 				_animation_tick = 0;

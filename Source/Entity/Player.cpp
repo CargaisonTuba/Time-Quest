@@ -60,57 +60,45 @@ void Player::update(Cursor const& curseur, std::vector<std::vector<Tile>> const&
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
 
 		_entitySprite.move(sf::Vector2f(0, -speed));
-		for (unsigned int i = 0; i < _tiles.size(); i++) 
+		tempX = floor(getPosition().x / 30);
+		tempY = floor(getPosition().y / 30);
+
+		if (getHitbox().intersects(_tiles[tempX][tempY].getHitbox()) && _tiles[tempX][tempY].isWall())
 		{
-			for (unsigned int j = 0; j < _tiles[i].size(); j++)
-			{
-				if (getHitbox().intersects(_tiles[i][j].getHitbox()) && _tiles[i][j].isWall()) 
-				{
-					_entitySprite.move(sf::Vector2f(0, speed));
-				}
-			}
+			_entitySprite.move(sf::Vector2f(0, speed));
 		}
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
 
 		_entitySprite.move(sf::Vector2f(-speed, 0));
-		for (unsigned int i = 0; i < _tiles.size(); i++) 
+		tempX = floor(getPosition().x / 30);
+		tempY = floor(getPosition().y / 30);
+
+		if (getHitbox().intersects(_tiles[tempX][tempY].getHitbox()) && _tiles[tempX][tempY].isWall()) 
 		{
-			for (unsigned int j = 0; j < _tiles[i].size(); j++)
-			{
-				if (getHitbox().intersects(_tiles[i][j].getHitbox()) && _tiles[i][j].isWall()) 
-				{
-					_entitySprite.move(sf::Vector2f(speed, 0));
-				}
-			}
+			_entitySprite.move(sf::Vector2f(speed, 0));
 		}
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 
 		_entitySprite.move(sf::Vector2f(0, speed));
-		for (unsigned int i = 0; i < _tiles.size(); i++) 
+		tempX = floor(getPosition().x / 30);
+		tempY = floor(getPosition().y / 30);
+
+		if (getHitbox().intersects(_tiles[tempX][tempY].getHitbox()) && _tiles[tempX][tempY].isWall())
 		{
-			for (unsigned int j = 0; j < _tiles[i].size(); j++)
-			{
-				if (getHitbox().intersects(_tiles[i][j].getHitbox()) && _tiles[i][j].isWall())
-				{
-					_entitySprite.move(sf::Vector2f(0, -speed));
-				}
-			}
+			_entitySprite.move(sf::Vector2f(0, -speed));			
 		}
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 
 		_entitySprite.move(sf::Vector2f(speed, 0));
-		for (unsigned int i = 0; i < _tiles.size(); i++) 
+		tempX = floor(getPosition().x / 30);
+		tempY = floor(getPosition().y / 30);
+
+		if (getHitbox().intersects(_tiles[tempX][tempY].getHitbox()) && _tiles[tempX][tempY].isWall())
 		{
-			for (unsigned int j = 0; j < _tiles[i].size(); j++)
-			{
-				if (getHitbox().intersects(_tiles[i][j].getHitbox()) && _tiles[i][j].isWall()) 
-				{
-					_entitySprite.move(sf::Vector2f(-speed, 0));
-				}
-			}
+			_entitySprite.move(sf::Vector2f(-speed, 0));
 		}
 	}
 
