@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 #include "Map.h"
 #include "../Element/Object/ThrowedObject/Bullet.h"
@@ -10,7 +11,7 @@ Map::Map() {
 	std::vector<int> level;	//contient tous les ID des tiles
 	std::string currentOperation = "";
 	sf::Vector2u tileSize(30, 30);
-	unsigned int width = 0, height = 0;	//Le niveau est découpé en 1 carré.
+	int width = 0, height = 0;	//Le niveau est découpé en 1 carré.
 
 	//On remplit ce tableau avec les valeurs du fichier map.txt, sortit tout droit de l'éditeur
 	std::ifstream mapFile("Time-Quest/Source/map.txt");
@@ -71,7 +72,10 @@ Map::Map() {
 	_vertices.resize(width * height * 4);
 
 	//Remplissage du tableau
+	
 	for (unsigned int i = 0; i < width; i++)
+	{
+		std::vector<Tile> row;
 		for (unsigned int j = 0; j < height; j++) {
 			int tileNumber = level[i + j * width];
 
@@ -98,8 +102,11 @@ Map::Map() {
 			if (tileNumber == 1)
 				status = WATER;
 
-			_tiles.push_back(Tile(sf::Vector2f((float)i * TSIZE, (float)j * TSIZE), status));
+			row.push_back(Tile(sf::Vector2f((float)i * TSIZE, (float)j * TSIZE), status));
+
 		}
+		_tiles.push_back(row);
+	}
 
 	std::cout << "\x1B[32m[OK]\x1B[0m : " << _ennemies.size() << " entites chargees\n";
 	std::cout << "\x1B[32m[OK]\x1B[0m : Map chargee\n";
@@ -167,19 +174,14 @@ void Map::update(Player& player, Cursor& curseur, sf::View& view, float const& d
 	float sizey = view.getSize().y / 2;
 
 	for (unsigned int i = 0; i < _ennemies.size(); i++) {
-		float posX = _ennemies[i].getPosition().x;
-		float posY = _ennemies[i].getPosition().y;
-
-		if (posX >= tx - sizex && posX < tx + sizex && posY >= ty - sizey && posY < ty + sizey) {
-			int ennemyID = _ennemies[i].update(_mates, player.getPosition(), _tiles, _throwableObjectsList, _droppedObjectsList, dt);
-			if (ennemyID != -2) {	//si l'ennemi est mort, on le retire de la liste
-				//On regarde si l'ennemi que l'on vient d'exterminer est un ennemi à tuer dans la quête en cours.
-				if (_quests.size() > 0)
-					for (int j = 0; j < _quests[0].getList().size(); j++)
-						if (_quests[0].getList()[j] == ennemyID)
-							_quests[0].setDoneIndex(j);
-				_ennemies.erase(_ennemies.begin() + i);
-			}
+		int ennemyID = _ennemies[i].update(_mates, player, _tiles, _throwableObjectsList, _droppedObjectsList, dt);
+		if (ennemyID != -2) {	//si l'ennemi est mort, on le retire de la liste
+			//On regarde si l'ennemi que l'on vient d'exterminer est un ennemi à tuer dans la quête en cours.
+			if (_quests.size() > 0)
+				for (int j = 0; j < _quests[0].getList().size(); j++)
+					if (_quests[0].getList()[j] == ennemyID)
+						_quests[0].setDoneIndex(j);
+			_ennemies.erase(_ennemies.begin() + i);
 		}
 	}
 

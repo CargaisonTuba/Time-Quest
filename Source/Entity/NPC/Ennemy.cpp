@@ -15,9 +15,9 @@ Ennemy::~Ennemy()
 
 }
 
-int Ennemy::update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*> &droppedObjects, float const& dt)
+int Ennemy::update(std::vector<Mate>& _mates, Entity player, std::vector<std::vector<Tile>> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*> &droppedObjects, float const& dt)
 {
-
+	sf::Vector2f playerPos = player.getPosition();
 	if (_isPushed)
 	{
 		if (_timeSincePushed.getElapsedTime().asMilliseconds() > 500)
@@ -27,9 +27,14 @@ int Ennemy::update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vecto
 		else
 		{
 			_entitySprite.move(_pushingForce);
-			for (unsigned int i = 0; i < _tiles.size(); i++) {
-				if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
-					_entitySprite.move(-_pushingForce);
+			for (unsigned int i = 0; i < _tiles.size(); i++) 
+			{
+				for (unsigned int j = 0; j < _tiles[i].size(); j++)
+				{
+					if (getHitbox().intersects(_tiles[i][j].getHitbox()) && _tiles[i][j].isWall()) 
+					{
+						_entitySprite.move(-_pushingForce);
+					}
 				}
 			}
 		}
@@ -73,9 +78,12 @@ int Ennemy::update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vecto
 			_entitySprite.move(sf::Vector2f(direction.x/2, direction.y/2));
 			for (unsigned int i = 0; i < _tiles.size(); i++) 
 			{
-				if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) 
+				for (unsigned int j = 0; j < _tiles[i].size(); j++)
 				{
-					_entitySprite.move(-direction);
+					if (getHitbox().intersects(_tiles[i][j].getHitbox()) && _tiles[i][j].isWall())
+					{
+						_entitySprite.move(-direction);
+					}
 				}
 			}
 			_animation_tick += dt;
@@ -90,7 +98,8 @@ int Ennemy::update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vecto
 		{
 			_spritePosCount = 0;
 			if (_curWeapon->getReady())
-				fire(throwableObjectsList, playerPos, _tiles);
+				
+				fire(throwableObjectsList, player, _tiles);
 			else
 				_curWeapon->recharger();
 		}
