@@ -56,5 +56,6 @@ private:
 	sf::Sound _tirSound, _reloadSound;
 	sf::Clock _timeSinceReload;
 	bool _readyState;
+	std::string _type;
 };
 

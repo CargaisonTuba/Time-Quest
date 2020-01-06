@@ -46,7 +46,7 @@ private:
 	sf::Texture _tileset;
 	sf::Vector2f _mapSize;
 
-	std::vector<Tile> _tiles;
+	std::vector<std::vector<Tile>> _tiles;
 	sf::Vector2f _playerSpawn;
 
 	std::vector<ThrowedObject> _throwableObjectsList;

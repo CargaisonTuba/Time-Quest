@@ -60,8 +60,10 @@ Arme::Arme(std::string typeArme)
 				//Chemin du son de rechargement
 				if (!_reloadBuffer.loadFromFile(listeArmeVect[i + 12]))
 					std::cout << "\x1B[31m[Erreur]\x1B[0m : SoundBuffer : impossible de charger " << listeArmeVect[i + 12] << std::endl;
-
+				//Type de l'arme
+				_type = listeArmeVect[i + 13];
 				break;
+
 			}
 		}
 	}
