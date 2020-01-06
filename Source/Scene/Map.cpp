@@ -90,16 +90,18 @@ void Map::load(std::string mapPath) {
 				float id = -2;
 				sf::Vector2f ePos(0, 0);
 				std::string mateMsg;
+				std::string mateNom;
 				mapFile >> eLife;
 				mapFile >> ePos.x;
 				mapFile >> ePos.y;
 				mapFile >> id;
 				mapFile.ignore();
 				std::getline(mapFile, mateMsg);
+				std::getline(mapFile, mateNom);
 				bool isBoss = false;
 				if (id == bossID)
 					isBoss = true;
-				_mates.push_back(Mate(mate_texture, eLife, ePos, id, mateMsg, isBoss));
+				_mates.push_back(Mate(mate_texture, eLife, ePos, id, mateMsg, mateNom, isBoss));
 			}
 
 			else if (currentOperation == "#gun")
