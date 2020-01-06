@@ -1,0 +1,4 @@
+#quest
+Tuez l'ennemi qui garde les 2 armes !
+kill
+10

@@ -2,19 +2,19 @@
 #include <iostream>
 
 Player::Player(std::string texturePath, float defaultLife, sf::Vector2f initPosition) : Entity(texturePath, defaultLife, initPosition, -1) {
-
-
 	_justPressed = false;
 	_justChanged = false;
 	_justLoot = false;
 
-	_inventory.push_back(new Arme("fm2429"));
+	/*_inventory.push_back(new Arme("fm2429"));
 	_inventory.push_back(new Arme("mas36"));
 	_inventory.push_back(new Arme("mas38"));
-	_inventory.push_back(new Arme("mp40"));
+	_inventory.push_back(new Arme("mp40"));*/
 
-	_inventoryIndex = 0;
-	_curWeapon = (Arme*)(_inventory[_inventoryIndex]);
+	if (_inventory.size() > 0) {
+		_inventoryIndex = 0;
+		_curWeapon = (Arme*)(_inventory[_inventoryIndex]);
+	}
 }
 
 Player::~Player() {
@@ -27,31 +27,8 @@ sf::Vector2f Player::getPosition() const {
 }
 
 //On met la position de la souris en paramètre pour pouvoir décider dans quelle direction pointe l'arme
-void Player::update(Cursor const& curseur, std::vector<std::vector<Tile>> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*>& droppedObjectsList, float const& dt)
+int Player::update(Cursor const& curseur, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*>& droppedObjectsList, std::vector<Mate>& mates, Hud& hud, float const& dt)
 {
-	std::cout << "Position X : " << getPosition().x << " Y : " << getPosition().y << "Tile : [" << floor(getPosition().x / 30) + 1 << "][" << floor(getPosition().y / 30) + 1 << "]" << std::endl;
-	if (_isPushed)
-	{
-		if (_timeSincePushed.getElapsedTime().asMilliseconds() > 500)
-		{
-			_isPushed = false;
-		}
-		else
-		{
-			_entitySprite.move(_pushingForce);
-			for (unsigned int i = 0; i < _tiles.size(); i++) 
-			{
-				for (unsigned int j = 0; j < _tiles[i].size(); j++)
-				{
-					if (getHitbox().intersects(_tiles[i][j].getHitbox()) && _tiles[i][j].isWall()) {
-						_entitySprite.move(-_pushingForce);
-					}
-				}
-			}
-		}
-	}
-
-
 	//déplacement du joueur
 	float speed = 0.1f * dt;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
@@ -60,45 +37,37 @@ void Player::update(Cursor const& curseur, std::vector<std::vector<Tile>> const&
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
 
 		_entitySprite.move(sf::Vector2f(0, -speed));
-		tempX = floor(getPosition().x / 30);
-		tempY = floor(getPosition().y / 30);
-
-		if (getHitbox().intersects(_tiles[tempX][tempY].getHitbox()) && _tiles[tempX][tempY].isWall())
-		{
-			_entitySprite.move(sf::Vector2f(0, speed));
+		for (unsigned int i = 0; i < _tiles.size(); i++) {
+			if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
+				_entitySprite.move(sf::Vector2f(0, speed));
+			}
 		}
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
 
 		_entitySprite.move(sf::Vector2f(-speed, 0));
-		tempX = floor(getPosition().x / 30);
-		tempY = floor(getPosition().y / 30);
-
-		if (getHitbox().intersects(_tiles[tempX][tempY].getHitbox()) && _tiles[tempX][tempY].isWall()) 
-		{
-			_entitySprite.move(sf::Vector2f(speed, 0));
+		for (unsigned int i = 0; i < _tiles.size(); i++) {
+			if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
+				_entitySprite.move(sf::Vector2f(speed, 0));
+			}
 		}
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 
 		_entitySprite.move(sf::Vector2f(0, speed));
-		tempX = floor(getPosition().x / 30);
-		tempY = floor(getPosition().y / 30);
-
-		if (getHitbox().intersects(_tiles[tempX][tempY].getHitbox()) && _tiles[tempX][tempY].isWall())
-		{
-			_entitySprite.move(sf::Vector2f(0, -speed));			
+		for (unsigned int i = 0; i < _tiles.size(); i++) {
+			if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
+				_entitySprite.move(sf::Vector2f(0, -speed));
+			}
 		}
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 
 		_entitySprite.move(sf::Vector2f(speed, 0));
-		tempX = floor(getPosition().x / 30);
-		tempY = floor(getPosition().y / 30);
-
-		if (getHitbox().intersects(_tiles[tempX][tempY].getHitbox()) && _tiles[tempX][tempY].isWall())
-		{
-			_entitySprite.move(sf::Vector2f(-speed, 0));
+		for (unsigned int i = 0; i < _tiles.size(); i++) {
+			if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
+				_entitySprite.move(sf::Vector2f(-speed, 0));
+			}
 		}
 	}
 
@@ -150,49 +119,85 @@ void Player::update(Cursor const& curseur, std::vector<std::vector<Tile>> const&
 				}
 			}
 			if (find) {
-				droppedObjectsList.push_back(new Arme(*_curWeapon));
-				_inventory[_inventoryIndex] = droppedObjectsList[indexOK];
-				//delete droppedObjectsList[indexOK];
-				//droppedObjectsList[indexOK] = 0;
-				droppedObjectsList.erase(droppedObjectsList.begin() + indexOK);
-				_curWeapon = (Arme*)_inventory[_inventoryIndex];
+				if (droppedObjectsList[indexOK]->getType() == 0) {
+					//droppedObjectsList.push_back(new Arme(*_curWeapon));
+					_inventory.push_back((Arme*)droppedObjectsList[indexOK]);
+					droppedObjectsList.erase(droppedObjectsList.begin() + indexOK);
+					_curWeapon = (Arme*)_inventory[_inventoryIndex];
+				}
+				else {
+					if (_life <= _totalLife - 100) {
+						_life += 100;
+						delete droppedObjectsList[indexOK];
+						droppedObjectsList[indexOK] = 0;
+						droppedObjectsList.erase(droppedObjectsList.begin() + indexOK);
+					}
+				}
 			}
-
 		}
 	}
 	else
 		_justLoot = false;
 
-	//recharger l'arme
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
-		this->_curWeapon->recharger();
+	if (_inventory.size() > 0) {
+		//recharger l'arme
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+			this->_curWeapon->recharger();
 
-	//Changer d'item dans l'inventaire
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-		if (!_justPressed) {
-			_justPressed = true;
-			_inventory[_inventoryIndex] = _curWeapon;
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-				if (_inventoryIndex > 0)
-					_inventoryIndex--;
-				else
-					_inventoryIndex = 0;
+		//Changer d'item dans l'inventaire
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+			if (!_justPressed) {
+				_justPressed = true;
+				_inventory[_inventoryIndex] = _curWeapon;
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+					if (_inventoryIndex > 0)
+						_inventoryIndex--;
+					else
+						_inventoryIndex = 0;
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+					if (_inventoryIndex < _inventory.size() - 1 && _inventory.size() > 0)
+						_inventoryIndex++;
+				}
+				std::cout << "\x1B[33m[info]\x1B[0m : index de l'inventaire : " << _inventoryIndex << "/" << _inventory.size() << std::endl;
+				_justChanged = true;
 			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-				if (_inventoryIndex < _inventory.size() - 1 && _inventory.size() > 0)
-					_inventoryIndex++;
+		}
+		else
+			_justPressed = false;
+
+		if (_justChanged) {
+			_curWeapon = (Arme*)(_inventory[_inventoryIndex]);
+			_justChanged = false;
+		}
+	}
+
+	//Pour parler aux mates
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+		if (!_a_justPressed) {
+			_a_justPressed = true;
+
+			float dist = 100, curDist = 0;
+			int mateIDok = -1;
+			for (unsigned int i = 0; i < mates.size(); i++) {
+				float mateX = mates[i].getPosition().x;
+				float mateY = mates[i].getPosition().y;
+				curDist = sqrt((getPosition().x - mateX) * (getPosition().x - mateX) + (getPosition().y - mateY) * (getPosition().y - mateY));
+				if (curDist < dist) {
+					dist = curDist;
+					mateIDok = i;
+				}
 			}
-			std::cout << "\x1B[33m[info]\x1B[0m : index de l'inventaire : " << _inventoryIndex << "/" << _inventory.size() << std::endl;
-			_justChanged = true;
+
+			if (dist < 30) {
+				hud.addMessage("Mate", mates[mateIDok].getMessage());
+				if (mates[mateIDok].isBoss())
+					return NEXT_MAP;
+			}
 		}
 	}
 	else
-		_justPressed = false;
-
-	if (_inventory.size() > 0 && _justChanged) {
-		_curWeapon = (Arme*)(_inventory[_inventoryIndex]);
-		_justChanged = false;
-	}
+		_a_justPressed = false;
 
 	//l'arme accompagne le joueur, logique
 	_curWeapon->update(this->getPosition(), curseur.getPosition());
@@ -215,35 +220,5 @@ void Player::update(Cursor const& curseur, std::vector<std::vector<Tile>> const&
 			}
 		}
 
-
-}
-
-bool Player::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f shootDirection, std::vector<std::vector<Tile>> const& _tiles)
-{
-	if (_timeSinceShot.getElapsedTime() > sf::milliseconds(_curWeapon->getCoolDown()))
-	{
-		this->_curWeapon->playTir();
-		_timeSinceShot.restart();
-		if (_curWeapon->getReady() == true)
-		{
-			sf::Vector2f pos = this->getPosition();
-			sf::Vector2f shootImpr = this->_curWeapon->imprecision(shootDirection);
-			sf::Vector2f aim(shootImpr.x - pos.x, shootImpr.y - pos.y);
-			float lenAim = sqrt(aim.x * aim.x + aim.y * aim.y);
-			sf::Vector2f direction(aim.x / lenAim, aim.y / lenAim);
-
-			sf::Vector2f posBalle;
-			posBalle.x = pos.x + aim.x - (aim.x * (lenAim - 16)) / lenAim;
-			posBalle.y = pos.y + aim.y - (aim.y * (lenAim - 20)) / lenAim;
-			this->_curWeapon->update(_entitySprite.getPosition(), shootImpr);
-
-			Bullet newBullet = Bullet(this->_curWeapon->getAngle(), this->_curWeapon->getBallePath(), posBalle, direction, _curWeapon->getRange(), _curWeapon->getDamages());
-			throwableObjectsList.push_back(newBullet);
-			
-
-			_curWeapon->getSprite().move(sf::Vector2f(-direction.x * 5, -direction.y * 5));
-		}
-	}
-
-	return true;
+	return 0;
 }

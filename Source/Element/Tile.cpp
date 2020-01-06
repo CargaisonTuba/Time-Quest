@@ -6,11 +6,6 @@ Tile::Tile(sf::Vector2f coords, int status) {
 	_status = status;
 }
 
-Tile::Tile()
-{
-
-}
-
 Tile::~Tile() {
 
 }

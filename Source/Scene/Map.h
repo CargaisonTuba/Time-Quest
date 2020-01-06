@@ -24,7 +24,10 @@ public:
 	Map();
 	~Map();
 
-	void update(Player &player, Cursor &curseur, sf::View &view, float const& dt);
+	void load(std::string mapPath);
+	void loadNext();
+
+	void update(Player &player, Cursor &curseur, sf::View &view, Hud &hud, float const& dt);
 	sf::Vector2f getPlayerSpawn() const;
 	std::vector<ThrowedObject> getThrowableObjectsList() const;
 	//std::vector<Object> getDroppedObjectsList() const;
@@ -32,16 +35,18 @@ public:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 private:
+
 	//Entités
 	std::vector<Ennemy> _ennemies;
 	std::vector<Mate> _mates;
+	std::string _playerTextPath;	//Utilisée provisoirement
 
 	//TileMap
 	sf::VertexArray _vertices;
 	sf::Texture _tileset;
 	sf::Vector2f _mapSize;
 
-	std::vector<std::vector<Tile>> _tiles;
+	std::vector<Tile> _tiles;
 	sf::Vector2f _playerSpawn;
 
 	std::vector<ThrowedObject> _throwableObjectsList;
@@ -51,4 +56,7 @@ private:
 
 	//Quetes
 	std::vector<Quest> _quests;
+
+	std::string _nextMapPath;
+	bool _waitingToChangeMap, _justLoaded;
 };

@@ -14,6 +14,8 @@ public:
 	sf::Vector2f getPosition() const;
 	sf::FloatRect getHitbox() const;
 
+	int getType() const;
+
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 protected:
@@ -21,6 +23,8 @@ protected:
 	sf::Vector2f _initPosition;
 	sf::Texture _objectText;
 	sf::Sprite _objectSprite;
+
+	int _type;
 
 	bool _isDropped;
 };

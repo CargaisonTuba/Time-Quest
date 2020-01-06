@@ -14,17 +14,7 @@ Entity::Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosi
 	_animation_tick = 0;
 	_isPushed = false;
 
-	//On charge chaque position de personnage dans un tableau 2D :
-	//chaque ligne = personnage qui va vers le haut / le bas / gauche / droite
-	//chaque colonne = l'animation de personnage qui cours dans cette direction
-	for (int i = 0; i < 10; i++)
-
-	{
-		for (int j = 0; j < 4; j++)
-		{
-			_entityText[i][j].loadFromFile(texturePath, sf::IntRect(i * 16, j * 26, 16, 26));
-		}
-	}
+	setTexture(texturePath);
 
 	//Le sprite du personnage sera plac� initialement dans le coin haut gauche de la map. (0, 0)
 	_entitySprite.setPosition(initPosition);
@@ -39,11 +29,6 @@ Entity::Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosi
 	_curWeapon = new Arme();
 
 	_id = id;
-}
-
-Entity::Entity()
-{
-
 }
 
 Entity::~Entity() {
@@ -128,7 +113,14 @@ float Entity::getTotalLife() const
 	return _totalLife;
 }
 
-bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, Entity cible, std::vector<std::vector<Tile>> const& _tiles)
+int Entity::getMunRest() const {
+	return _curWeapon->getMunRest();
+}
+int Entity::getMunTotal() const {
+	return _curWeapon->getMunTotal();
+}
+
+bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection, std::vector<Tile> const& _tiles)
 {
 	if (_timeSinceShot.getElapsedTime() > sf::milliseconds(_curWeapon->getCoolDown()))
 	{
@@ -137,7 +129,7 @@ bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, Entity cible
 		if (_curWeapon->getReady() == true)
 		{
 			sf::Vector2f pos = this->getPosition();
-			sf::Vector2f shootImpr = this->_curWeapon->imprecision(cible.getPosition());
+			sf::Vector2f shootImpr = this->_curWeapon->imprecision(shootDirection);
 			sf::Vector2f aim(shootImpr.x - pos.x, shootImpr.y - pos.y);
 			float lenAim = sqrt(aim.x * aim.x + aim.y * aim.y);
 			sf::Vector2f direction(aim.x / lenAim, aim.y / lenAim);
@@ -146,19 +138,35 @@ bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, Entity cible
 			posBalle.x = pos.x + aim.x - (aim.x * (lenAim - 16)) / lenAim;
 			posBalle.y = pos.y + aim.y - (aim.y * (lenAim - 20)) / lenAim;
 			this->_curWeapon->update(_entitySprite.getPosition(), shootImpr);
-			
-			GhostBullet newGhostBullet = GhostBullet(this->_curWeapon->getAngle(), posBalle, direction, this->getHitbox(), cible.getPosition());
-			if (newGhostBullet.travel(_tiles))
-			{
-				Bullet newBullet = Bullet(this->_curWeapon->getAngle(), this->_curWeapon->getBallePath(), posBalle, direction, _curWeapon->getRange(), _curWeapon->getDamages());
-				throwableObjectsList.push_back(newBullet);
-			}
-			
+			Bullet newBullet = Bullet(this->_curWeapon->getAngle(), this->_curWeapon->getBallePath(), posBalle, direction, _curWeapon->getRange(), _curWeapon->getDamages());
+			throwableObjectsList.push_back(newBullet);
 			_curWeapon->getSprite().move(sf::Vector2f(-direction.x * 5, -direction.y * 5));
 		}
 	}
 	
 	return true;
+}
+
+void Entity::setInitPos(sf::Vector2f pos) {
+	_initPos = pos;
+}
+
+void Entity::setPosition(sf::Vector2f newPos) {
+	_entitySprite.setPosition(newPos);
+}
+
+void Entity::setTexture(std::string texturePath) {
+	//On charge chaque position de personnage dans un tableau 2D :
+	//chaque ligne = personnage qui va vers le haut / le bas / gauche / droite
+	//chaque colonne = l'animation de personnage qui cours dans cette direction
+	for (int i = 0; i < 10; i++)
+
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			_entityText[i][j].loadFromFile("Time-Quest/Source/assets/" + texturePath, sf::IntRect(i * 16, j * 26, 16, 26));
+		}
+	}
 }
 
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {
