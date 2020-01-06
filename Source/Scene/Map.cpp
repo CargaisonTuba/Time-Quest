@@ -236,6 +236,7 @@ void Map::loadNext() {
 
 void Map::update(Player& player, Cursor& curseur, sf::View& view, Hud& hud, float const& dt) {
 	if (_justLoaded) {
+		player.setInitPos(_playerSpawn);
 		player.setPosition(_playerSpawn);
 		player.setTexture(_playerTextPath);
 		_justLoaded = false;

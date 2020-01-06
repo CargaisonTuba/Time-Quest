@@ -38,6 +38,7 @@ public:
 	int getMunTotal() const;
 
 	void setPosition(sf::Vector2f newPos);
+	void setInitPos(sf::Vector2f pos);
 	void setTexture(std::string texturePath);
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;

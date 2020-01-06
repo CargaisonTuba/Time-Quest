@@ -147,6 +147,10 @@ bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f
 	return true;
 }
 
+void Entity::setInitPos(sf::Vector2f pos) {
+	_initPos = pos;
+}
+
 void Entity::setPosition(sf::Vector2f newPos) {
 	_entitySprite.setPosition(newPos);
 }
