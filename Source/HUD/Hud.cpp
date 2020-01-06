@@ -142,7 +142,7 @@ void Hud::addMessage(std::string who, std::string message) {
 		sf::Text msgAuthor;
 		msgAuthor.setFont(_font);
 		msgAuthor.setFillColor(sf::Color::Red);
-		msgAuthor.setPosition(sf::Vector2f(100, 850));
+		msgAuthor.setPosition(sf::Vector2f(80, 850));
 		msgAuthor.setString(who);
 		_messagesAuthors.push_back(msgAuthor);
 	}
@@ -207,25 +207,30 @@ void Hud::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(grenade);
 	target.draw(smgammo);
 
-	if (_messages.size() > 0 && _messagesAuthors.size() > 0) {
+	if (_messages.size() > 0 && _messagesAuthors.size() > 0) 
+	{
 		target.draw(_msgBorders);
 		target.draw(_messagesAuthors[0]);
 		target.draw(_messages[0]);
 	}
 
-	if (_gamePause) {
+	if (_gamePause) 
+	{
 		target.draw(_greyScreenPause);
 		target.draw(_textPause);
 	}
 
-	if (_gameInit) {
-		if (_initMessages.size() > 0) {
+	if (_gameInit) 
+	{
+		if (_initMessages.size() > 0) 
+		{
 			target.draw(_initBg);
 			target.draw(_initMessages[0]);
 		}
 	}
 
-	if (_questExist || _showNoMoreQuest) {
+	if (_questExist || _showNoMoreQuest) 
+	{
 		target.draw(_questBorder);
 		if(_questExist)
 			target.draw(_currentQuest);
