@@ -23,6 +23,6 @@ private:
 	bool _follow;
 	bool _fPressed;
 	std::string _msg;	//dialogues
-	bool _isBoss;	//si on retrouve ce mate alors on passe Ã  la map suivante
+	bool _isBoss;	//si on retrouve ce mate alors on passe à la map suivante
 };
 

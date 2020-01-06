@@ -15,9 +15,9 @@ Ennemy::~Ennemy()
 
 }
 
-int Ennemy::update(std::vector<Mate>& _mates, Entity player, std::vector<std::vector<Tile>> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*> &droppedObjects, float const& dt)
+int Ennemy::update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*> &droppedObjects, float const& dt)
 {
-	sf::Vector2f playerPos = player.getPosition();
+
 	if (_isPushed)
 	{
 		if (_timeSincePushed.getElapsedTime().asMilliseconds() > 500)
@@ -27,14 +27,9 @@ int Ennemy::update(std::vector<Mate>& _mates, Entity player, std::vector<std::ve
 		else
 		{
 			_entitySprite.move(_pushingForce);
-			for (unsigned int i = 0; i < _tiles.size(); i++) 
-			{
-				for (unsigned int j = 0; j < _tiles[i].size(); j++)
-				{
-					if (getHitbox().intersects(_tiles[i][j].getHitbox()) && _tiles[i][j].isWall()) 
-					{
-						_entitySprite.move(-_pushingForce);
-					}
+			for (unsigned int i = 0; i < _tiles.size(); i++) {
+				if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
+					_entitySprite.move(-_pushingForce);
 				}
 			}
 		}
@@ -76,18 +71,13 @@ int Ennemy::update(std::vector<Mate>& _mates, Entity player, std::vector<std::ve
 		if (dist >= _curWeapon->getRange())
 		{
 			_entitySprite.move(sf::Vector2f(direction.x/2, direction.y/2));
-			int i = floor(getPosition().x / 30) + 1;
-			int j = floor(getPosition().y / 30) + 1;
-			/*for (unsigned int i = 0; i < _tiles.size(); i++) 
+			for (unsigned int i = 0; i < _tiles.size(); i++) 
 			{
-				for (unsigned int j = 0; j < _tiles[i].size(); j++)
-				{*/
-					if (getHitbox().intersects(_tiles[i][j].getHitbox()) && _tiles[i][j].isWall())
-					{
-						_entitySprite.move(-direction);
-					}/*
+				if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) 
+				{
+					_entitySprite.move(-direction);
 				}
-			}*/
+			}
 			_animation_tick += dt;
 			if (_animation_tick >= 50) {
 				_animation_tick = 0;
@@ -100,8 +90,7 @@ int Ennemy::update(std::vector<Mate>& _mates, Entity player, std::vector<std::ve
 		{
 			_spritePosCount = 0;
 			if (_curWeapon->getReady())
-				
-				fire(throwableObjectsList, player, _tiles);
+				fire(throwableObjectsList, playerPos, _tiles);
 			else
 				_curWeapon->recharger();
 		}

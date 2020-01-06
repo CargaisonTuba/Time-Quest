@@ -10,13 +10,11 @@
 #include "../Element/Object/ThrowedObject.h"
 #include "../Element/Object/ThrowedObject/Bullet.h"
 #include "../Element/Object/Medkit.h"
-#include "../Element/Object/ThrowedObject/GhostBullet.h"
 
 class Entity : public sf::Drawable
 {
 public:
 	Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosition, float id);
-	Entity();
 	~Entity();
 
 	sf::Vector2f getPosition() const;
@@ -34,7 +32,7 @@ public:
 	float getLife() const;
 	sf::RectangleShape getLifebar() const;
 
-	bool fire(std::vector<ThrowedObject>& throwableObjectsList, Entity cible, std::vector<std::vector<Tile>> const& _tiles);
+	bool fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection, std::vector<Tile> const& _tiles);
 	float getTotalLife() const;
 	int getMunRest() const;
 	int getMunTotal() const;

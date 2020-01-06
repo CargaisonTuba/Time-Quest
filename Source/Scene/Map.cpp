@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 
 #include "Map.h"
 #include "../Element/Object/ThrowedObject/Bullet.h"
@@ -31,7 +30,7 @@ void Map::load(std::string mapPath) {
 
 	std::vector<int> level;	//contient tous les ID des tiles
 	sf::Vector2u tileSize(30, 30);
-	int width = 0, height = 0;	//Le niveau est découpé en 1 carré.
+	unsigned int width = 0, height = 0;	//Le niveau est découpé en 1 carré.
 
 	std::string currentOperation = "";
 	std::string tilesheet_path = "", mate_texture = "", ennemy_texture = "", quest_path = "";
@@ -144,10 +143,7 @@ void Map::load(std::string mapPath) {
 	_vertices.resize(width * height * 4);
 
 	//Remplissage du tableau
-	
 	for (unsigned int i = 0; i < width; i++)
-	{
-		std::vector<Tile> row;
 		for (unsigned int j = 0; j < height; j++) {
 			int tileNumber = level[i + j * width];
 
@@ -174,11 +170,8 @@ void Map::load(std::string mapPath) {
 			if (tileNumber == 1)
 				status = WATER;
 
-			row.push_back(Tile(sf::Vector2f((float)i * TSIZE, (float)j * TSIZE), status));
-
+			_tiles.push_back(Tile(sf::Vector2f((float)i * TSIZE, (float)j * TSIZE), status));
 		}
-		_tiles.push_back(row);
-	}
 
 	std::cout << "\x1B[32m[OK]\x1B[0m : " << _ennemies.size() + _mates.size() << " entites chargees\n";
 	std::cout << "\x1B[32m[OK]\x1B[0m : " << _droppedObjectsList.size() << " objets charges\n";
@@ -261,13 +254,13 @@ void Map::update(Player& player, Cursor& curseur, sf::View& view, Hud& hud, floa
 	float sizex = view.getSize().x / 2;
 	float sizey = view.getSize().y / 2;
 
-	for (unsigned int i = 0; i < _ennemies.size(); i++) 
-	{
-		if (abs(_ennemies[i].getPosition().x - player.getPosition().x) < view.getSize().x +30 && abs(_ennemies[i].getPosition().y - player.getPosition().y) < view.getSize().y +30)
-		{
-			int ennemyID = _ennemies[i].update(_mates, player, _tiles, _throwableObjectsList, _droppedObjectsList, dt);
-			if (ennemyID != -2) 
-			{	//si l'ennemi est mort, on le retire de la liste
+	for (unsigned int i = 0; i < _ennemies.size(); i++) {
+		float posX = _ennemies[i].getPosition().x;
+		float posY = _ennemies[i].getPosition().y;
+
+		if (posX >= tx - sizex && posX < tx + sizex && posY >= ty - sizey && posY < ty + sizey) {
+			int ennemyID = _ennemies[i].update(_mates, player.getPosition(), _tiles, _throwableObjectsList, _droppedObjectsList, dt);
+			if (ennemyID != -2) {	//si l'ennemi est mort, on le retire de la liste
 				//On regarde si l'ennemi que l'on vient d'exterminer est un ennemi à tuer dans la quête en cours.
 				if (_quests.size() > 0)
 					for (int j = 0; j < _quests[0].getList().size(); j++)
@@ -278,17 +271,13 @@ void Map::update(Player& player, Cursor& curseur, sf::View& view, Hud& hud, floa
 		}
 	}
 
-	for (unsigned int i = 0; i < _mates.size(); i++) 
-	{
-		if (abs(_mates[i].getPosition().x - player.getPosition().x) < view.getSize().x + 30 && abs(_mates[i].getPosition().y - player.getPosition().y) < view.getSize().y + 30)
-		{
-			float posX = _mates[i].getPosition().x;
-			float posY = _mates[i].getPosition().y;
+	for (unsigned int i = 0; i < _mates.size(); i++) {
+		float posX = _mates[i].getPosition().x;
+		float posY = _mates[i].getPosition().y;
 
-			if (posX >= tx - sizex && posX < tx + sizex && posY >= ty - sizey && posY < ty + sizey)
-				if (_mates[i].update(_ennemies, player.getPosition(), _tiles, _throwableObjectsList, _droppedObjectsList, _mates, dt))	//si l'allié est mort, on le retire de la liste
-					_mates.erase(_mates.begin() + i);
-		}
+		if (posX >= tx - sizex && posX < tx + sizex && posY >= ty - sizey && posY < ty + sizey)
+			if (_mates[i].update(_ennemies, player.getPosition(), _tiles, _throwableObjectsList, _droppedObjectsList, _mates, dt))	//si l'allié est mort, on le retire de la liste
+				_mates.erase(_mates.begin() + i);
 	}
 
 	for (unsigned int i = 0; i < _throwableObjectsList.size(); i++)

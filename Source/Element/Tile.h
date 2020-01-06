@@ -11,7 +11,6 @@ class Tile : public Element
 {
 public:
 	Tile(sf::Vector2f coords, int status);
-	Tile();
 	~Tile();
 
 	bool isWall() const;
