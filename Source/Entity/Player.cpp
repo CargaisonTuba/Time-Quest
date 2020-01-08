@@ -6,8 +6,8 @@ Player::Player(std::string texturePath, float defaultLife, sf::Vector2f initPosi
 	_justChanged = false;
 	_justLoot = false;
 
-	/*_inventory.push_back(new Arme("fm2429"));
-	_inventory.push_back(new Arme("mas36"));
+	_inventory.push_back(new Arme("arbalete"));
+	/*_inventory.push_back(new Arme("mas36"));
 	_inventory.push_back(new Arme("mas38"));
 	_inventory.push_back(new Arme("mp40"));*/
 
