@@ -43,59 +43,319 @@ int main()
 	//seed pour l'aléatoire
 	srand((unsigned int)time(NULL));
 
+	//Attributs d'instances (Je sais pas quels noms y donner)
+	bool run = true;
+	bool play = false;
+	bool option = false;
+
+	//Menu principal
+	sf::Clock timer;
+	float lastClickInMenu = 0;
+
+	sf::Texture playButton;
+	sf::Texture optionsButton;
+	sf::Texture quitButton;
+
+	sf::Sprite playSprite;
+	sf::Sprite optionsSprite;
+	sf::Sprite quitSprite;
+
+	if (!playButton.loadFromFile("Time-Quest/Source/assets/playButton.png"))
+		std::cout << "couldn't load playButton";
+	if (!optionsButton.loadFromFile("Time-Quest/Source/assets/optionsButton.png"))
+		std::cout << "couldn't load optionsButton";
+	if (!quitButton.loadFromFile("Time-Quest/Source/assets/quitButton.png"))
+		std::cout << "couldn't load quitButton";
+
+	playSprite.setTexture(playButton);
+	optionsSprite.setTexture(optionsButton);
+	quitSprite.setTexture(quitButton);
+
+	//Menu option
+	sf::Texture backButton;
+
+	sf::Sprite backSprite;
+
+	if (!backButton.loadFromFile("Time-Quest/Source/assets/backButton.png"))
+		std::cout << "couldn't load backButton";
+
+	backSprite.setTexture(backButton);
+
+	//Menu pause
+	sf::Texture continueButton;
+	sf::Texture backtomenuButton;
+
+	sf::Sprite continueSprite;
+	sf::Sprite backtomenuSprite;
+
+	if (!continueButton.loadFromFile("Time-Quest/Source/assets/continueButton.png"))
+		std::cout << "couldn't load continueButton";
+
+	if (!backtomenuButton.loadFromFile("Time-Quest/Source/assets/backtomenuButton.png"))
+		std::cout << "couldn't load backtomenuButton";
+
+	continueSprite.setTexture(continueButton);
+	backtomenuSprite.setTexture(backtomenuButton);
+
 	//Boucle principale
-	while (window.isOpen())
+	
+
+	//Boucle principale
+	while (window.isOpen() && run)
 	{
-		//On regarde si on ferme la fenêtre
-		sf::Event event;
-		while (window.pollEvent(event))
+		while (window.isOpen() && run && !play && !option)
 		{
-			if (event.type == sf::Event::Closed)
-				window.close();
-		}
-		
-		//On efface la frame précédente
-		window.clear();
+			//Menu principal
+			//On regarde si on ferme la fenêtre
+			sf::Event event;
+			while (window.pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed)
+				{
+					window.close();
+					run = false;
+				}
 
-		//le code commence là
-
-		//deltaTime
-		deltaTime = deltaClock.restart();
-
-		dt = (float)deltaTime.asMilliseconds();
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
-			if (!pauseJustActivated) {
-				pause = !pause;
-				pauseJustActivated = !pauseJustActivated;
-				hud.setGamePaused(pause);
 			}
-		}
-		else
-			pauseJustActivated = false;
 
-		gameView.setSize(sf::Vector2f(768, 432));
-		if(!pause && window.hasFocus() && !hud.isGameInit())
-			map.update(player, curseur, gameView, hud, dt);
+			//On efface la frame précédente
+			window.clear();
 
-		curseur.update(window);
-		hud.update(player.getLife(), player.getTotalLife(), player.getMunRest(), player.getMunTotal());
+			//le code commence là
 
-		window.setView(gameView);
-		
-		if (!hud.isGameInit()) {
-			window.draw(map);
-			window.draw(player);
-		}
+			//deltaTime
+			deltaTime = deltaClock.restart();
 
-		window.setView(window.getDefaultView());
-		window.draw(hud);
-		window.setView(gameView);
-		if (!hud.isGameInit())
+			dt = (float)deltaTime.asMilliseconds();
+
+			//Menu principal
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && timer.getElapsedTime().asMilliseconds() - lastClickInMenu > 1000)
+			{
+				sf::Vector2f mousePos = curseur.getPosition();
+				if (mousePos.x > window.getSize().x / 2 - 150 && mousePos.x < window.getSize().x / 2 + 150)
+				{
+					if (mousePos.y > window.getSize().y / 4 - 25 && mousePos.y < window.getSize().y / 4 + 25)
+					{
+						//playButton
+						play = true;
+						lastClickInMenu = timer.getElapsedTime().asMilliseconds();
+					}
+					if (mousePos.y > 2 * window.getSize().y / 4 - 25 && mousePos.y < 2 * window.getSize().y / 4 + 25)
+					{
+						//optionsButton
+						option = true;
+						lastClickInMenu = timer.getElapsedTime().asMilliseconds();
+					}
+					if (mousePos.y > 3 * window.getSize().y / 4 - 25 && mousePos.y < 3 * window.getSize().y / 4 + 25)
+					{
+						//quitButton
+						run = false;
+						window.close();
+						lastClickInMenu = timer.getElapsedTime().asMilliseconds();
+					}
+				}
+			}
+
+			playSprite.setPosition(window.getSize().x / 2 - 150, window.getSize().y / 4 - 25);
+			optionsSprite.setPosition(window.getSize().x / 2 - 150, 2 * window.getSize().y / 4 - 25);
+			quitSprite.setPosition(window.getSize().x / 2 - 150, 3 * window.getSize().y / 4 - 25);
+			window.draw(playSprite);
+			window.draw(optionsSprite);
+			window.draw(quitSprite);
+
+			curseur.update(window);
 			window.draw(curseur);
 
-		//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante
-		window.display();
+			//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante
+			window.display();
+
+		}
+		while (window.isOpen() && run && !play && option)
+		{
+			//Option dans le menu principal
+			//On regarde si on ferme la fenêtre
+			sf::Event event;
+			while (window.pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed)
+				{
+					window.close();
+					run = false;
+				}
+
+			}
+
+			//On efface la frame précédente
+			window.clear();
+
+			//le code commence là
+
+			//deltaTime
+			deltaTime = deltaClock.restart();
+
+			dt = (float)deltaTime.asMilliseconds();
+
+
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && timer.getElapsedTime().asMilliseconds() - lastClickInMenu > 1000)
+			{
+				sf::Vector2f mousePos = curseur.getPosition();
+				if (mousePos.x > window.getSize().x / 2 - 150 && mousePos.x < window.getSize().x / 2 + 150)
+				{
+
+					if (mousePos.y > 3 * window.getSize().y / 4 - 25 && mousePos.y < 3 * window.getSize().y / 4 + 25)
+					{
+						//backButton
+						option = false;
+						lastClickInMenu = timer.getElapsedTime().asMilliseconds();
+
+					}
+				}
+			}
+
+
+			backSprite.setPosition(window.getSize().x / 2 - 150, 3 * window.getSize().y / 4 - 25);
+
+			window.draw(backSprite);
+
+			curseur.update(window);
+			window.draw(curseur);
+
+			//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante
+			window.display();
+
+		}
+		while (window.isOpen() && run && play && !option)
+		{
+			//On regarde si on ferme la fenêtre
+			sf::Event event;
+			while (window.pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed)
+					window.close();
+			}
+
+			//On efface la frame précédente
+			window.clear();
+
+			//le code commence là
+
+			//deltaTime
+			deltaTime = deltaClock.restart();
+
+			dt = (float)deltaTime.asMilliseconds();
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+				if (!pauseJustActivated) {
+					pause = !pause;
+					pauseJustActivated = !pauseJustActivated;
+					hud.setGamePaused(pause);
+				}
+			}
+			else
+				pauseJustActivated = false;
+
+			gameView.setSize(sf::Vector2f(768, 432));
+			if (!pause && window.hasFocus() && !hud.isGameInit())
+				map.update(player, curseur, gameView, hud, dt);
+
+			curseur.update(window);
+			hud.update(player.getLife(), player.getTotalLife(), player.getMunRest(), player.getMunTotal());
+
+			window.setView(gameView);
+
+			if (!hud.isGameInit()) {
+				window.draw(map);
+				window.draw(player);
+			}
+
+			window.setView(window.getDefaultView());
+			window.draw(hud);
+			window.setView(gameView);
+			if (!hud.isGameInit())
+				window.draw(curseur);
+
+			//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante
+			window.display();
+		}
+		/*
+		while (window.isOpen() && run && play && option)
+		{
+			//Menu pause
+			//On regarde si on ferme la fenêtre
+			sf::Event event;
+			while (window.pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed)
+				{
+					window.close();
+					run = false;
+				}
+
+			}
+
+			//On efface la frame précédente
+			window.clear();
+
+			//le code commence là
+
+			//deltaTime
+			deltaTime = deltaClock.restart();
+
+			dt = (float)deltaTime.asMilliseconds();
+
+			//Retour au jeu
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+			{
+				option = false;
+			}
+
+			//Menu principal
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && timer.getElapsedTime().asMilliseconds() - lastClickInMenu > 1000)
+			{
+				sf::Vector2f mousePos = curseur.getPosition();
+				if (mousePos.x > gameView.getSize().x / 2 - 150 && mousePos.x < gameView.getSize().x / 2 + 150)
+				{
+					if (mousePos.y > gameView.getSize().y / 4 - 25 && mousePos.y < gameView.getSize().y / 4 + 25)
+					{
+						option = false;
+						lastClickInMenu = timer.getElapsedTime().asMilliseconds();
+					}
+					if (mousePos.y > 3 * gameView.getSize().y / 4 - 25 && mousePos.y < 3 * gameView.getSize().y / 4 + 25)
+					{
+						play = false;
+						option = false;
+						lastClickInMenu = timer.getElapsedTime().asMilliseconds();
+					}
+				}
+			}
+
+			continueSprite.setPosition(gameView.getSize().x / 2 - 150, gameView.getSize().y / 4 - 25);
+			backtomenuSprite.setPosition(gameView.getSize().x / 2 - 150, 3 * gameView.getSize().y / 4 - 25);
+
+
+			curseur.update(window);
+			window.setView(gameView);
+
+			window.draw(map);
+			window.draw(player);
+			window.setView(window.getDefaultView());
+			window.draw(hud);
+			window.setView(gameView);
+
+
+
+
+
+			//Il faut Draw le  menu par dessus
+			window.draw(continueSprite);
+			window.draw(backtomenuSprite);
+
+
+			window.draw(curseur);
+			//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante
+			window.display();
+		}*/
+
 	}
 
 	std::cout << "\x1B[31m[fin] : fermeture de " << VERSION << "\x1B[0m "<< std::endl;
