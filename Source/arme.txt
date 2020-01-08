@@ -3,4 +3,5 @@ kar98 Time-Quest/Source/assets/kar98.png Time-Quest/Source/assets/sound/mas36sho
 mas38 Time-Quest/Source/assets/mas38.png Time-Quest/Source/assets/sound/mas38shoot.wav 150 30 72 8 20 300 2000 10 Time-Quest/Source/assets/ballemas38.png Time-Quest/Source/assets/sound/mas38reload.wav
 mp40 Time-Quest/Source/assets/mp40s.png Time-Quest/Source/assets/sound/mp40shoot.wav 200 30 20 8 10 300 2000 10 Time-Quest/Source/assets/ballemp40.png Time-Quest/Source/assets/sound/mp40reload.wav
 fm2429 Time-Quest/Source/assets/fm2429.png Time-Quest/Source/assets/sound/fm2429shoot.wav 300 30 41 45 20 300 2000 20 Time-Quest/Source/assets/ballefm2429.png Time-Quest/Source/assets/sound/fm2429reload.wav
+arbalete Time-Quest/Source/assets/crossbow.png Time-Quest/Source/assets/sound/crossbowshoot.wav 0 1 20 20 100 300 3000 0 Time-Quest/Source/assets/bolt.png Time-Quest/Source/assets/sound/mas36reload.wav
 //typeArme, texturePath, soundPath, coolDown, capacite, origineX, origineY, damages, range, reloadTime, angleImprecision, ballePath
