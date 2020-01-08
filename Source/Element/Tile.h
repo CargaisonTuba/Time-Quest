@@ -14,6 +14,7 @@ public:
 	~Tile();
 
 	bool isWall() const;
+	int getStatus() const;
 	sf::FloatRect getHitbox() const;
 
 private:

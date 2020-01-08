@@ -31,7 +31,14 @@ int Player::update(Cursor const& curseur, std::vector<Tile> const& _tiles, std::
 {
 	//déplacement du joueur
 	float speed = 0.1f * dt;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+	bool inWater = false;
+	for (unsigned int i = 0; i < _tiles.size(); i++)
+		if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].getStatus() == WATER) {
+			speed *= 0.5;
+			inWater = true;
+		}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !inWater)
 		speed *= 1.5f;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {

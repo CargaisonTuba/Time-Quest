@@ -62,8 +62,6 @@ Hud::Hud(sf::RenderWindow &window)
 	_initMessages.push_back(initMsg);
 	initMsg.setString("Vous etes un gendarme du temps blabla");
 	_initMessages.push_back(initMsg);
-	initMsg.setString("bim en plein dans le sanglier");
-	_initMessages.push_back(initMsg);
 
 	_initBg.setSize((sf::Vector2f)window.getSize());
 	_initBg.setFillColor(sf::Color::White);
@@ -107,7 +105,7 @@ void Hud::update(float pLife, float pTotalLife, int pMunRest, int pMunTotal)
 
 	if (_gameInit) {
 		if (_initMessages.size() > 0) {
-			if (_clockInit.getElapsedTime().asSeconds() > 5) {
+			if (_clockInit.getElapsedTime().asSeconds() > 0) {
 				_clockInit.restart();
 				_initMessages.erase(_initMessages.begin());
 			}

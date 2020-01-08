@@ -14,6 +14,10 @@ bool Tile::isWall() const {
 	return _status == WALL;
 }
 
+int Tile::getStatus() const {
+	return _status;
+}
+
 sf::FloatRect Tile::getHitbox() const {
 	sf::FloatRect hb(_coords, sf::Vector2f(TSIZE, TSIZE));
 	return hb;
