@@ -197,7 +197,7 @@ int Player::update(Cursor const& curseur, std::vector<Tile> const& _tiles, std::
 			}
 
 			if (dist < 30) {
-				hud.addMessage("Mate", mates[mateIDok].getMessage());
+				hud.addMessage(mates[mateIDok].getNom() + " : ", mates[mateIDok].getMessage());
 				if (mates[mateIDok].isBoss())
 					return NEXT_MAP;
 			}

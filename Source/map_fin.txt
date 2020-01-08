@@ -25,12 +25,15 @@ soldatAllemand40.png
 #mate
 100 510 300 0
 je suis le prisonnier et on va dire que mon arme est dechargee
+Florent Pany
 #mate
 100 450 420 1
-Felicitations. Encore un bandit en moins ! Bon y'a pas de suite
+Felicitations. Encore un bandit en moins ! Bon y'a pas de suite 20/20 ou cancer svp
+Macouille
 #mate
 100 450 540 2
 Le boss a perdu les clefs... on est bloques ici du coup deso
+DILF
 
 -----Tiles disposition-----
 

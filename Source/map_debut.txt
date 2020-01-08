@@ -36,6 +36,10 @@ nope
 
 -----Objects-----
 
+#mate
+100 420 240 0
+Commencons l'aventure... Allons buter du nazi !
+Thierry
 
 -----Tiles disposition-----
 
