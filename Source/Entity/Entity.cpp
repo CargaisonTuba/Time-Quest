@@ -124,23 +124,32 @@ bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f
 {
 	if (_timeSinceShot.getElapsedTime() > sf::milliseconds(_curWeapon->getCoolDown()))
 	{
-		this->_curWeapon->playTir();
-		_timeSinceShot.restart();
-		if (_curWeapon->getReady() == true)
+		if (_curWeapon->isADistanceWeapon())
 		{
-			sf::Vector2f pos = this->getPosition();
-			sf::Vector2f shootImpr = this->_curWeapon->imprecision(shootDirection);
-			sf::Vector2f aim(shootImpr.x - pos.x, shootImpr.y - pos.y);
-			float lenAim = sqrt(aim.x * aim.x + aim.y * aim.y);
-			sf::Vector2f direction(aim.x / lenAim, aim.y / lenAim);
+			this->_curWeapon->playTir();
+			_timeSinceShot.restart();
+			if (_curWeapon->getReady() == true)
+			{
+				sf::Vector2f pos = this->getPosition();
+				sf::Vector2f shootImpr = this->_curWeapon->imprecision(shootDirection);
+				sf::Vector2f aim(shootImpr.x - pos.x, shootImpr.y - pos.y);
+				float lenAim = sqrt(aim.x * aim.x + aim.y * aim.y);
+				sf::Vector2f direction(aim.x / lenAim, aim.y / lenAim);
 
-			sf::Vector2f posBalle;
-			posBalle.x = pos.x + aim.x - (aim.x * (lenAim - 16)) / lenAim;
-			posBalle.y = pos.y + aim.y - (aim.y * (lenAim - 20)) / lenAim;
-			this->_curWeapon->update(_entitySprite.getPosition(), shootImpr);
-			Bullet newBullet = Bullet(this->_curWeapon->getAngle(), this->_curWeapon->getBallePath(), posBalle, direction, _curWeapon->getRange(), _curWeapon->getDamages());
-			throwableObjectsList.push_back(newBullet);
-			_curWeapon->getSprite().move(sf::Vector2f(-direction.x * 5, -direction.y * 5));
+				sf::Vector2f posBalle;
+				posBalle.x = pos.x + aim.x - (aim.x * (lenAim - 16)) / lenAim;
+				posBalle.y = pos.y + aim.y - (aim.y * (lenAim - 20)) / lenAim;
+				this->_curWeapon->update(_entitySprite.getPosition(), shootImpr);
+				Bullet newBullet = Bullet(this->_curWeapon->getAngle(), this->_curWeapon->getBallePath(), posBalle, direction, _curWeapon->getRange(), _curWeapon->getDamages());
+				throwableObjectsList.push_back(newBullet);
+				_curWeapon->getSprite().move(sf::Vector2f(-direction.x * 5, -direction.y * 5));
+			}
+		}
+		else
+		{
+			this->_curWeapon->attack();
+			_timeSinceShot.restart();
+
 		}
 	}
 	
