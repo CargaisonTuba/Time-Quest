@@ -9,6 +9,7 @@
 #include"../Entity/NPC/Ally/Mate.h"
 #include "../Arme.h"
 #include "../Element/Object/Medkit.h"
+#include "../Element/Object/Outfit.h"
 
 #include "../HUD/Cursor.h"
 

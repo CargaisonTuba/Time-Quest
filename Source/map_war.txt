@@ -4,13 +4,16 @@
 tilesheet_war.png
 
 #playertexture
-soldatFrancais40.png
+nakedHero.png
 
 #matetexture
 soldatFrancais40.png
 
 #ennemytexture
 soldatAllemand40.png
+
+#cibletexture
+cible.png
 
 -----Map infos----- 
 
@@ -33,7 +36,7 @@ quest-war.txt
 
 #mate
 100 630 540 0
-Il faut retrouver notre collegue, en bas a droite...
+Vous êtes à poil ! trouvez un uniforme !
 Jean
 #mate
 100 870 540 1
@@ -71,9 +74,10 @@ Rudolf
 100 690 1950 14
 #ennemy
 100 1290 1950 15
-#mate
+#cible
 100 1800 1740 16
 Salut, je suis le gars que tu dois ramener dans le present yo
+Herve
 
 -----Objects-----
 #gun
@@ -84,6 +88,9 @@ mas38 240 960
 mas36 240 1000
 #medkit
 500 1300
+#outfit
+620 430
+froutfit.png
 
 -----Tiles disposition-----
 

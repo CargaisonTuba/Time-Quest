@@ -33,7 +33,7 @@ void Map::load(std::string mapPath) {
 	unsigned int width = 0, height = 0;	//Le niveau est découpé en 1 carré.
 
 	std::string currentOperation = "";
-	std::string tilesheet_path = "", mate_texture = "", ennemy_texture = "", quest_path = "";
+	std::string tilesheet_path = "", mate_texture = "", ennemy_texture = "", quest_path = "", cible_texture = "";
 	_nextMapPath = "no-next-map";
 
 	//On remplit ce tableau avec les valeurs du fichier map.txt, sortit tout droit de l'éditeur
@@ -55,6 +55,8 @@ void Map::load(std::string mapPath) {
 
 			else if (currentOperation == "#ennemytexture")
 				mapFile >> ennemy_texture;
+			else if (currentOperation == "#cibletexture")
+				mapFile >> cible_texture;
 
 			else if (currentOperation == "#mapsize") {
 				mapFile >> width;
@@ -103,6 +105,25 @@ void Map::load(std::string mapPath) {
 					isBoss = true;
 				_mates.push_back(Mate(mate_texture, eLife, ePos, id, mateMsg, mateNom, isBoss));
 			}
+			else if (currentOperation == "#cible")
+			{
+				float eLife = 0;
+				float id = -2;
+				sf::Vector2f ePos(0, 0);
+				std::string cibleMsg;
+				std::string cibleNom;
+				mapFile >> eLife;
+				mapFile >> ePos.x;
+				mapFile >> ePos.y;
+				mapFile >> id;
+				mapFile.ignore();
+				std::getline(mapFile, cibleMsg);
+				std::getline(mapFile, cibleNom);
+				bool isBoss = false;
+				if (id == bossID)
+					isBoss = true;
+				_mates.push_back(Mate(cible_texture, eLife, ePos, id, cibleMsg, cibleNom, isBoss));
+			}
 
 			else if (currentOperation == "#gun")
 			{
@@ -120,6 +141,16 @@ void Map::load(std::string mapPath) {
 				mapFile >> pos.x;
 				mapFile >> pos.y;
 				_droppedObjectsList.push_back(new Medkit(pos));
+			}
+			else if (currentOperation == "#outfit")
+			{
+				sf::Vector2f pos;
+				std::string path;
+				mapFile >> pos.x;
+				mapFile >> pos.y;
+				mapFile.ignore();
+				std::getline(mapFile, path);
+				_droppedObjectsList.push_back(new Outfit(pos, path));
 			}
 			
 			else if (currentOperation == "#tiles") {
