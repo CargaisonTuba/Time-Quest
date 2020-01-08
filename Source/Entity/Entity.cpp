@@ -27,6 +27,8 @@ Entity::Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosi
 	_timeSinceShot.restart();
 
 	_curWeapon = new Arme();
+	
+	_ligne.setSize(sf::Vector2f(120, 1));
 
 	_id = id;
 }
@@ -100,11 +102,18 @@ void Entity::pushBack(sf::Vector2f directionOfPush)
 	_timeSincePushed.restart();
 }
 
-float Entity::getLife() const {
+float Entity::getAngleCible() const
+{
+	return _angleCible;
+}
+
+float Entity::getLife() const 
+{
 	return _life;
 }
 
-sf::RectangleShape Entity::getLifebar() const {
+sf::RectangleShape Entity::getLifebar() const 
+{
 	return _lifeBar;
 }
 
@@ -120,7 +129,7 @@ int Entity::getMunTotal() const {
 	return _curWeapon->getMunTotal();
 }
 
-bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection, std::vector<Tile> const& _tiles)
+bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection, std::vector<std::vector<Tile>> const& _tiles)
 {
 	if (_timeSinceShot.getElapsedTime() > sf::milliseconds(_curWeapon->getCoolDown()))
 	{
@@ -137,9 +146,33 @@ bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f
 			sf::Vector2f posBalle;
 			posBalle.x = pos.x + aim.x - (aim.x * (lenAim - 16)) / lenAim;
 			posBalle.y = pos.y + aim.y - (aim.y * (lenAim - 20)) / lenAim;
-			this->_curWeapon->update(_entitySprite.getPosition(), shootImpr);
-			Bullet newBullet = Bullet(this->_curWeapon->getAngle(), this->_curWeapon->getBallePath(), posBalle, direction, _curWeapon->getRange(), _curWeapon->getDamages());
-			throwableObjectsList.push_back(newBullet);
+
+			
+			
+
+			_ligne.setSize(sf::Vector2f(lenAim, 1));
+			_ligne.setPosition(getPosition());
+			_ligne.setRotation(_angleCible);
+			bool oui = true;
+
+			for (unsigned int i = 0; i < _tiles.size(); i++) {
+				for (unsigned int j = 0; j < _tiles[i].size(); j++)
+				{
+					if (_ligne.getGlobalBounds().intersects(_tiles[i][j].getHitbox()) && _tiles[i][j].isWall())
+					{
+						std::cout << "Je ne peux pas tirer" << std::endl;
+						oui = false;
+					}						
+				}
+			}
+			if (oui)
+			{
+				std::cout << "Je peux tirer" << std::endl;
+				this->_curWeapon->update(getPosition(), shootImpr);
+				Bullet newBullet = Bullet(this->_curWeapon->getAngle(), this->_curWeapon->getBallePath(), posBalle, direction, _curWeapon->getRange(), _curWeapon->getDamages());
+				throwableObjectsList.push_back(newBullet);
+			}
+			
 			_curWeapon->getSprite().move(sf::Vector2f(-direction.x * 5, -direction.y * 5));
 		}
 	}
@@ -155,7 +188,8 @@ void Entity::setPosition(sf::Vector2f newPos) {
 	_entitySprite.setPosition(newPos);
 }
 
-void Entity::setTexture(std::string texturePath) {
+void Entity::setTexture(std::string texturePath) 
+{
 	//On charge chaque position de personnage dans un tableau 2D :
 	//chaque ligne = personnage qui va vers le haut / le bas / gauche / droite
 	//chaque colonne = l'animation de personnage qui cours dans cette direction
@@ -169,10 +203,12 @@ void Entity::setTexture(std::string texturePath) {
 	}
 }
 
-void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const 
+{
 	sf::Sprite s = _entitySprite;
 	s.setTexture(_entityText[_spritePosCount][_dir]);
 
 	target.draw(s);
 	target.draw(*_curWeapon);
+	target.draw(_ligne);
 }

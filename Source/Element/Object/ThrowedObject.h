@@ -14,7 +14,7 @@ public:
 
 	sf::Vector2f getDirection() const;
 	float getDamages() const;
-	bool update(float const& dt, std::vector<Tile> const& _tiles);
+	bool update(float const& dt, std::vector<std::vector<Tile>> const& _tiles);
 
 protected:
 	sf::SoundBuffer _impactBuffer;

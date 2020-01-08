@@ -1,0 +1,47 @@
+-----Textures-----
+
+#tilesheet
+tilesheet_war.png
+
+#playertexture
+soldatFrancais40.png
+
+#matetexture
+soldatFrancais40.png
+
+#ennemytexture
+soldatAllemand40.png
+
+-----Map infos-----
+
+#mapsize
+12 14
+
+#playerspawn
+120 240
+
+#bossID
+-1
+
+#nextmap
+nope
+
+#quest
+nope
+
+-----Entities-----
+
+#ennemy
+100 210 90 0
+
+-----Objects-----
+
+#mate
+100 420 240 0
+Commencons l'aventure... Allons buter du nazi !
+Thierry
+
+-----Tiles disposition-----
+
+#tiles
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 5 5 5 1 1 1 1 1 1 1 1 0 5 4 5 1 1 1 1 1 1 1 1 0 5 5 5 1 1 1 1 1 1 1 1 1 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 1 1 1 1 1 1 1 2 2 2 6 2 1 1 1 1 1 1 1 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
