@@ -249,10 +249,15 @@ void Arme::playTir()
 
 void Arme::attack()
 {
-	if (_readyState)
-	{
-
+	if (_readyState) {
+		_tirSound.setBuffer(_tirBuffer);
+		_isAttacking = true;
 	}
+	else {
+		//clic pas boum
+		_tirSound.setBuffer(_emptyBuffer);
+	}
+	_tirSound.play();
 }
 
 void Arme::recharger()
@@ -335,7 +340,14 @@ void Arme::update(sf::Vector2f entityPos, sf::Vector2f shootPosition)
 
 	if (_distanceWeap != "true")
 	{
+		if (_isAttacking)
+		{
 
+		}
+		else
+		{
+
+		}
 
 		_lastAngle = _angle;
 	}

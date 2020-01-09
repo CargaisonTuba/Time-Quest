@@ -147,8 +147,14 @@ bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f
 		}
 		else
 		{
-			this->_curWeapon->attack();
+			this->_curWeapon->playTir();
 			_timeSinceShot.restart();
+			if (_curWeapon->getReady())
+			{
+				this->_curWeapon->attack();
+			}
+			
+			
 
 		}
 	}
