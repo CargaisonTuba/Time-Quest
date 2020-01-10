@@ -35,6 +35,8 @@ public:
 	float getRange();
 	bool getReady(); //renvoie si l'arme est prêt à tirer ou pas
 	bool isADistanceWeapon();
+	sf::Clock getSinceLastShot();
+	sf::Clock getSinceAttacking();
 	
 	//Méthodes	
 	void playTir(); //joue le son du tir et diminue le nombre de balle de 1 dans le chargeur (infonctionnel)
@@ -56,7 +58,7 @@ private:
 	std::string _soundPath, _ballePath, _distanceWeap;
 	sf::SoundBuffer _tirBuffer, _emptyBuffer, _reloadBuffer;
 	sf::Sound _tirSound, _reloadSound;
-	sf::Clock _timeSinceReload;
+	sf::Clock _timeSinceReload, _timeSinceShot, _timeSinceAttacking;
 	bool _readyState, _isAttacking;
 };
 

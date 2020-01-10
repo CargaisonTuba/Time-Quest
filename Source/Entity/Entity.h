@@ -58,7 +58,7 @@ protected:
 	sf::Clock _timeSincePushed;
 
 	float _life, _totalLife;
-	sf::Clock _timeSinceShot;
+
 
 	//Stuff
 	Arme *_curWeapon;

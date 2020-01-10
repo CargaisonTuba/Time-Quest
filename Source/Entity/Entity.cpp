@@ -24,7 +24,6 @@ Entity::Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosi
 
 	_life = defaultLife;	//ca repr�sentera la vie ACTUELLE du joueur
 	_totalLife = defaultLife;		//ca repr�sente la vie TOTALE du joueur (c'est une sorte de constante, on y touchera plus apr�s)
-	_timeSinceShot.restart();
 
 	_curWeapon = new Arme();
 
@@ -122,12 +121,12 @@ int Entity::getMunTotal() const {
 
 bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection, std::vector<Tile> const& _tiles)
 {
-	if (_timeSinceShot.getElapsedTime() > sf::milliseconds(_curWeapon->getCoolDown()))
+	if (this->_curWeapon->getSinceLastShot().getElapsedTime() > sf::milliseconds(_curWeapon->getCoolDown()))
 	{
 		if (_curWeapon->isADistanceWeapon())
 		{
 			this->_curWeapon->playTir();
-			_timeSinceShot.restart();
+			this->_curWeapon->getSinceLastShot().restart();
 			if (_curWeapon->getReady() == true)
 			{
 				sf::Vector2f pos = this->getPosition();
@@ -147,15 +146,9 @@ bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f
 		}
 		else
 		{
-			this->_curWeapon->playTir();
-			_timeSinceShot.restart();
-			if (_curWeapon->getReady())
-			{
-				this->_curWeapon->attack();
-			}
 			
+			this->_curWeapon->attack();
 			
-
 		}
 	}
 	

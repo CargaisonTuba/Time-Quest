@@ -22,9 +22,9 @@ Arme::Arme(std::string typeArme)
 		{
 			if (listeArmeVect[i] == typeArme)
 			{
-				_distanceWeap = listeArmeVect[1];
-
-				if (_distanceWeap != "False")
+				_distanceWeap = listeArmeVect[i + 1];
+				std::cout << "distance weapon : " << _distanceWeap << std::endl;
+				if (_distanceWeap != "false")
 				{
 					//On charge la texture via le chemin dans le mot suivant
 					if (!_objectText.loadFromFile(listeArmeVect[i + 2]))
@@ -230,6 +230,16 @@ bool Arme::isADistanceWeapon()
 	return true;
 }
 
+sf::Clock Arme::getSinceLastShot()
+{
+	return _timeSinceShot;
+}
+
+sf::Clock Arme::getSinceAttacking()
+{
+	return _timeSinceAttacking;
+}
+
 //Méthodes
 void Arme::playTir()
 {
@@ -249,28 +259,34 @@ void Arme::playTir()
 
 void Arme::attack()
 {
-	if (_readyState) {
+	if (_isAttacking == false)
+	{
 		_tirSound.setBuffer(_tirBuffer);
 		_isAttacking = true;
+		//L'arme s'écarte du joueur quand il attaque
+		_objectSprite.setOrigin(_objectSprite.getOrigin().x * -2.5, _objectSprite.getOrigin().y * 2.5);
+		_timeSinceAttacking.restart();
+
+		_tirSound.play();
 	}
-	else {
-		//clic pas boum
-		_tirSound.setBuffer(_emptyBuffer);
-	}
-	_tirSound.play();
+	
 }
 
 void Arme::recharger()
 {
-	if ((float)(_timeSinceReload.getElapsedTime().asMilliseconds()) > _reloadTime)
+	if (_distanceWeap == "true")
 	{
-		_reloadSound.setBuffer(_reloadBuffer);
-		_reloadSound.play();
-		//std::cout << "\x1B[33m[info]\x1B[0m : Rechargement ...\n";
-		_timeSinceReload.restart();
-		_readyState = false;
-		this->_munRest = this->_capacite;
+		if ((float)(_timeSinceReload.getElapsedTime().asMilliseconds()) > _reloadTime)
+		{
+			_reloadSound.setBuffer(_reloadBuffer);
+			_reloadSound.play();
+			//std::cout << "\x1B[33m[info]\x1B[0m : Rechargement ...\n";
+			_timeSinceReload.restart();
+			_readyState = false;
+			this->_munRest = this->_capacite;
+		}
 	}
+	
 }
 
 //Update des armes
@@ -338,11 +354,20 @@ void Arme::update(sf::Vector2f entityPos, sf::Vector2f shootPosition)
 		this->_readyState = false;
 	}
 
+	//Est-ce une arme au corps à corps?
 	if (_distanceWeap != "true")
 	{
+		//std::cout << _isAttacking << std::endl;
 		if (_isAttacking)
 		{
+			;
 
+			if (_timeSinceAttacking.getElapsedTime() > sf::milliseconds(1000))
+			//L'attaque dure 1 seconde
+			{
+				_isAttacking = false;
+				_objectSprite.setOrigin(_objectSprite.getOrigin().x / -2.5, _objectSprite.getOrigin().y / 2.5);
+			}
 		}
 		else
 		{
