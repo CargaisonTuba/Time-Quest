@@ -36,7 +36,7 @@ quest-war.txt
 
 #mate
 100 630 540 0
-Vous êtes à poil ! trouvez un uniforme !
+Vous etes a poil ! trouvez un uniforme !
 Jean
 #mate
 100 870 540 1

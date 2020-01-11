@@ -1,6 +1,10 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
+#define WEAPON 0
+#define MEDKIT 1
+#define OUTFIT 2
+
 class Object : public sf::Drawable
 {
 public:

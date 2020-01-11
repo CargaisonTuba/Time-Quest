@@ -126,19 +126,25 @@ int Player::update(Cursor const& curseur, std::vector<Tile> const& _tiles, std::
 				}
 			}
 			if (find) {
-				if (droppedObjectsList[indexOK]->getType() == 0) {
+				if (droppedObjectsList[indexOK]->getType() == WEAPON) {
 					//droppedObjectsList.push_back(new Arme(*_curWeapon));
 					_inventory.push_back((Arme*)droppedObjectsList[indexOK]);
 					droppedObjectsList.erase(droppedObjectsList.begin() + indexOK);
 					_curWeapon = (Arme*)_inventory[_inventoryIndex];
 				}
-				else {
+				else if (droppedObjectsList[indexOK]->getType() == MEDKIT)  {
 					if (_life <= _totalLife - 100) {
 						_life += 100;
 						delete droppedObjectsList[indexOK];
 						droppedObjectsList[indexOK] = 0;
 						droppedObjectsList.erase(droppedObjectsList.begin() + indexOK);
 					}
+				}
+				else if (droppedObjectsList[indexOK]->getType() == OUTFIT) {
+					setTexture("soldatFrancais40.png");
+					delete droppedObjectsList[indexOK];
+					droppedObjectsList[indexOK] = 0;
+					droppedObjectsList.erase(droppedObjectsList.begin() + indexOK);
 				}
 			}
 		}

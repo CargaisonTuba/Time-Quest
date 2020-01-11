@@ -11,7 +11,7 @@ public:
 	~Mate();
 
 	bool update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*>& droppedObjectsList, std::vector<Mate> &mates, float const& dt);
-	void follow(sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<Mate> &mates);
+	void follow(sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<Mate> &mates, float dt);
 	std::string getMessage() const;
 	std::string getNom() const;
 
