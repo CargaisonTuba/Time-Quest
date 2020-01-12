@@ -133,8 +133,7 @@ bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f
 {
 	if (_timeSinceShot.getElapsedTime() > sf::milliseconds(_curWeapon->getCoolDown()))
 	{
-		this->_curWeapon->playTir();
-		_timeSinceShot.restart();
+		
 		if (_curWeapon->getReady() == true)
 		{
 			sf::Vector2f pos = this->getPosition();
@@ -152,7 +151,7 @@ bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f
 
 			_ligne.setSize(sf::Vector2f(lenAim, 1));
 			_ligne.setPosition(getPosition());
-			_ligne.setRotation(_angleCible);
+			_ligne.setRotation(_curWeapon->getAngle());
 			bool oui = true;
 
 			for (unsigned int i = 0; i < _tiles.size(); i++) {
@@ -171,6 +170,8 @@ bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f
 				this->_curWeapon->update(getPosition(), shootImpr);
 				Bullet newBullet = Bullet(this->_curWeapon->getAngle(), this->_curWeapon->getBallePath(), posBalle, direction, _curWeapon->getRange(), _curWeapon->getDamages());
 				throwableObjectsList.push_back(newBullet);
+				this->_curWeapon->playTir();
+				_timeSinceShot.restart();
 			}
 			
 			_curWeapon->getSprite().move(sf::Vector2f(-direction.x * 5, -direction.y * 5));

@@ -126,6 +126,7 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 				{
 					follow(playerPos, _tiles, mates);
 					_animation_tick += dt;
+
 					if (_animation_tick >= 50) {
 						_animation_tick = 0;
 						_spritePosCount++;
