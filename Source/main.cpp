@@ -15,7 +15,7 @@ int main()
 	sf::View gameView(sf::Vector2f(0, 0), sf::Vector2f(960, 540));
 	window.setMouseCursorVisible(false);
 
-	//On désactive les erreurs SFML pour que ça ne pollue pas la console
+	//On désactive les erreurs SFML pour que ça ne pollue pas la console   
 	//(enlever cette ligne s'il y a des erreurs inconnues
 	sf::err().rdbuf(NULL);
 
