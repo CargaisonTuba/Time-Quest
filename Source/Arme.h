@@ -19,6 +19,7 @@ public:
 	
 	//Setters
 	void setPosition(sf::Vector2f unePosition);
+	void setAngle(float angle);
 
 	//Getters	
 	sf::Vector2f getOrigin();

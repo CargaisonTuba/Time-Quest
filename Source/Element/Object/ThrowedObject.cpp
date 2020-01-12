@@ -36,7 +36,7 @@ float ThrowedObject::getDamages() const {
 	return _damages;
 }
 
-bool ThrowedObject::update(float const& dt,  std::vector<Tile> const& _tiles)
+bool ThrowedObject::update(float const& dt, std::vector<std::vector<Tile>> const& _tiles)
 {
 	if (_clock.getElapsedTime() > sf::seconds(5.f))
 	{
@@ -50,13 +50,16 @@ bool ThrowedObject::update(float const& dt,  std::vector<Tile> const& _tiles)
 	this->_objectSprite.move(sf::Vector2f((_direction.x * dt)/2, (_direction.y * dt)/2));
 	for (unsigned int i = 0; i < _tiles.size(); i++)
 	{
-		if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall())
-		{
-			_impactSound.setBuffer(_impactBuffer);
-			_impactSound.play();
-			_objectSprite.move(sf::Vector2f(-(_direction.x * dt) / 2, -(_direction.y * dt) / 2));
-			return false;
-		}
+		for (unsigned int j = 0; j < _tiles[i].size(); j++)
+			{
+				if (getHitbox().intersects(_tiles[i][j].getHitbox()) && _tiles[i][j].isWall())
+				{
+					_impactSound.setBuffer(_impactBuffer);
+					_impactSound.play();
+					_objectSprite.move(sf::Vector2f(-(_direction.x * dt) / 5, -(_direction.y * dt) / 5));
+					return false;
+				}
+			}
 	}
 	return true;
 }

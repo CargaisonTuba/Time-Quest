@@ -32,10 +32,11 @@ public:
 	float getLife() const;
 	sf::RectangleShape getLifebar() const;
 
-	bool fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection, std::vector<Tile> const& _tiles);
+	bool fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection, std::vector<std::vector<Tile>> const& _tiles);
 	float getTotalLife() const;
 	int getMunRest() const;
 	int getMunTotal() const;
+	float getAngleCible() const;
 
 	void setPosition(sf::Vector2f newPos);
 	void setInitPos(sf::Vector2f pos);
@@ -45,11 +46,12 @@ public:
 
 protected:
 	sf::Texture _entityText[11][4];
+	sf::RectangleShape _ligne;
 	sf::Sprite _entitySprite;
 	sf::Vector2f _initPos;
 	int _spritePosCount, _spritePosCountMax;
 	int _dir;	//Haut, bas, ...
-	float _animation_tick;
+	float _animation_tick, _angleCible, _longueurX, _longueurY, _hypo;
 
 	int _id;
 
