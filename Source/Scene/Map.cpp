@@ -177,7 +177,10 @@ void Map::load(std::string mapPath) {
 
 	//Remplissage du tableau
 	for (unsigned int i = 0; i < width; i++)
-		for (unsigned int j = 0; j < height; j++) {
+	{
+		std::vector<Tile> row;
+		for (unsigned int j = 0; j < height; j++)
+		{
 			int tileNumber = level[i + j * width];
 
 			int tu = tileNumber % (_tileset.getSize().x / tileSize.x);
@@ -203,8 +206,10 @@ void Map::load(std::string mapPath) {
 			if (tileNumber == 1)
 				status = WATER;
 
-			_tiles.push_back(Tile(sf::Vector2f((float)i * TSIZE, (float)j * TSIZE), status));
+			row.push_back(Tile(sf::Vector2f((float)i * TSIZE, (float)j * TSIZE), status));
 		}
+		_tiles.push_back(row);
+	}
 
 	std::cout << "\x1B[32m[OK]\x1B[0m : " << _ennemies.size() + _mates.size() << " entites chargees\n";
 	std::cout << "\x1B[32m[OK]\x1B[0m : " << _droppedObjectsList.size() << " objets charges\n";

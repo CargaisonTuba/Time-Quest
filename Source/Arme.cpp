@@ -298,6 +298,11 @@ sf::Vector2f Arme::imprecision(sf::Vector2f shootDirection)
 	return sf::Vector2f(shootDirection.x + imprX, shootDirection.y + imprY);
 }
 
+void Arme::setAngle(float angle)
+{
+	this->_angle = angle;
+}
+
 void Arme::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	sf::Sprite s = _objectSprite;
