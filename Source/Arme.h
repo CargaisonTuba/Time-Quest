@@ -20,6 +20,7 @@ public:
 	//Setters
 	void setPosition(sf::Vector2f unePosition);
 	void setAngle(float angle);
+	void restartLastShot();
 
 	//Getters	
 	sf::Vector2f getOrigin();

@@ -223,6 +223,12 @@ bool Arme::getReady()
 	return this->_readyState;
 }
 
+
+void Arme::restartLastShot()
+{
+	this->_timeSinceShot.restart();
+}
+
 bool Arme::isADistanceWeapon()
 {
 	if (_distanceWeap != "true")

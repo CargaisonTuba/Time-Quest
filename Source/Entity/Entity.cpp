@@ -135,8 +135,6 @@ bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f
 
 		if (_curWeapon->isADistanceWeapon())
 		{
-			this->_curWeapon->playTir();
-			this->_curWeapon->getSinceLastShot().restart();
 			if (_curWeapon->getReady() == true)
 			{
 				sf::Vector2f pos = this->getPosition();
@@ -175,7 +173,7 @@ bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f
 					Bullet newBullet = Bullet(this->_curWeapon->getAngle(), this->_curWeapon->getBallePath(), posBalle, direction, _curWeapon->getRange(), _curWeapon->getDamages());
 					throwableObjectsList.push_back(newBullet);
 					this->_curWeapon->playTir();
-					this->_curWeapon->getSinceLastShot().restart();
+					this->_curWeapon->restartLastShot();
 				}
 
 				_curWeapon->getSprite().move(sf::Vector2f(-direction.x * 5, -direction.y * 5));
