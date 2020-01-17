@@ -6,8 +6,8 @@ Player::Player(std::string texturePath, float defaultLife, sf::Vector2f initPosi
 	_justChanged = false;
 	_justLoot = false;
 
-	/*_inventory.push_back(new Arme("fm2429"));
-	_inventory.push_back(new Arme("mas36"));
+	_inventory.push_back(new Arme("mas38"));
+	/*_inventory.push_back(new Arme("mas36"));
 	_inventory.push_back(new Arme("mas38"));
 	_inventory.push_back(new Arme("mp40"));*/
 
@@ -27,16 +27,21 @@ sf::Vector2f Player::getPosition() const {
 }
 
 //On met la position de la souris en paramètre pour pouvoir décider dans quelle direction pointe l'arme
-int Player::update(Cursor const& curseur, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*>& droppedObjectsList, std::vector<Mate>& mates, Hud& hud, float const& dt)
+int Player::update(Cursor const& curseur, std::vector<std::vector<Tile>> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*>& droppedObjectsList, std::vector<Mate>& mates, Hud& hud, float const& dt)
 {
 	//déplacement du joueur
 	float speed = 0.1f * dt;
 	bool inWater = false;
 	for (unsigned int i = 0; i < _tiles.size(); i++)
-		if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].getStatus() == WATER) {
-			speed *= 0.5;
-			inWater = true;
+	{
+		for (unsigned int j = 0; j < _tiles[i].size(); j++)
+		{
+			if (getHitbox().intersects(_tiles[i][j].getHitbox()) && _tiles[i][j].isWall())
+			{
+				_entitySprite.move(-_pushingForce);
+			}
 		}
+	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift) && !inWater)
 		speed *= 1.5f;
@@ -44,36 +49,56 @@ int Player::update(Cursor const& curseur, std::vector<Tile> const& _tiles, std::
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
 
 		_entitySprite.move(sf::Vector2f(0, -speed));
-		for (unsigned int i = 0; i < _tiles.size(); i++) {
-			if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
-				_entitySprite.move(sf::Vector2f(0, speed));
+		for (unsigned int i = 0; i < _tiles.size(); i++)
+		{
+			for (unsigned int j = 0; j < _tiles[i].size(); j++)
+			{
+				if (getHitbox().intersects(_tiles[i][j].getHitbox()) && _tiles[i][j].isWall())
+				{
+					_entitySprite.move(sf::Vector2f(0, speed));
+				}
 			}
 		}
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
 
 		_entitySprite.move(sf::Vector2f(-speed, 0));
-		for (unsigned int i = 0; i < _tiles.size(); i++) {
-			if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
-				_entitySprite.move(sf::Vector2f(speed, 0));
+		for (unsigned int i = 0; i < _tiles.size(); i++)
+		{
+			for (unsigned int j = 0; j < _tiles[i].size(); j++)
+			{
+				if (getHitbox().intersects(_tiles[i][j].getHitbox()) && _tiles[i][j].isWall())
+				{
+					_entitySprite.move(sf::Vector2f(speed, 0));
+				}
 			}
 		}
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 
 		_entitySprite.move(sf::Vector2f(0, speed));
-		for (unsigned int i = 0; i < _tiles.size(); i++) {
-			if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
-				_entitySprite.move(sf::Vector2f(0, -speed));
+		for (unsigned int i = 0; i < _tiles.size(); i++)
+		{
+			for (unsigned int j = 0; j < _tiles[i].size(); j++)
+			{
+				if (getHitbox().intersects(_tiles[i][j].getHitbox()) && _tiles[i][j].isWall())
+				{
+					_entitySprite.move(sf::Vector2f(0, -speed));
+				}
 			}
 		}
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 
 		_entitySprite.move(sf::Vector2f(speed, 0));
-		for (unsigned int i = 0; i < _tiles.size(); i++) {
-			if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall()) {
-				_entitySprite.move(sf::Vector2f(-speed, 0));
+		for (unsigned int i = 0; i < _tiles.size(); i++)
+		{
+			for (unsigned int j = 0; j < _tiles[i].size(); j++)
+			{
+				if (getHitbox().intersects(_tiles[i][j].getHitbox()) && _tiles[i][j].isWall())
+				{
+					_entitySprite.move(sf::Vector2f(-speed, 0));
+				}
 			}
 		}
 	}

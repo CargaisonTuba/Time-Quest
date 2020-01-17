@@ -13,7 +13,7 @@ public:
 
 	sf::Vector2f getPosition() const;
 
-	int update(Cursor const& curseur, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*> &droppedObjectsList, std::vector<Mate>& mates, Hud& hud, float const& dt);
+	int update(Cursor const& curseur, std::vector<std::vector<Tile>> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*> &droppedObjectsList, std::vector<Mate>& mates, Hud& hud, float const& dt);
 
 private:
 	bool _justPressed;	//pour savoir si on vient de changer l'item selectionné

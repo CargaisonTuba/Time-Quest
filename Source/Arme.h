@@ -19,6 +19,8 @@ public:
 	
 	//Setters
 	void setPosition(sf::Vector2f unePosition);
+	void setAngle(float angle);
+	void restartLastShot();
 
 	//Getters	
 	sf::Vector2f getOrigin();
@@ -34,9 +36,13 @@ public:
 	int getMunTotal();
 	float getRange();
 	bool getReady(); //renvoie si l'arme est prêt à tirer ou pas
+	bool isADistanceWeapon();
+	sf::Clock getSinceLastShot();
+	sf::Clock getSinceAttacking();
 	
 	//Méthodes	
 	void playTir(); //joue le son du tir et diminue le nombre de balle de 1 dans le chargeur (infonctionnel)
+	void attack();
 	void recharger();
 
 	void update(sf::Vector2f entityPos, sf::Vector2f playerPos);
@@ -48,13 +54,13 @@ public:
 private:
 	sf::Vector2i _position;
 
-	float _longueurX, _longueurY, _hypo, _angle, _damages, _reloadTime, _impr, _range;
+	float _longueurX, _longueurY, _hypo, _angle, _lastAngle, _damages, _reloadTime, _impr, _range;
 	int _capacite, _coolDown, _munRest;
 
-	std::string _soundPath, _ballePath;
+	std::string _soundPath, _ballePath, _distanceWeap;
 	sf::SoundBuffer _tirBuffer, _emptyBuffer, _reloadBuffer;
 	sf::Sound _tirSound, _reloadSound;
-	sf::Clock _timeSinceReload;
-	bool _readyState;
+	sf::Clock _timeSinceReload, _timeSinceShot, _timeSinceAttacking;
+	bool _readyState, _isAttacking;
 };
 

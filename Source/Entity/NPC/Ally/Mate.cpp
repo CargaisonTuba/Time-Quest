@@ -20,7 +20,7 @@ Mate::~Mate() {
 
 }
 
-bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*> &droppedObjectsList, std::vector<Mate> &mates, float const& dt) {
+bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::vector<std::vector<Tile>> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*> &droppedObjectsList, std::vector<Mate> &mates, float const& dt) {
 	//mise à jour de la barre de vie avec la vie et la position actuelle de l'allié
 	_lifeBar.setSize(sf::Vector2f((_life * 20) / _totalLife, 5));
 	_lifeBar.setPosition(sf::Vector2f(getPosition().x - 10, getPosition().y - 20));
@@ -47,51 +47,74 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 	float mateY = getPosition().y;
 	float mateX = getPosition().x;
 	float ennemyX, ennemyY;
-	for (unsigned int i = 0; i < _ennemies.size(); i++)
+	if (_ennemies.size() > 0)
 	{
-		ennemyX = _ennemies[i].getPosition().x; 
-		ennemyY = _ennemies[i].getPosition().y;
-		if (sqrt((ennemyX - mateX) * (ennemyX - mateX) + (ennemyY - mateY) * (ennemyY - mateY)) < dist)
+		for (unsigned int i = 0; i < _ennemies.size(); i++)
 		{
-			dist = sqrt((ennemyX - mateX) * (ennemyX - mateX) + (ennemyY - mateY) * (ennemyY - mateY));
-			direction = sf::Vector2f((ennemyX - mateX) / dist, (ennemyY - mateY) / dist);
-			targetPos = _ennemies[i].getPosition();
+			ennemyX = _ennemies[i].getPosition().x;
+			ennemyY = _ennemies[i].getPosition().y;
+			if (sqrt((ennemyX - mateX) * (ennemyX - mateX) + (ennemyY - mateY) * (ennemyY - mateY)) < dist)
+			{
+				dist = sqrt((ennemyX - mateX) * (ennemyX - mateX) + (ennemyY - mateY) * (ennemyY - mateY));
+				direction = sf::Vector2f((ennemyX - mateX) / dist, (ennemyY - mateY) / dist);
+				targetPos = _ennemies[i].getPosition();
+			}
 		}
-	}
-	
-	if (dist <= _detectRange) {
-		if (dist >= _curWeapon->getRange())
+
+		if (dist <= _detectRange)
 		{
-			if (_follow)
+			_longueurX = abs((ennemyX)-(mateX));
+			_longueurY = abs((ennemyY)-(mateY));
+			_hypo = sqrt(_longueurX * _longueurX + _longueurY * _longueurY);
+
+			if (ennemyY < ennemyY)
 			{
-				follow(playerPos, _tiles, mates, dt);
-			}
-			else
-			{
-				_entitySprite.move(sf::Vector2f(direction.x / 2, direction.y / 2));
-			}
-			for (unsigned int i = 0; i < _tiles.size(); i++)
-			{
-				if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall())
+				if (ennemyX < mateX)
 				{
-					_entitySprite.move(-direction);
+					_angleCible = (180.f + acos(_longueurX / _hypo) * 180.0f / (float)3.141592653589793);
+				}
+				else if (ennemyX > mateX)
+				{
+					_angleCible = 360.f - (acos(_longueurX / _hypo) * 180.0f / (float)3.141592653589793);
+				}
+
+			}
+			else if (ennemyY > ennemyY)
+			{
+				if (ennemyX > mateX)
+				{
+					_angleCible = acos(_longueurX / _hypo) * 180.0f / (float)3.141592653589793;
+				}
+				else if (ennemyX < mateX)
+				{
+					_angleCible = 180.f - (acos(_longueurX / _hypo) * 180.0f / (float)3.141592653589793);
 				}
 			}
-			_animation_tick += dt;
-			if (_animation_tick >= 50) {
-				_animation_tick = 0;
-				_spritePosCount++;
-				if (_spritePosCount >= _spritePosCountMax)
-					_spritePosCount = 0;
-			}
-		}
-		else
-		{
-			if (_follow)
+
+			if (dist >= _curWeapon->getRange())
 			{
-				follow(playerPos, _tiles, mates, dt);
+				if (_follow)
+				{
+					follow(playerPos, _tiles, mates, dt);
+				}
+				else
+				{
+					_entitySprite.move(sf::Vector2f(direction.x / 2, direction.y / 2));
+				}
+				for (unsigned int i = 0; i < _tiles.size(); i++)
+				{
+					for (unsigned int j = 0; j < _tiles[i].size(); j++)
+					{
+						if (getHitbox().intersects(_tiles[i][j].getHitbox()) && _tiles[i][j].isWall())
+						{
+							_entitySprite.move(-_pushingForce);
+						}
+					}
+				}
+
 				_animation_tick += dt;
-				if (_animation_tick >= 50) {
+				if (_animation_tick >= 50)
+				{
 					_animation_tick = 0;
 					_spritePosCount++;
 					if (_spritePosCount >= _spritePosCountMax)
@@ -100,21 +123,39 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 			}
 			else
 			{
-				_spritePosCount = 0;
-			}
-			if (_curWeapon->getReady())
-			{
-				if(targetPos != sf::Vector2f(0, 0))
-					fire(throwableObjectsList, targetPos, _tiles);
-			}
-			else
-			{
-				_curWeapon->recharger();
+				if (_follow)
+				{
+					follow(playerPos, _tiles, mates);
+					_animation_tick += dt;
+
+					if (_animation_tick >= 50) {
+						_animation_tick = 0;
+						_spritePosCount++;
+						if (_spritePosCount >= _spritePosCountMax)
+							_spritePosCount = 0;
+					}
+				}
+				else
+				{
+					_spritePosCount = 0;
+				}
+				if (_curWeapon->getReady())
+				{
+					if (targetPos != sf::Vector2f(0, 0))
+					{
+						fire(throwableObjectsList, targetPos, _tiles);
+						_curWeapon->update(getPosition(), targetPos);
+					}
+				}
+				else
+				{
+					_curWeapon->recharger();
+				}
 			}
 		}
+		_curWeapon->update(getPosition(), sf::Vector2f(500.f, 500.f));
 	}
-  
-	_curWeapon->update(getPosition(), targetPos);
+	//_curWeapon->update(getPosition(), sf::Vector2f(500.f, 500.f));
 	
 	//l'allié perd de la vie s'il est touché par une balle
 	for (unsigned int i = 0; i < throwableObjectsList.size(); i++)
@@ -134,7 +175,8 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 	return false;
 }
 
-void Mate::follow(sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::vector<Mate> &mates, float dt)
+
+void Mate::follow(sf::Vector2f playerPos, std::vector<std::vector<Tile>> const& _tiles, std::vector<Mate> &mates, float dt)
 {
 	//initialisation de la cible à la position du joueur
 	float selfX = getPosition().x;
@@ -151,9 +193,14 @@ void Mate::follow(sf::Vector2f playerPos, std::vector<Tile> const& _tiles, std::
 			_entitySprite.move(direction * dt);
 			for (unsigned int i = 0; i < _tiles.size(); i++)
 			{
-				if (getHitbox().intersects(_tiles[i].getHitbox()) && _tiles[i].isWall())
+				for (unsigned int j = 0; j < _tiles[i].size(); j++)
 				{
-					_entitySprite.move(-direction * dt);
+
+					if (getHitbox().intersects(_tiles[i][j].getHitbox()) && _tiles[i][j].isWall())
+					{
+						_entitySprite.move(-direction * dt);
+					}
+
 				}
 			}
 			for (unsigned int i = 0; i < mates.size(); i++)

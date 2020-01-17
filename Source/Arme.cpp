@@ -17,49 +17,80 @@ Arme::Arme(std::string typeArme)
 			listeArmeVect.push_back(mot);
 		}
 
-		//On parcourt le table et si on trouve dans le tableau le nom de l'arme (typeArme), alors :
+		//On parcourt le tableau et si on trouve le nom de l'arme (typeArme), alors :
 		for (int i = 0; (unsigned)i < listeArmeVect.size(); i++)
 		{
 			if (listeArmeVect[i] == typeArme)
 			{
-				//On charge la texture via le chemin dans le mot suivant
-				if (!_objectText.loadFromFile(listeArmeVect[i + 1]))
-					std::cout << "\x1B[31m[Erreur]\x1B[0m : Texture Arme : impossible de charger " << listeArmeVect[i + 1] << std::endl;
-				//_armeSprite.setTexture(_armeText);
+				_distanceWeap = listeArmeVect[i + 1];
+				std::cout << "distance weapon : " << _distanceWeap << std::endl;
+				if (_distanceWeap != "false")
+				{
+					//On charge la texture via le chemin dans le mot suivant
+					if (!_objectText.loadFromFile(listeArmeVect[i + 2]))
+						std::cout << "\x1B[31m[Erreur]\x1B[0m : Texture Arme : impossible de charger " << listeArmeVect[i + 2] << std::endl;
+					//_armeSprite.setTexture(_armeText);
 
-				//On charge le son via le chemin dans le 2è mot suivant
-				if (!_tirBuffer.loadFromFile(listeArmeVect[i + 2]))
-					std::cout << "\x1B[31m[Erreur]\x1B[0m : SoundBuffer : impossible de charger " << listeArmeVect[i + 2] << std::endl;
+					//On charge le son via le chemin dans le 2è mot suivant
+					if (!_tirBuffer.loadFromFile(listeArmeVect[i + 3]))
+						std::cout << "\x1B[31m[Erreur]\x1B[0m : SoundBuffer : impossible de charger " << listeArmeVect[i + 3] << std::endl;
 
-				//_tirSound.setBuffer(_tirBuffer);
+					//_tirSound.setBuffer(_tirBuffer);
 
-				//On attribue au cool down le 3è mot suivant (casté de string à int via stoi)
-				_coolDown = std::stoi(listeArmeVect[i+3]);
+					//On attribue au cool down le 3è mot suivant (casté de string à int via stoi)
+					_coolDown = std::stoi(listeArmeVect[i + 4]);
 
-				//On attribue la capacité du chargeur au 4è mot suivant casté de string à int
-				_capacite = std::stoi(listeArmeVect[i + 4]);
+					//On attribue la capacité du chargeur au 4è mot suivant casté de string à int
+					_capacite = std::stoi(listeArmeVect[i + 5]);
 
-				//De la même façon paramètre l'origine de l'arme
-				_objectSprite.setOrigin(std::stof(listeArmeVect[i + 5]), std::stof(listeArmeVect[i + 6]));
+					//De la même façon paramètre l'origine de l'arme
+					_objectSprite.setOrigin(std::stof(listeArmeVect[i + 6]), std::stof(listeArmeVect[i + 7]));
 
-				//Idem pour dégâts de l'arme
-				_damages = std::stof(listeArmeVect[i + 7]);
+					//Idem pour dégâts de l'arme
+					_damages = std::stof(listeArmeVect[i + 8]);
 
-				//Idem pour la portée
-				_range = std::stof(listeArmeVect[i + 8]);
+					//Idem pour la portée
+					_range = std::stof(listeArmeVect[i + 9]);
 
-				//Temps de rechargement
-				_reloadTime = std::stof(listeArmeVect[i + 9]);
+					//Temps de rechargement
+					_reloadTime = std::stof(listeArmeVect[i + 10]);
 
-				//Imprécision de l'arme
-				_impr = std::stof(listeArmeVect[i + 10]);
+					//Imprécision de l'arme
+					_impr = std::stof(listeArmeVect[i + 11]);
 
-				//Chemin de la texture de la balle de l'arme
-				_ballePath = listeArmeVect[i + 11];
+					//Chemin de la texture de la balle de l'arme
+					_ballePath = listeArmeVect[i + 12];
 
-				//Chemin du son de rechargement
-				if (!_reloadBuffer.loadFromFile(listeArmeVect[i + 12]))
-					std::cout << "\x1B[31m[Erreur]\x1B[0m : SoundBuffer : impossible de charger " << listeArmeVect[i + 12] << std::endl;
+					//Chemin du son de rechargement
+					if (!_reloadBuffer.loadFromFile(listeArmeVect[i + 13]))
+						std::cout << "\x1B[31m[Erreur]\x1B[0m : SoundBuffer : impossible de charger " << listeArmeVect[i + 12] << std::endl;
+				}
+				else
+				{
+					//On charge la texture via le chemin dans le mot suivant
+					if (!_objectText.loadFromFile(listeArmeVect[i + 2]))
+						std::cout << "\x1B[31m[Erreur]\x1B[0m : Texture Arme : impossible de charger " << listeArmeVect[i + 2] << std::endl;
+					//_armeSprite.setTexture(_armeText);
+
+					//On charge le son via le chemin dans le 2è mot suivant
+					if (!_tirBuffer.loadFromFile(listeArmeVect[i + 3]))
+						std::cout << "\x1B[31m[Erreur]\x1B[0m : SoundBuffer : impossible de charger " << listeArmeVect[i + 3] << std::endl;
+
+					//_tirSound.setBuffer(_tirBuffer);
+
+					//On attribue au cool down le 3è mot suivant (casté de string à int via stoi)
+					_coolDown = std::stoi(listeArmeVect[i + 4]);
+
+					//De la même façon paramètre l'origine de l'arme
+					_objectSprite.setOrigin(std::stof(listeArmeVect[i + 5]), std::stof(listeArmeVect[i + 6]));
+
+					//Idem pour dégâts de l'arme
+					_damages = std::stof(listeArmeVect[i + 7]);
+
+					//Idem pour la portée
+					_range = std::stof(listeArmeVect[i + 8]);
+
+				}
 
 				break;
 			}
@@ -192,6 +223,29 @@ bool Arme::getReady()
 	return this->_readyState;
 }
 
+
+void Arme::restartLastShot()
+{
+	this->_timeSinceShot.restart();
+}
+
+bool Arme::isADistanceWeapon()
+{
+	if (_distanceWeap != "true")
+		return false;
+	return true;
+}
+
+sf::Clock Arme::getSinceLastShot()
+{
+	return _timeSinceShot;
+}
+
+sf::Clock Arme::getSinceAttacking()
+{
+	return _timeSinceAttacking;
+}
+
 //Méthodes
 void Arme::playTir()
 {
@@ -209,17 +263,36 @@ void Arme::playTir()
 	//std::cout << "\x1B[33m[info]\x1B[0m : Munitions : \x1B[35m " << _munRest << " \x1B[0m / " << _capacite << "\n";
 }
 
+void Arme::attack()
+{
+	if (_isAttacking == false)
+	{
+		_tirSound.setBuffer(_tirBuffer);
+		_isAttacking = true;
+		//L'arme s'écarte du joueur quand il attaque
+		_objectSprite.setOrigin(_objectSprite.getOrigin().x * -2.5, _objectSprite.getOrigin().y * 2.5);
+		_timeSinceAttacking.restart();
+
+		_tirSound.play();
+	}
+	
+}
+
 void Arme::recharger()
 {
-	if ((float)(_timeSinceReload.getElapsedTime().asMilliseconds()) > _reloadTime)
+	if (_distanceWeap == "true")
 	{
-		_reloadSound.setBuffer(_reloadBuffer);
-		_reloadSound.play();
-		//std::cout << "\x1B[33m[info]\x1B[0m : Rechargement ...\n";
-		_timeSinceReload.restart();
-		_readyState = false;
-		this->_munRest = this->_capacite;
+		if ((float)(_timeSinceReload.getElapsedTime().asMilliseconds()) > _reloadTime)
+		{
+			_reloadSound.setBuffer(_reloadBuffer);
+			_reloadSound.play();
+			//std::cout << "\x1B[33m[info]\x1B[0m : Rechargement ...\n";
+			_timeSinceReload.restart();
+			_readyState = false;
+			this->_munRest = this->_capacite;
+		}
 	}
+	
 }
 
 //Update des armes
@@ -286,6 +359,29 @@ void Arme::update(sf::Vector2f entityPos, sf::Vector2f shootPosition)
 	{
 		this->_readyState = false;
 	}
+
+	//Est-ce une arme au corps à corps?
+	if (_distanceWeap != "true")
+	{
+		//std::cout << _isAttacking << std::endl;
+		if (_isAttacking)
+		{
+			;
+
+			if (_timeSinceAttacking.getElapsedTime() > sf::milliseconds(1000))
+			//L'attaque dure 1 seconde
+			{
+				_isAttacking = false;
+				_objectSprite.setOrigin(_objectSprite.getOrigin().x / -2.5, _objectSprite.getOrigin().y / 2.5);
+			}
+		}
+		else
+		{
+
+		}
+
+		_lastAngle = _angle;
+	}
 }
 
 sf::Vector2f Arme::imprecision(sf::Vector2f shootDirection)
@@ -296,6 +392,11 @@ sf::Vector2f Arme::imprecision(sf::Vector2f shootDirection)
 	int imprX = rand() % (int)((b - a) + a);
 	int imprY = rand() % (int)((b - a) + a);
 	return sf::Vector2f(shootDirection.x + imprX, shootDirection.y + imprY);
+}
+
+void Arme::setAngle(float angle)
+{
+	this->_angle = angle;
 }
 
 void Arme::draw(sf::RenderTarget& target, sf::RenderStates states) const
