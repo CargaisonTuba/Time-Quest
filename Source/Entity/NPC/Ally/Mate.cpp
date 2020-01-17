@@ -152,8 +152,9 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 				}
 			}
 		}
-
+		_curWeapon->update(getPosition(), sf::Vector2f(500.f, 500.f));
 	}
+	//_curWeapon->update(getPosition(), sf::Vector2f(500.f, 500.f));
 	
 	//l'allié perd de la vie s'il est touché par une balle
 	for (unsigned int i = 0; i < throwableObjectsList.size(); i++)
