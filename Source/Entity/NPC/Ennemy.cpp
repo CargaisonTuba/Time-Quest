@@ -105,7 +105,8 @@ int Ennemy::update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vecto
 		}
 		else
 		{
-			//_curWeapon->update(getPosition(), sf::VectgetPosition);
+			_curWeapon->update(getPosition(), sf::Vector2f(500.f, 500.f));
+
 		}
 
 		//l'ennemi perd de la vie s'il est touché par une balle

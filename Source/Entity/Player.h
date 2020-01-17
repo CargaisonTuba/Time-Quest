@@ -12,7 +12,7 @@ public:
 	~Player();
 
 	sf::Vector2f getPosition() const;
-
+	void resetInventory();
 	int update(Cursor const& curseur, std::vector<std::vector<Tile>> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*> &droppedObjectsList, std::vector<Mate>& mates, Hud& hud, float const& dt);
 
 private:

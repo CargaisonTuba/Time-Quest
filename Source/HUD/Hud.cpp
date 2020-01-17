@@ -107,7 +107,7 @@ void Hud::update(float pLife, float pTotalLife, int pMunRest, int pMunTotal)
 
 	if (_gameInit) {
 		if (_initMessages.size() > 0) {
-			if (_clockInit.getElapsedTime().asSeconds() > 3) {
+			if (_clockInit.getElapsedTime().asSeconds() > 0) {
 				_clockInit.restart();
 				_initMessages.erase(_initMessages.begin());
 			}
@@ -125,10 +125,10 @@ void Hud::addMessage(std::string who, std::string message) {
 		sf::Text msg;
 		msg.setFont(_font);
 		msg.setFillColor(sf::Color::Black);
-		msg.setPosition(sf::Vector2f(200, 850));
+		msg.setPosition(sf::Vector2f(250, 820));
 
 		//Pour que le message ne dépasse pas du cadre on fait des retours à la ligne
-		/*if (message.size() > 15) {
+		/*if (message.size() > 25) {
 			int i = 30;
 			while (message[i] != ' ' && i < message.size()) {
 				i++;
@@ -142,7 +142,7 @@ void Hud::addMessage(std::string who, std::string message) {
 		sf::Text msgAuthor;
 		msgAuthor.setFont(_font);
 		msgAuthor.setFillColor(sf::Color::Red);
-		msgAuthor.setPosition(sf::Vector2f(80, 850));
+		msgAuthor.setPosition(sf::Vector2f(50, 820));
 		msgAuthor.setString(who);
 		_messagesAuthors.push_back(msgAuthor);
 	}

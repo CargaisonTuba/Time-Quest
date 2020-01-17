@@ -13,7 +13,5 @@ public:
 	int update(std::vector<Mate>& _mates, sf::Vector2f playerPos, std::vector<std::vector<Tile>> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*>& droppedObjects, float const& dt);
 	
 private:
-	//static int compteur;
-	//int _ID;
 	int _detectRange;
 };

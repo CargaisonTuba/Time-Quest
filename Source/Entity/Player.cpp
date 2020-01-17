@@ -1,20 +1,17 @@
 #include "Player.h"
 #include <iostream>
 
-Player::Player(std::string texturePath, float defaultLife, sf::Vector2f initPosition) : Entity(texturePath, defaultLife, initPosition, -1) {
-	_justPressed = false;
+Player::Player(std::string texturePath, float defaultLife, sf::Vector2f initPosition) : Entity(texturePath, defaultLife, initPosition, -1) 
+{
+	_justPressed = false;//ces trois variables sont utilisées si on ramasser un objet donc false à la création
 	_justChanged = false;
 	_justLoot = false;
-
-	_inventory.push_back(new Arme("mas38"));
-	/*_inventory.push_back(new Arme("mas36"));
-	_inventory.push_back(new Arme("mas38"));
-	_inventory.push_back(new Arme("mp40"));*/
 
 	if (_inventory.size() > 0) {
 		_inventoryIndex = 0;
 		_curWeapon = (Arme*)(_inventory[_inventoryIndex]);
 	}
+	this->_inventory.clear();
 }
 
 Player::~Player() {
@@ -26,12 +23,18 @@ sf::Vector2f Player::getPosition() const {
 	
 }
 
+void Player::resetInventory()
+{
+	this->_inventory.clear();
+}
+
 //On met la position de la souris en paramètre pour pouvoir décider dans quelle direction pointe l'arme
 int Player::update(Cursor const& curseur, std::vector<std::vector<Tile>> const& _tiles, std::vector<ThrowedObject>& throwableObjectsList, std::vector<Object*>& droppedObjectsList, std::vector<Mate>& mates, Hud& hud, float const& dt)
 {
 	//déplacement du joueur
 	float speed = 0.1f * dt;
 	bool inWater = false;
+	//On parcourt 
 	for (unsigned int i = 0; i < _tiles.size(); i++)
 	{
 		for (unsigned int j = 0; j < _tiles[i].size(); j++)

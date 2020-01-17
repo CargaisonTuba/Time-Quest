@@ -66,7 +66,7 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 			_longueurX = abs((ennemyX)-(mateX));
 			_longueurY = abs((ennemyY)-(mateY));
 			_hypo = sqrt(_longueurX * _longueurX + _longueurY * _longueurY);
-
+			_curWeapon->update(getPosition(), targetPos);
 			if (ennemyY < ennemyY)
 			{
 				if (ennemyX < mateX)
@@ -144,7 +144,7 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 					if (targetPos != sf::Vector2f(0, 0))
 					{
 						fire(throwableObjectsList, targetPos, _tiles);
-						_curWeapon->update(getPosition(), targetPos);
+						//_curWeapon->update(getPosition(), targetPos);
 					}
 				}
 				else
@@ -153,9 +153,10 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 				}
 			}
 		}
-		_curWeapon->update(getPosition(), sf::Vector2f(getPosition().x - 5, getPosition().y -5));
+		else
+			_curWeapon->update(getPosition(), sf::Vector2f(500.f, 500.f));
+
 	}
-	//_curWeapon->update(getPosition(), sf::Vector2f(500.f, 500.f));
 	
 	//l'allié perd de la vie s'il est touché par une balle
 	for (unsigned int i = 0; i < throwableObjectsList.size(); i++)

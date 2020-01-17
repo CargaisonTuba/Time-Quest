@@ -17,32 +17,30 @@ public:
 	Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosition, float id);
 	~Entity();
 
+	//getters
 	sf::Vector2f getPosition() const;
-	sf::FloatRect getHitbox();
-	int getID() const;
-
-	bool isDead() const;
-
-	void setWeapon(Arme newWeapon);
-
-	Arme* getWeapon();
-	void blast(sf::Vector2f source, float distanceLimit, float damage);
-	void pushBack(sf::Vector2f directionOfPush);
-
-	float getLife() const;
 	sf::RectangleShape getLifebar() const;
-
-	bool fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection, std::vector<std::vector<Tile>> const& _tiles);
-	float getTotalLife() const;
+	sf::FloatRect getHitbox();
+	Arme* getWeapon();
+	int getID() const;
 	int getMunRest() const;
 	int getMunTotal() const;
+	float getTotalLife() const;	
 	float getAngleCible() const;
+	float getLife() const;
+	bool isDead() const;
 
+	//setters
+	void setWeapon(Arme newWeapon);
 	void setPosition(sf::Vector2f newPos);
 	void setInitPos(sf::Vector2f pos);
 	void setTexture(std::string texturePath);
-
+	
+	//méthodes
+	bool fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection, std::vector<std::vector<Tile>> const& _tiles); //permet à l'entité de tirer
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	void pushBack(sf::Vector2f directionOfPush);
+	void blast(sf::Vector2f source, float distanceLimit, float damage);
 
 protected:
 	sf::Texture _entityText[11][4];

@@ -12,22 +12,25 @@ gendarmeFrancais.png
 #ennemytexture
 soldatAllemand40.png
 
+#cibletexture
+cible.png
+
 -----Map infos-----
 
 #mapsize
 60 40
 
 #playerspawn
-750 810
+1110 600
 
 #bossID
-11
+10
 
 #nextmap
-map_2gm.txt
+map_ma.txt
 
 #quest
-quest_intro.txt
+p
 
 -----Entities-----
 
@@ -73,15 +76,21 @@ Ouais mais c'est pas toi qui decide !
 Fanta
 #mate
 100 900 570 10
-On te deteste
-Jacques
+Vous partez en 1283, un fou a voulu y creer une secte. Bonne chance !
+Cpt Jacques
 #mate
 100 1110 540 11
-Lieutenant Gilbert ! Je vous envoie illico en 1940 extraire un nationaliste !
+Lieutenant Gilbert ! Bravo pour votre mission ! Allez dans le bureau d'en face !
 Cpt Henri
+#cible
+100 1020 360 2
+Je voulais juste sauver la France
+Un cassos
 
 -----Objects-----
 
+#gun
+mp40 960 330
 
 -----Tiles disposition-----
 

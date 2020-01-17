@@ -12,6 +12,10 @@ soldatFrancais40.png
 #ennemytexture
 soldatAllemand40.png
 
+#cibletexture
+cible.png
+
+
 -----Map infos-----
 
 #mapsize
@@ -21,7 +25,7 @@ soldatAllemand40.png
 510 240
 
 #bossID
--1
+38
 
 #nextmap
 ./map_transition.txt
@@ -33,10 +37,12 @@ quete_2gm.txt
 
 #mate
 100 510 330 0
-Salut, je suis un mate
+C'est quoi cette tenue ? Un uniforme se trouve aux vestiaires !
+Soldat
 #mate
 100 510 480 11
-Salut, je suis un mate
+Sergent ! Prenez une arme puis menez l'assaut !
+Soldat
 #ennemy
 100 810 1230 12
 #ennemy
@@ -47,22 +53,28 @@ Salut, je suis un mate
 100 900 1290 15
 #mate
 100 450 750 16
-Salut, je suis un mate
+On va bientot attaquer !
+Soldat
 #mate
 100 510 750 17
-Salut, je suis un mate
+J'ai deja tue quinze boches
+Soldat
 #mate
 100 570 750 18
-Salut, je suis un mate
+La nuit, je reve que je plante le bide d'un boche a la baionnette
+Soldat
 #mate
 100 450 810 19
-Salut, je suis un mate
+On va briser les boches, tous
+Soldat
 #mate
 100 510 810 20
-Salut, je suis un mate
+Vivement que les renforts arrivent
+Soldat
 #mate
 100 570 810 21
-Salut, je suis un mate
+Salauds de boches, on va les crever
+Soldat
 #ennemy
 100 1650 1350 25
 #ennemy
@@ -89,12 +101,14 @@ Salut, je suis un mate
 100 2190 1470 36
 #ennemy
 100 2010 1530 37
-#mate
+#cible
 100 2010 1650 38
-Salut, je suis un mate
+Sortez moi de la ! Je suis prisonnier !
+Cassos
 #mate
 100 2010 1650 39
-Salut, je suis un mate
+...
+Soldat
 
 -----Objects-----
 
@@ -102,9 +116,9 @@ Salut, je suis un mate
 690 240
 froutfit.png
 #gun
-mas36 480 540
+mas38 480 540
 #gun
-mas36 510 540
+fm2429 510 540
 #gun
 mas36 510 540
 #gun

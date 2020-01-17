@@ -18,9 +18,9 @@ public:
 	~Arme();
 	
 	//Setters
-	void setPosition(sf::Vector2f unePosition);
-	void setAngle(float angle);
-	void restartLastShot();
+	void setPosition(sf::Vector2f unePosition); 
+	void setAngle(float angle); 
+	void restartLastShot(); //fonction qui relance le chrono depuis le dernier tir
 
 	//Getters	
 	sf::Vector2f getOrigin();

@@ -24,7 +24,7 @@ int main()
 
 	//On instancie une nouvelle map, coeur du jeu.
 	Map map;
-	map.load("map_debut.txt");
+	map.load("map_transition.txt");
 
 	Player player("soldatFrancais40.png", 500, map.getPlayerSpawn());
 	Cursor curseur("Time-Quest/Source/assets/curseur_tir.png");
@@ -277,84 +277,6 @@ int main()
 			//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante
 			window.display();
 		}
-		/*
-		while (window.isOpen() && run && play && option)
-		{
-			//Menu pause
-			//On regarde si on ferme la fenêtre
-			sf::Event event;
-			while (window.pollEvent(event))
-			{
-				if (event.type == sf::Event::Closed)
-				{
-					window.close();
-					run = false;
-				}
-
-			}
-
-			//On efface la frame précédente
-			window.clear();
-
-			//le code commence là
-
-			//deltaTime
-			deltaTime = deltaClock.restart();
-
-			dt = (float)deltaTime.asMilliseconds();
-
-			//Retour au jeu
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-			{
-				option = false;
-			}
-
-			//Menu principal
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && timer.getElapsedTime().asMilliseconds() - lastClickInMenu > 1000)
-			{
-				sf::Vector2f mousePos = curseur.getPosition();
-				if (mousePos.x > gameView.getSize().x / 2 - 150 && mousePos.x < gameView.getSize().x / 2 + 150)
-				{
-					if (mousePos.y > gameView.getSize().y / 4 - 25 && mousePos.y < gameView.getSize().y / 4 + 25)
-					{
-						option = false;
-						lastClickInMenu = timer.getElapsedTime().asMilliseconds();
-					}
-					if (mousePos.y > 3 * gameView.getSize().y / 4 - 25 && mousePos.y < 3 * gameView.getSize().y / 4 + 25)
-					{
-						play = false;
-						option = false;
-						lastClickInMenu = timer.getElapsedTime().asMilliseconds();
-					}
-				}
-			}
-
-			continueSprite.setPosition(gameView.getSize().x / 2 - 150, gameView.getSize().y / 4 - 25);
-			backtomenuSprite.setPosition(gameView.getSize().x / 2 - 150, 3 * gameView.getSize().y / 4 - 25);
-
-
-			curseur.update(window);
-			window.setView(gameView);
-
-			window.draw(map);
-			window.draw(player);
-			window.setView(window.getDefaultView());
-			window.draw(hud);
-			window.setView(gameView);
-
-
-
-
-
-			//Il faut Draw le  menu par dessus
-			window.draw(continueSprite);
-			window.draw(backtomenuSprite);
-
-
-			window.draw(curseur);
-			//Fin du code. On affiche tout d'un coup, puis on passe à la frame suivante
-			window.display();
-		}*/
 
 	}
 

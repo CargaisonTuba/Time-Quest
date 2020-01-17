@@ -19,6 +19,8 @@ void Map::load(std::string mapPath)
 	//On charge la map depuis le fichier spécifié
 	std::cout << "\x1B[33m[Info]\x1B[0m : Chargement de la map \x1B[33m" << mapPath << "\x1B[0m...\n";
 
+	
+
 	_waitingToChangeMap = false;
 	_justLoaded = true;
 	_ennemies.clear();
@@ -267,6 +269,7 @@ void Map::load(std::string mapPath)
 	std::cout << "\x1B[32m[OK]\x1B[0m : " << _quests.size() << " quetes chargees\n";
 
 	std::cout << "\x1B[32m[lancement du jeu !]\x1B[0m\n";
+	
 }
 
 void Map::loadNext() 
