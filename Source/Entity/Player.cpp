@@ -166,7 +166,7 @@ int Player::update(Cursor const& curseur, std::vector<std::vector<Tile>> const& 
 					}
 				}
 				else if (droppedObjectsList[indexOK]->getType() == OUTFIT) {
-					setTexture("soldatFrancais40.png");
+					setTexture("playerSdtFr.png");
 					delete droppedObjectsList[indexOK];
 					droppedObjectsList[indexOK] = 0;
 					droppedObjectsList.erase(droppedObjectsList.begin() + indexOK);

@@ -4,7 +4,7 @@
 tilesheet_war.png
 
 #playertexture
-soldatFrancais40.png
+nakedHero.png
 
 #matetexture
 soldatFrancais40.png
@@ -98,20 +98,21 @@ Salut, je suis un mate
 
 -----Objects-----
 
+#outfit
+690 240
+froutfit.png
 #gun
-mp40 690 240
+mas36 480 540
 #gun
-mp40 480 540
+mas36 510 540
 #gun
-mp40 510 540
+mas36 510 540
 #gun
-mp40 510 540
+mas36 540 540
 #gun
-mp40 540 540
+mas36 570 540
 #gun
-mp40 570 540
-#gun
-mp40 600 540
+mas36 600 540
 #medkit
 1680 1590
 #medkit

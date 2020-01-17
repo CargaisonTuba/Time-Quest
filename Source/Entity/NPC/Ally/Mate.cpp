@@ -125,7 +125,7 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 			{
 				if (_follow)
 				{
-					follow(playerPos, _tiles, mates);
+					follow(playerPos, _tiles, mates, dt);
 					_animation_tick += dt;
 
 					if (_animation_tick >= 50) {
@@ -153,7 +153,7 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 				}
 			}
 		}
-		_curWeapon->update(getPosition(), sf::Vector2f(500.f, 500.f));
+		_curWeapon->update(getPosition(), sf::Vector2f(getPosition().x - 5, getPosition().y -5));
 	}
 	//_curWeapon->update(getPosition(), sf::Vector2f(500.f, 500.f));
 	
