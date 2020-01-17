@@ -3,6 +3,9 @@
 
 Hud::Hud(sf::RenderWindow &window)
 {
+	sf::Texture background;
+	if (!background.loadFromFile("Time-Quest/Source/assets/city.jpg"))
+		std::cout << "Erreur city" << std::endl;
 	_bodyMun.setFillColor(sf::Color::White);
 	_bodyMun.setOutlineColor(sf::Color::Black);
 	_bodyMun.setOutlineThickness(1);
@@ -58,15 +61,15 @@ Hud::Hud(sf::RenderWindow &window)
 	initMsg.setFont(_font);
 	initMsg.setFillColor(sf::Color::Black);
 	initMsg.setPosition(sf::Vector2f(window.getSize().x / 8 , window.getSize().y / 5));
-	initMsg.setString("time quest ecran de démarrage yo\n\nHugo, Fergal, Robin\n\nSi quelqu'un est motivé go il change le design mdr");
-	_initMessages.push_back(initMsg);
+	//initMsg.setString("time quest ecran de démarrage yo\n\nHugo, Fergal, Robin\n\nSi quelqu'un est motivé go il change le design mdr");
+	//_initMessages.push_back(initMsg);
 	initMsg.setString("Lyon, 2075. \n \n La guerre froide entre l'Iran et les USA a fait augmenter les prix du petrole. \n \n En plus des crises climatiques et environnementales, le monde est plonge dans un chaos, la vie devient difficile. \n \n Le voyage dans le temps, invente en 2070, est rendu illegal. \n \n D'une part les consequences du voyage temporel sont inconnues, et d'autre part les autorites ont peur \n\n d'une fuite massive des riches dans un passe plus facile...");
 	_initMessages.push_back(initMsg);
 	initMsg.setString("Le GIGTN, Groupement d'Intervention de la Gendarmerie Temporelle Nationale, \n\n est créé en même temps que la GT, Gendarmerie Temporelle. \n\n Il est chargé d'intervenir dans le passé afin d'extraire les voyageurs illégaux et les ramener dans le présent \n \n pour les juger...");
 	_initMessages.push_back(initMsg);
 
 	_initBg.setSize((sf::Vector2f)window.getSize());
-	_initBg.setFillColor(sf::Color::White);
+	_initBg.setTexture(&background);
 
 	_questExist = false;
 
@@ -107,7 +110,7 @@ void Hud::update(float pLife, float pTotalLife, int pMunRest, int pMunTotal)
 
 	if (_gameInit) {
 		if (_initMessages.size() > 0) {
-			if (_clockInit.getElapsedTime().asSeconds() > 0) {
+			if (_clockInit.getElapsedTime().asSeconds() > 10) {
 				_clockInit.restart();
 				_initMessages.erase(_initMessages.begin());
 			}

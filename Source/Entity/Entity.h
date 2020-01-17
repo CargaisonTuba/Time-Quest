@@ -30,11 +30,13 @@ public:
 	float getLife() const;
 	bool isDead() const;
 
+
 	//setters
 	void setWeapon(Arme newWeapon);
 	void setPosition(sf::Vector2f newPos);
 	void setInitPos(sf::Vector2f pos);
 	void setTexture(std::string texturePath);
+
 	
 	//méthodes
 	bool fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f const& shootDirection, std::vector<std::vector<Tile>> const& _tiles); //permet à l'entité de tirer
@@ -54,6 +56,7 @@ protected:
 	int _id;
 
 	bool _isPushed;
+	bool _isPlayer;
 	sf::Vector2f _pushingForce;
 	sf::Clock _timeSincePushed;
 

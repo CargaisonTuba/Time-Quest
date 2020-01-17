@@ -12,6 +12,7 @@ Player::Player(std::string texturePath, float defaultLife, sf::Vector2f initPosi
 		_curWeapon = (Arme*)(_inventory[_inventoryIndex]);
 	}
 	this->_inventory.clear();
+	_isPlayer = true;
 }
 
 Player::~Player() {
@@ -34,7 +35,7 @@ int Player::update(Cursor const& curseur, std::vector<std::vector<Tile>> const& 
 	//déplacement du joueur
 	float speed = 0.1f * dt;
 	bool inWater = false;
-	//On parcourt 
+	//On parcourt toutes les tiles pour savoir si le joueur touche un mur
 	for (unsigned int i = 0; i < _tiles.size(); i++)
 	{
 		for (unsigned int j = 0; j < _tiles[i].size(); j++)

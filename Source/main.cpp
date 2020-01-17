@@ -24,7 +24,7 @@ int main()
 
 	//On instancie une nouvelle map, coeur du jeu.
 	Map map;
-	map.load("map_transition.txt");
+	map.load("map_debut.txt");
 
 	Player player("soldatFrancais40.png", 500, map.getPlayerSpawn());
 	Cursor curseur("Time-Quest/Source/assets/curseur_tir.png");

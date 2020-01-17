@@ -13,6 +13,7 @@ Entity::Entity(std::string texturePath, float defaultLife, sf::Vector2f initPosi
 	_dir = 0;	//0 = down / 1 = right / 2 = up / 3 = left
 	_animation_tick = 0;
 	_isPushed = false;
+	_isPlayer = false;
 
 	setTexture(texturePath);
 
@@ -159,16 +160,16 @@ bool Entity::fire(std::vector<ThrowedObject>& throwableObjectsList, sf::Vector2f
 				for (unsigned int i = 0; i < _tiles.size(); i++) {
 					for (unsigned int j = 0; j < _tiles[i].size(); j++)
 					{
-						if (_ligne.getGlobalBounds().intersects(_tiles[i][j].getHitbox()) && _tiles[i][j].isWall())
+						if (_ligne.getGlobalBounds().intersects(_tiles[i][j].getHitbox()) && _tiles[i][j].isWall() && _isPlayer == false)
 						{
-							std::cout << "Je ne peux pas tirer" << std::endl;
+							
 							oui = false;
 						}						
 					}
 				}
 				if (oui)
 				{
-					std::cout << "Je peux tirer" << std::endl;
+					
 					this->_curWeapon->update(getPosition(), shootImpr);
 					Bullet newBullet = Bullet(this->_curWeapon->getAngle(), this->_curWeapon->getBallePath(), posBalle, direction, _curWeapon->getRange(), _curWeapon->getDamages());
 					throwableObjectsList.push_back(newBullet);
