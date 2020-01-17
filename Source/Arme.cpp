@@ -115,7 +115,7 @@ Arme::Arme(std::string typeArme)
 
 	if (!_emptyBuffer.loadFromFile("Time-Quest/Source/assets/sound/clicpasboum.wav"))
 		std::cout << "\x1B[31m[Erreur]\x1B[0m : SoundBuffer : impossible de charger " << "Time-Quest/Source/assets/sound/clicpasboum.wav" << std::endl;
-	_type = 0;
+	_type = WEAPON;
 }
 
 Arme::Arme(std::string typeArme, sf::Vector2f initPosition, bool dropped) : Arme(typeArme) {
@@ -126,7 +126,7 @@ Arme::Arme(std::string typeArme, sf::Vector2f initPosition, bool dropped) : Arme
 		_objectSprite.setScale(sf::Vector2f(0.2f, 0.2f));
 		_objectSprite.setPosition(_initPosition);
 	}
-	_type = 0;
+	_type = WEAPON;
 }
 
 Arme::Arme()

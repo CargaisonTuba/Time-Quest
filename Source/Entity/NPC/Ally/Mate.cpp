@@ -95,7 +95,7 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 			{
 				if (_follow)
 				{
-					follow(playerPos, _tiles, mates);
+					follow(playerPos, _tiles, mates, dt);
 				}
 				else
 				{
@@ -111,6 +111,7 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 						}
 					}
 				}
+
 				_animation_tick += dt;
 				if (_animation_tick >= 50)
 				{
@@ -174,7 +175,8 @@ bool Mate::update(std::vector<Ennemy>& _ennemies, sf::Vector2f playerPos, std::v
 	return false;
 }
 
-void Mate::follow(sf::Vector2f playerPos, std::vector<std::vector<Tile>> const& _tiles, std::vector<Mate> &mates)
+
+void Mate::follow(sf::Vector2f playerPos, std::vector<std::vector<Tile>> const& _tiles, std::vector<Mate> &mates, float dt)
 {
 	//initialisation de la cible à la position du joueur
 	float selfX = getPosition().x;
@@ -182,25 +184,29 @@ void Mate::follow(sf::Vector2f playerPos, std::vector<std::vector<Tile>> const& 
 	sf::Vector2f targetPos = playerPos;
 	float dist = sqrt((playerPos.x - selfX) * (playerPos.x - selfX) + (playerPos.y - selfY) * (playerPos.y - selfY));
 	sf::Vector2f direction((playerPos.x - selfX) / dist, (playerPos.y - selfY) / dist);
+	direction.x *= 0.1f;
+	direction.y *= 0.1f;
 
 	if (dist <= _detectRange) {
 		if (dist >= _distPlayer)
 		{
-			_entitySprite.move(direction);
+			_entitySprite.move(direction * dt);
 			for (unsigned int i = 0; i < _tiles.size(); i++)
 			{
 				for (unsigned int j = 0; j < _tiles[i].size(); j++)
 				{
+
 					if (getHitbox().intersects(_tiles[i][j].getHitbox()) && _tiles[i][j].isWall())
 					{
-						_entitySprite.move(-direction);
+						_entitySprite.move(-direction * dt);
 					}
+
 				}
 			}
 			for (unsigned int i = 0; i < mates.size(); i++)
 			{
 				if (getHitbox().intersects(mates[i].getHitbox()) && mates[i].getID() != getID())
-					_entitySprite.move(-direction);
+					_entitySprite.move(-direction * dt);
 			}
 		}
 	}
