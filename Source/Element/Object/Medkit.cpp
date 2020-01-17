@@ -2,7 +2,7 @@
 
 Medkit::Medkit(sf::Vector2f pos) : Object("Time-Quest/Source/assets/medkit.png", pos)
 {
-	_type = 1;
+	_type = MEDKIT;
 }
 
 Medkit::~Medkit(){

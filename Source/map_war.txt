@@ -32,8 +32,22 @@ p
 -----Entities-----
 
 #mate
-100 630 540 -1
-Salut, je suis un mate
+
+100 630 540 0
+Vous etes a poil ! trouvez un uniforme !
+Jean
+#mate
+100 870 540 1
+Tu peux trouver du stuff un peu partout sur la map...
+Pierre
+#mate
+100 840 390 2
+Appuie sur C pour tout voir
+Rodolf
+#mate
+100 990 510 3
+Tu peux mettre le jeu en pause avec P lol
+Rudolf
 #ennemy
 100 1620 750 -1
 #ennemy
