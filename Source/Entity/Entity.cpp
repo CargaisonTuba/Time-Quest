@@ -222,5 +222,4 @@ void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 	target.draw(s);
 	target.draw(*_curWeapon);
-	target.draw(_ligne);
 }
